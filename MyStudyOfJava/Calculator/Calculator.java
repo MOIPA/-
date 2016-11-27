@@ -1,30 +1,69 @@
-package testFrame;
-
-import java.awt.event.*;
-import java.util.Stack;
+//for my dearest
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Calculator extends JFrame implements ActionListener{
-	static Calculator frm = new Calculator();
-	static JPanel north = new JPanel();
-	static JPanel center = new JPanel(new GridLayout(1,2));
-	static JPanel south = new JPanel();
-	static JTextField tx = new JTextField(40);
-	static JButton back = new JButton("Back");
-	static JButton C = new JButton("C");
-	static JButton chu,cheng,jian,jia,dengyu,jiachujian,dian,yichux,baifen,sqrt;
-	static int a=0,b=0;
-	static char cha;
+public class calculator extends JFrame implements ActionListener{
 	
-	public static void main(String[] args) {
-		Stack z =new Stack();
+	private char flag;
+	
+	private int record;
+	
+	private JTextField tx;
+	
+	private JPanel panela;
+	
+	private JPanel panelb;
+	
+	private JButton[] button = new JButton[10]; 
+	
+	private JButton[] buttonCal = new JButton[10];
+	
+	private JButton back ;
+	
+	private JButton C ;
+	
+	JFrame frm ;
+	
+	boolean clear(){
+		if(tx.getText().equals(null)){
+			return false;
+		}
+		else return true;
+	}
+
+	String operator;
+	
+	double previous;
+	
+	double next;
+	
+	public calculator(){
+		//设置面板 按钮 框架 文本框参数
+		tx= new JTextField(300);
+		panela= new JPanel(new GridLayout(1,2));
+		panelb= new JPanel(new GridLayout(5, 4));
+		back = new JButton("Back");
+		C = new JButton("C");
+		frm = new JFrame();
+		frm.setLayout(null);
+		frm.setLocation(600, 600);
+		frm.setSize(700, 600);
+		tx.setHorizontalAlignment(JTextField.RIGHT);
+		tx.setLocation(40, 30);
+		tx.setSize(600, 50);
+		
+		panela.setLocation(0, 100);
+		panela.setSize(700,80);
+		
+		panelb.setLocation(0, 180);
+		panelb.setSize(700, 360);
 		//menu
 		JMenuBar bar = new JMenuBar();
 		JMenu filemenu = new JMenu("文件");
 		JMenu help = new JMenu("帮助");
-
 		JMenuItem file = new JMenuItem("文件 |>");
 		JMenuItem exit = new JMenuItem("退出");
 		JMenuItem about = new JMenuItem("关于");
@@ -33,175 +72,105 @@ public class Calculator extends JFrame implements ActionListener{
 		filemenu.add(file);
 		filemenu.add(exit);
 		help.add(about);
-
+		//
+		
+				
+		//0-9 和符号按钮
+		for(int i=0;i<10;i++){
+			button[i] = new JButton(""+i);
+		}
+		buttonCal[0] = new JButton("/");
+		buttonCal[1] = new JButton("*");
+		buttonCal[2] = new JButton("-");
+		buttonCal[3] = new JButton("+");
+		buttonCal[4] = new JButton("=");
+		buttonCal[5] = new JButton(".");
+		buttonCal[6] = new JButton("+/-");
+		buttonCal[7] = new JButton("%");
+		buttonCal[8] = new JButton("sqrt");
+		buttonCal[9] = new JButton("1/x");
+		//
+		//添加 按钮 面板
+		panela.add(back);
+		panela.add(C);
+		panelb.setLayout(new GridLayout(5,4));
+		panelb.add(button[7]);panelb.add(button[8]);panelb.add(button[9]);panelb.add(buttonCal[0]);
+		panelb.add(button[4]);panelb.add(button[5]);panelb.add(button[6]);panelb.add(buttonCal[1]);
+		panelb.add(button[1]);panelb.add(button[2]);panelb.add(button[3]);panelb.add(buttonCal[2]);
+		panelb.add(button[0]);panelb.add(buttonCal[6]);panelb.add(buttonCal[5]);panelb.add(buttonCal[3]);
+		panelb.add(buttonCal[9]);panelb.add(buttonCal[7]);panelb.add(buttonCal[8]);panelb.add(buttonCal[4]);
+		//
+		//添加监听者
+		back.addActionListener(this);C.addActionListener(this);;
+		button[0].addActionListener(this);button[5].addActionListener(this);
+		button[1].addActionListener(this);button[6].addActionListener(this);
+		button[2].addActionListener(this);button[7].addActionListener(this);
+		button[3].addActionListener(this);button[8].addActionListener(this);
+		button[4].addActionListener(this);button[9].addActionListener(this);
+		buttonCal[0].addActionListener(this);buttonCal[5].addActionListener(this);
+		buttonCal[1].addActionListener(this);buttonCal[6].addActionListener(this);
+		buttonCal[2].addActionListener(this);buttonCal[7].addActionListener(this);
+		buttonCal[3].addActionListener(this);buttonCal[8].addActionListener(this);
+		buttonCal[4].addActionListener(this);buttonCal[9].addActionListener(this);
 		//
 		frm.setJMenuBar(bar);
-		frm.setLayout(null);
-		frm.setSize(800,600);
+		frm.add(tx);
+		frm.add(panela);
+		frm.add(panelb);
+		//实现
 		frm.setResizable(false);
-		frm.setLocation(600, 200);
-		//
-		JButton[] x = new JButton[10];
-		for(int i=0;i<10;i++)
-			x[i] = new JButton(""+i);
-		
-		chu = new JButton("/");
-		cheng = new JButton("*");
-		jia = new JButton("+");
-		jian = new JButton("-");
-		dengyu = new JButton("=");
-		jiachujian = new JButton("+/-");
-		dian = new JButton(".");
-		yichux = new JButton("1/x");
-		baifen = new JButton("%");
-		sqrt = new JButton("sqrt");
-		
-		
-		south.setLayout(new GridLayout(5,4));
-		south.add(x[7]);south.add(x[8]);south.add(x[9]);south.add(chu);
-		south.add(x[4]);south.add(x[5]);south.add(x[6]);south.add(cheng);
-		south.add(x[1]);south.add(x[2]);south.add(x[3]);south.add(jian);
-		south.add(x[0]);south.add(jiachujian);south.add(dian);south.add(jia);
-		south.add(yichux);south.add(baifen);south.add(sqrt);south.add(dengyu);		
-		north.add(tx);
-		center.add(back);
-		center.add(C);
-
-		jia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//a = Integer.parseInt(tx.getText());
-				//b = Integer.parseInt(tx.getText());
-				z.push(Integer.parseInt(tx.getText()));
-				cha = '+';
-				tx.setText(null);
-			}
-		});
-		
-		jian.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				//a = Integer.parseInt(tx.getText());
-				//b = Integer.parseInt(tx.getText());
-				z.push(Integer.parseInt(tx.getText()));
-				cha = '-';
-				tx.setText(null);
-			}
-		});
-		
-		cheng.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				z.push(Integer.parseInt(tx.getText()));
-				cha = '*';
-				tx.setText(null);
-			}
-		});
-		
-		chu.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				z.push(Integer.parseInt(tx.getText()));
-				cha = '/';
-				tx.setText(null);
-			}
-		});
-		
-		
-		dengyu.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				b=Integer.parseInt(tx.getText());
-				a=(int)z.pop();
-				
-				//不同符号的定义**************************
-				if(cha == '+'){
-				int ret=a+b;
-				tx.setText(new String(""+ret));
-				}
-				else if(cha=='-'){
-					int ret = a-b;
-					tx.setText(new String(""+ret));
-				}
-				else if(cha=='*'){
-					float ret = a*b;
-					tx.setText(new String(""+ret));
-				}
-				else if(cha=='/'){
-					float ret = (float)a/(float)b;
-					tx.setText(new String(""+ret));
-				}
-			}
-		});
-		C.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				a=0;b=0;
-				tx.setText(null);
-			}
-		});
-		
-		//123456789定义操作*********************************
-		x[0].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"0");
-			}
-		});		
-		x[1].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"1");
-			}
-		});
-		x[2].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"2");
-			}
-		});
-		x[3].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"3");
-			}
-		});
-		x[4].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"4");
-			}
-		});
-		x[5].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"5");
-			}
-		});
-		x[6].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"6");
-			}
-		});
-		x[7].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"7");
-			}
-		});
-		x[8].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"8");
-			}
-		});
-		x[9].addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				tx.setText(tx.getText()+"9");
-			}
-		});
-		//***********************************************
-		
-		north.setBounds(10,10,700,50);
-		center.setBounds(0,60,800,70);
-		south.setBounds(0, 130, 800, 410);
-		
-		frm.add(north);
-		frm.add(center);
-		frm.add(south);
-		
 		frm.setVisible(true);
 	}
-	public void actionPerformed(ActionEvent e){
-		
-		
-		
+
+	public void actionPerformed(ActionEvent e) {
+		Object temp=e.getSource();
+		if(temp==C)tx.setText(null);
+		//为0-9按钮添加行动
+		if(temp==button[0])tx.setText(tx.getText()+"0");
+		if(temp==button[1])tx.setText(tx.getText()+"1");
+		if(temp==button[2])tx.setText(tx.getText()+"2");
+		if(temp==button[3])tx.setText(tx.getText()+"3");
+		if(temp==button[4])tx.setText(tx.getText()+"4");
+		if(temp==button[5])tx.setText(tx.getText()+"5");
+		if(temp==button[6])tx.setText(tx.getText()+"6");
+		if(temp==button[7])tx.setText(tx.getText()+"7");
+		if(temp==button[8])tx.setText(tx.getText()+"8");
+		if(temp==button[9])tx.setText(tx.getText()+"9");
+		//为+号添加动作
+		if(temp==buttonCal[3]){
+			previous = Double.parseDouble(tx.getText());
+			flag='+';
+			tx.setText(tx.getText()+"+");
+		}
+		//为=号添加动作
+		if(temp==buttonCal[4]){
+			String tmp = tx.getText();
+			record=0;
+			if(flag=='+'){
+				for(int i=0;i<tmp.length();i++){
+					record++;
+					if(tmp.charAt(i)=='+')break;
+				}
+				String NEXT = tmp.charAt(record)+"";
+				for(int i=record+1;i<tmp.length();i++){
+				NEXT = NEXT+tmp.charAt(i);
+				}
+				next = Double.parseDouble(NEXT);
+				tx.setText(next+previous+"");
+			}
+			
+		}
+		if(temp==back){
+			String tem = tx.getText();
+			tx.setText(null);
+			for(int i=0;i<tem.length()-1;i++)
+				tx.setText(tx.getText()+tem.charAt(i));
+		}
 	}
+	
+	public static void main(String[] args) {
+		new calculator();
+	}
+	
 	
 }
