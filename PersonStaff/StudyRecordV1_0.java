@@ -1,4 +1,4 @@
-package ´ò¿¨;
+package æ‰“å¡;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class StudyRecordV1_0{
-	static JFrame frm = new JFrame("´ò¿¨¼ÇÂ¼");
+	static JLabel lab = new JLabel("for tomorrow!");
+	static JFrame frm = new JFrame("æ‰“å¡è®°å½•");
 	static JPanel panela = new JPanel();
 	static JPanel panelb = new JPanel();
 	static JButton b1 = new JButton("days");
@@ -25,28 +26,29 @@ public class StudyRecordV1_0{
 	static JLabel day = new JLabel("days");
 
 	public static void main(String[] args)  throws IOException{
-		//»ù±¾ÉèÖÃ****************************
+		//åŸºæœ¬è®¾ç½®****************************
 		frm.setSize(500, 530);
 		frm.setLocation(700, 200);
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frm.setLayout(new BorderLayout());
 		panela.setLayout(null);
-		//¶¨ÒåcoursesºÍrecord****************************************
+		lab.setBounds(200, 450, 200, 40);;
+		//å®šä¹‰courseså’Œrecord****************************************
 		for(int i=0;i<9;i++)
 			add[i] = new JButton("add");
 		for(int i=0;i<9;i++)
 			sub[i] = new JButton("sub");
 		int x=30;
-		courses[0] = new JLabel("µ¥´Ê");
-		courses[1] = new JLabel("´ò×Ö");
-		courses[2] = new JLabel("±à³Ì");
-		courses[3] = new JLabel("Êı×Ö");
-		courses[4] = new JLabel("±àÒë");
-		courses[5] = new JLabel("Êı¾İ½á¹¹");
-		courses[6] = new JLabel("ÊıÑ§");
-		courses[7] = new JLabel("Ó¢Óï");
+		courses[0] = new JLabel("å•è¯");
+		courses[1] = new JLabel("æ‰“å­—");
+		courses[2] = new JLabel("ç¼–ç¨‹");
+		courses[3] = new JLabel("æ•°å­—");
+		courses[4] = new JLabel("ç¼–è¯‘");
+		courses[5] = new JLabel("æ•°æ®ç»“æ„");
+		courses[6] = new JLabel("æ•°å­¦");
+		courses[7] = new JLabel("è‹±è¯­");
 		courses[8] = new JLabel("JAVA");
-		courses[9] = new JLabel("Ãæ¶ÔÏó");
+		courses[9] = new JLabel("é¢å¯¹è±¡");
 		
 		for(int i=0;i<10;i++){
 			record[i] = new JTextPane();
@@ -74,7 +76,7 @@ public class StudyRecordV1_0{
 			x+=40;
 		}
 		
-		//ÊµÏÖ¶ÁĞ´´ò¿ª¼ÇÂ¼***************************************
+		//å®ç°è¯»å†™æ‰“å¼€è®°å½•***************************************
 		String temp[] = new String[11];
 		//FileWriter fw = new FileWriter("C://Users//tangz//Documents//configFile.txt");
 		FileReader filereader = new FileReader("C://Users//tangz//Documents//configFile.txt");
@@ -89,7 +91,7 @@ public class StudyRecordV1_0{
 		bwrite.close();
 		//fw.write("12");
 		//fw.close();
-		//Ìí¼Ó¼àÌı********************************************
+		//æ·»åŠ ç›‘å¬********************************************
 		for(int j=0;j<10;j++){
 			int i=j;
 			add[i].addActionListener(new ActionListener() {
@@ -139,7 +141,7 @@ public class StudyRecordV1_0{
 				}
 			});
 		}
-		//Ìí¼Ó*****************************************************
+		//æ·»åŠ *****************************************************
 		panelb.add(day);
 		for(int i=0;i<10;i++)
 			panela.add(record[i]);
@@ -150,6 +152,7 @@ public class StudyRecordV1_0{
 		for(int i=0;i<10;i++)
 			panela.add(sub[i]);
 			
+		frm.add(lab);
 		frm.add(panelb,BorderLayout.NORTH);
 		frm.add(panela,BorderLayout.CENTER);
 		frm.setVisible(true);
