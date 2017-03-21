@@ -1,0 +1,17 @@
+body{
+	background-color:darkgray;
+	/*background-image:url();*/
+	/*background-position:;*/
+	/*text-align:center;*/
+}
+p{
+	/*background-image: url();*/
+	/*background-position:100px 100px;
+	background-repeat:no-repeat;*/
+/*	text-align:center;*/
+
+	/*width:40px;
+	padding: 10px; */
+	position: 100px 200px;
+	background-color:aqua;
+}

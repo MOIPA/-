@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+	<title>event</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<form>
+		<input type="button" value="anniu" id="but">
+		</form>
+		<a id="pre" href="http://www.baidu.com">baidu.com</a>
+	<script>
+		document.getElementById("but").addEventListener("click",fun);
+
+		document.getElementById("pre").addEventListener("click",fun2);
+
+		function fun(e){
+			alert(e.type);
+			alert(e.target);
+			e.stopPropagation();
+		}
+		function fun2(e){
+			e.preventDefault();
+		}
+	</script>
+</body>
+</html>

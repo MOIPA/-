@@ -1,0 +1,17 @@
+*{
+	margin:0px;
+	padding:0;
+}
+li{
+	list-style: none;
+
+}
+#div1{
+	width:950px;
+	height:auto;
+	margin:20px auto;
+}
+ul{
+	width:250px;
+	float:left;
+}

@@ -1,0 +1,14 @@
+.container{
+	column-width:400px;
+	-webkit-column-width:400px;
+	column-gap:5px;
+}
+.container div{
+	width:400px;
+	margin:10px 0;
+	border:2px solid darkgray;
+}
+.container p{
+	text-align:center;
+	margin-top:10px;
+}

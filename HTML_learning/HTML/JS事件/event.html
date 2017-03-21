@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title>event</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+<body onload="news()">
+	<div class="div1" onmouseout="ot(this)" onmouseover="ove(this)"></div>
+	<script>
+		function ove(ooj){
+			ooj.innerHTML = "Hello";
+		}
+		function ot(ooj){
+			ooj.innerHTML = "world";
+		}
+	</script>
+	<form >
+		<input type = "text" onchange="ch(this)"> 
+		<br>
+		<input type = "text" onselect="select(this)" onfocus="sele2(this)"> 
+	</form>
+	<script>
+		function ch(bg){
+			alert("changed");
+		}
+		function select(bg){
+			bg.style.background="red";
+		}
+		function sele2(bg){
+			bg.style.background="blue";
+		}
+		function news(){
+			alert("jiazai OK");
+		}
+	</script>
+</body>
+</html>

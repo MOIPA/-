@@ -1,0 +1,10 @@
+li strong{
+	color:red;
+}
+
+strong{
+	color:blue;
+}
+.pc2 strong{
+	color:green;
+}

@@ -1,0 +1,79 @@
+*{
+	margin:0px;
+	padding:0px;
+
+}
+.head  p{
+	float:left;
+	margin-top:8px;
+	font-size: 13px;
+}
+.head a{
+	margin-left:15px;
+	color:gray;
+}
+.head{
+	border:1px solid darkgray;
+	color:gray;
+	height:30px;
+}
+.head_content{
+	float:right;
+	font-size: 13px
+}
+.head_daohangRight{
+	margin-top:8px;
+	float:left;
+}
+.head_daohangRight a{
+	font:bold;
+}
+.moreProducts{
+	height:30px;
+	font:bold;
+	margin: 0px;
+	padding: 0;
+	float:right;
+	background-color:#0080ff;
+}
+.moreProducts a{
+	position:relative;
+	top:25%;
+	color:white;
+	height:30px;
+	width:15px;
+	text-decoration: none;
+}
+.body{
+	background-color: white;
+	height:1200px;
+}
+.body_search{
+	background-color: white;
+	height:260px;
+	position:relative;
+}
+.body_image img{
+	position :relative;
+	margin-left: 40%;
+	width:320px;
+	height:150px;
+}
+.body_form form input{
+	height: 40px;
+	width:500px;
+	float:left;
+	margin-left: 30%;
+}
+
+.baidu a{
+	position: absolute;
+	border:1px solid #0080ff;
+	color:white;
+	padding:12px 10px;
+	text-decoration:none;
+	background-color:#0080ff;
+	margin-top: 3px;
+	transform:translateY(-7%);
+}
+

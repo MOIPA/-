@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<title>doc 0</title>
+	<meta "UFT-8">
+</head>
+<body>
+	<form >
+		<input type="button" value="anniu" id="but">
+	</form>
+	<script>
+		var x = document.getElementById("but");
+		// x.onclick=function fun(){alert("DOM 0");};
+		x.onclick=fun;
+		// x.addEventListener("click",function fun(){alert("DOM 0");});
+		// x.addEventListener("click",fun);
+		function fun(){
+			alert("hello DOM 0");
+		}
+	</script>
+</body>
+</html>

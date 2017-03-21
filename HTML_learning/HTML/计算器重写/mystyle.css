@@ -1,0 +1,8 @@
+
+#buttons table{
+	margin-top: 30px;
+	width:200px;
+}
+#buttons table td button{
+	width:100%;
+}
