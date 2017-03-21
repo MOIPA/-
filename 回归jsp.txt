@@ -1,0 +1,10 @@
+FUCKING diffence jsp servlet
+jsp:书写显示界面的代码
+servlet:用于跳转和处理业务逻辑
+
+Java类：用于方便访问数据
+js：服务于jsp
+
+在服务器上的路径
+servlet 手动xml配置或者直接在eclipse里@……
+jsp 直接localhost:8080/文件名
