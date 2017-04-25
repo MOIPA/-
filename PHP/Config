@@ -1,0 +1,19 @@
+非自动   手动配置php
+
+安装apache 和 php
+php是需要编译的语言
+
+php和apache必须是同一编译库的如 vc11
+
+修改F:\Apache24\conf\httpd.conf
+Define SRVROOT "F:/Apache24"
+
+LoadModule php5_module "F:/php/php5apache2_4.dll" 
+AddHandler application/x-httpd-php .php
+PHPIniDir "F:/php"
+
+注意：如果启动不成功，进入cmd 进入对应目录httpd.exe -w -n "Apache2" -k start 
+      如果出现端口443错误，修改F:\Apache24\conf\extra 的httpd-ahssl.conf和httpd-ssl.conf把443换成少用的442之类
+  
+*php.production-ini 修改为php.ini  进入修改 具体百度
+http://jingyan.baidu.com/article/e4d08ffd8fa40d0fd2f60dfd.html
