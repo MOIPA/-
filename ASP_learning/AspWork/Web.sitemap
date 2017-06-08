@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="trWebs/View/index.aspx" title="首页"  description="首页">
+        <siteMapNode url="trWebs/View/denglu.aspx" title="登陆"  description="登陆" />
+        <siteMapNode url="trWebs/View/MovieIF.aspx" title="电影发展"  description="电影发展" />
+        <siteMapNode url="trWebs/View/UserCenter.aspx" title="用户中心"  description="用户中心" />
+        <siteMapNode url="trWebs/View/DetailInfo.aspx" title="详细信息"  description="用户中心" />
+    </siteMapNode>
+</siteMap>

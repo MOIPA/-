@@ -1,0 +1,178 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MyMasterPage.master.cs" Inherits="trWebs_View_MyMasterPage" %>
+
+<%@ Register src="../UserControl/loginInfo.ascx" tagname="loginInfo" tagprefix="uc1" %>
+<%@ Register Src="~/trWebs/UserControl/Search.ascx" TagPrefix="uc1" TagName="Search" %>
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#denglu").mouseover(function () {
+                $("#denglu").css("backgroundColor", "#CFCFCF");
+            });
+            $("#denglu").mouseout(function () {
+                $("#denglu").css("backgroundColor", "");
+            });
+
+            $("#zhuce").mouseover(function () {
+                $("#zhuce").css("backgroundColor", "#CFCFCF");
+            });
+            $("#zhuce").mouseout(function () {
+                $("#zhuce").css("backgroundColor", "");
+            });
+        });
+    </script>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" href="../MyCss/index.css" />
+    <link href="../MyCss/app.css" rel="stylesheet" />
+    <link href="../MyCss/demo.css" rel="stylesheet" />
+    <link href="../MyCss/normalize.css" rel="stylesheet" />
+    <link href="../../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../../Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div class="daohang2" style="z-index:999; color:white; height:300px;width:320px;margin-top:130px;margin-left:10px;border-radius:3px; background-color:rgba(65,85,96,0.6); position:fixed;padding-top:6px;padding-left:5px;padding-right:5px;">
+        <%--网页导航--%>
+        您的位置：<asp:SiteMapPath ID="mySm" runat="server" Font-Names="Verdana" Font-Size="Large" PathSeparator=" : " ForeColor="White">
+            <CurrentNodeStyle ForeColor="White" Font-Size="Large" />
+            <NodeStyle Font-Bold="True" ForeColor="White" />
+            <PathSeparatorStyle Font-Bold="True" ForeColor="White" />
+            <RootNodeStyle Font-Bold="True" ForeColor="White" />
+        </asp:SiteMapPath>
+        <p>&nbsp<p>
+        <%--放在首页固定的很吊的视屏--%>
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="301" height="169" id="FLVPlayer1">
+          <param name="movie" value="FLVPlayer_Progressive.swf" />
+          <param name="quality" value="high">
+          <param name="wmode" value="opaque">
+          <param name="scale" value="noscale">
+          <param name="salign" value="lt">
+          <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../../video/demo1&amp;autoPlay=true&amp;autoRewind=true" />
+          <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../../video/demo1&autoPlay=true&autoRewind=true" quality="high" wmode="opaque" scale="noscale" width="301" height="169" name="FLVPlayer1" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+      </object>
+      <%--时间区域--%>
+      <div style=" margin-top:15px;height:30px;width:100%;">
+          <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+          <asp:Timer ID="MyTimer" runat="server" Interval="1000" OnTick="Unnamed1_Tick" ></asp:Timer>
+          <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+              <ContentTemplate>
+                现在时间：<asp:Label ID="lblTime" runat="server" Text="Label"></asp:Label>
+              </ContentTemplate>
+              <Triggers>
+
+                  <asp:AsyncPostBackTrigger ControlID="MyTimer" EventName="Tick" />
+
+              </Triggers>
+          </asp:UpdatePanel>
+      </div>
+    </div>
+
+    <div style="position:fixed; height:95px; width:128px; margin-left:40px; margin-top:190px;background-image:url(../indexPics/blogo.png)"></div>
+    <div class="bgp"><img src="../indexPics/bg.jpg" height="100%" width="100%"/></div>
+
+        <div class="top">
+            <%--<img class="blogo" src="../indexPics/blogo.jpg" height="50px" width="63px" />--%>
+		    <div style="margin-left:123px;padding-top:5px; position:absolute;">
+            <uc1:Search runat="server" ID="Search" Text="搜索" />
+            </div>
+	        <div style="margin-top:5px; height:30px;width:350px;border-radius:6px;padding-top:10px;background-color:rgba(0,0,0,0.3);float:right;margin-right:100px;">
+
+                <div style="text-align:center; float:right;margin-right:10px; border:1px dashed white; margin-top:-3px;padding-top:0px; height:20px;width:110px;border-radius:3px;" onmousemove="this.style.backgroundColor='#32cd32';"
+                    onmouseout="this.style.backgroundColor='';" ><a href="../Admin/Manger.aspx" style=" text-decoration:none;color:white;">管理用户</a></div>
+                <div style="float:right;margin-right:20px;"><b>
+                    <asp:LoginView ID="LoginView1" runat="server">
+                        <AnonymousTemplate>
+                            <b style="color:white;">您未登陆<b> <asp:LoginStatus ID="LoginStatus1" runat="server" ForeColor="#99FF66" />
+                        </AnonymousTemplate>
+                        <RoleGroups>
+                            <asp:RoleGroup Roles="Admin">
+                                <ContentTemplate>
+                                    <asp:LoginName ID="LoginAdmin" runat="server" FormatString="您好,{0}" ForeColor="White" />
+                                    &nbsp;<asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click" ForeColor="#99FF66">用户管理</asp:LinkButton>
+                                    &nbsp;<asp:LoginStatus ID="LoginStatus2" runat="server" ForeColor="#99FF66" />
+                                </ContentTemplate>
+                            </asp:RoleGroup>
+                            <asp:RoleGroup Roles="Member">
+                                <ContentTemplate>
+                                    <asp:LoginName ID="LoginMember" runat="server" FormatString="您好,{0}" ForeColor="White" />
+                                    &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" OnClick="LinkButton2_Click" ForeColor="#99FF66">收藏页面</asp:LinkButton>
+                                    &nbsp;<asp:LoginStatus ID="LoginStatus3" runat="server" ForeColor="#99FF66" />
+                                </ContentTemplate>
+                            </asp:RoleGroup>
+                        </RoleGroups>
+                    </asp:LoginView>
+                     </b>
+                </div>  
+       </div>
+		    
+	    </div>
+
+	    <div class="body">
+
+             <%--导航--%>
+            <div class="body_info" style="border-radius: 5px;width:1200px;height:70px;margin:auto;padding-top:15px;padding-left:30px;padding-right:30px;" >
+                    <%--<table border="0" style="height:100%; width:900px; margin:auto;">
+                        <tr style="height:100%;color:black;">
+                            <th class="auto-style1"><a style="color:black;" href="index.aspx" onmousemove="this.style.color='#63B8FF';"
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/sy.png" height="20" width="20"><br>首页</a></th>
+                            <th class="auto-style1"><a style="color:black;" href="DownLoad.aspx" onmousemove="this.style.color='#63B8FF';"
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/xz.png" height="20" width="20"><br>下载中心</a></th>
+                            <th class="auto-style1"><a style="color:black;" href="MovieIF.aspx" onmousemove="this.style.color='#63B8FF';"
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/bk.png" height="20" width="20"><br>电影百科</a></th>
+                            <th class="auto-style1"><a style="color:black;" href="UserCenter.aspx" onmousemove="this.style.color='#63B8FF';"
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/gr.png" height="20" width="20"><br>用户中心</a></th>
+                        </tr>
+                    </table>--%>
+                <ul class="nav nav-pills nav-justified">
+	                <li><a href="index.aspx" style="font-size:18px;">首页</a></li>
+	                <li><a href="DownLoad.aspx" style="font-size:18px;">下载中心</a></li>
+	                <li><a href="MovieIF.aspx" style="font-size:18px;">电影百科</a></li>
+	                <li><a href="UserCenter.aspx" style="font-size:18px;">用户中心</a></li>
+
+                </ul><br><br><br>
+                
+		    </div>
+            <p>&nbsp;</p>
+		    <div class="body_image" style="border-radius: 5px;margin-top:-30px;">
+                <div class="slider">
+	                <div class="slider-img">
+		                <ul class="slider-img-ul">
+			                <li><img src="../indexPics/logoz.jpg"></li>
+			                <li><img src="../indexPics/logox.jpg"></li>
+			                <li><img src="../indexPics/logoz.jpg"></li>
+			                <li><img src="../indexPics/logox.jpg"></li>
+			                <li><img src="../indexPics/logoz.jpg"></li>
+			                <li><img src="../indexPics/logox.jpg"></li>
+			                <li><img src="../indexPics/logoz.jpg"></li>
+		                </ul>
+	                </div>
+                </div>
+		    </div>
+            <div class="body_kind" style="border-radius: 5px" >
+            </div>
+                <div style="width:100%; height:1077px; text-align:center;">
+                    <asp:ContentPlaceHolder ID="bodyInfo" runat="server"></asp:ContentPlaceHolder>
+                    <br /><br /><br /><br /><br />
+                    <div class="foot">
+                    <div class="foot_daohang"style="color:white;font-size:18px;text-align:center;text-decoration:none;padding-top:-10px;" >
+                    <a href="/trWebs/View/index.aspx" style="text-decoration:none;">返回首页</a>
+                    </div>
+		                <div class="foot_menu" style="color:white;height:77px; text-align:center;"><p>&nbsp</p><h5>@南京大学金陵学院 117</h5></div>
+	                </div>
+                </div>
+		    
+
+	    </div>
+	    
+    </form>
+    <script src="../Myjs/xSlider.js"></script>
+</body>
+</html>
