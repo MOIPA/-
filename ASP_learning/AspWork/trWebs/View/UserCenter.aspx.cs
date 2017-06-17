@@ -96,4 +96,16 @@ public partial class trWebs_View_UserCenter : System.Web.UI.Page
         Profile.Save();
         Response.Redirect("index.aspx");
     }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("UserCenter.aspx");
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("ChangePwd.aspx");
+    }
+    protected void Button3_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("FindPwd.aspx");
+    }
 }

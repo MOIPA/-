@@ -2,11 +2,30 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Pet">
   <DataContextMoniker Name="/PetDataContext" />
   <nestedChildShapes>
-    <classShape Id="281ca83f-15da-49a0-b445-eee0206f2d7d" absoluteBounds="6.875, 2, 2, 2.5266442871093751">
+    <classShape Id="9feead0d-6b30-49fa-ace3-3d3935b4df28" absoluteBounds="6.5, 2.625, 2, 2.5266442871093751">
       <DataClassMoniker Name="/PetDataContext/MyPetInfo" />
       <nestedChildShapes>
-        <elementListCompartment Id="7e2a4d6e-9203-485e-95b9-354289d064c9" absoluteBounds="6.89, 2.46, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a9d47b75-14f9-4fda-802a-6e29c69e87e0" absoluteBounds="6.515, 3.085, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="a9c05273-84b8-48c9-b93b-7ee088ce9fe0" absoluteBounds="1.25, 2.75, 2, 2.7176639811197916">
+      <DataClassMoniker Name="/PetDataContext/Order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3a1bcf6f-ac13-4467-b045-435b875b9ad3" absoluteBounds="1.2650000000000001, 3.21, 1.9700000000000002, 2.1576639811197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e38f90ca-1fcc-4067-b88b-bd3eb0b62300" absoluteBounds="3.75, 2, 2, 1.9535852050781251">
+      <DataClassMoniker Name="/PetDataContext/OrderItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c3dd6681-9049-48f3-b6e8-27f9d73dba7d" absoluteBounds="3.765, 2.46, 1.9700000000000002, 1.393585205078125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.25 : 3.35179260253906); (3.75 : 3.35179260253906)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PetDataContext/Order/Order_OrderItem" />
+      <nodes>
+        <classShapeMoniker Id="a9c05273-84b8-48c9-b93b-7ee088ce9fe0" />
+        <classShapeMoniker Id="e38f90ca-1fcc-4067-b88b-bd3eb0b62300" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

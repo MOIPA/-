@@ -6,12 +6,13 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="MyCss/main.css" />
     <script src="../Scripts/jquery-3.1.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body style="background-color:#FFFFE0;width:100%;height:100%;font-family:h">
+<body style="background-color:#FFFFE0;width:100%;height:100%;">
     <%--热门排行--%>
     <div style="height:200px;width:300px;position:fixed;margin-top:100px;">
         <table>
@@ -80,6 +81,22 @@
     <br/>
     <br/>
 
+    <center><div style="height:40px;width:75%;color:lightblue;">
+        
+          <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+          <asp:Timer ID="MyTimer" runat="server" Interval="1000" OnTick="Unnamed1_Tick" ></asp:Timer>
+          <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+              <ContentTemplate>
+                  当前位置：<asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>&nbsp;and&nbsp;
+                现在时间：<asp:Label ID="lblTime" runat="server" Text="Label"></asp:Label>
+              </ContentTemplate>
+              <Triggers>
+                  <asp:AsyncPostBackTrigger ControlID="MyTimer" EventName="Tick" />
+              </Triggers>
+          </asp:UpdatePanel>
+      </div>
+    </center>
+
     <div id="body_text" style="height:100%;background-color:white;">
                 <asp:Repeater ID="MyRep" runat="server">
                     <HeaderTemplate>
@@ -110,18 +127,49 @@
                         <p style="margin-bottom:10px;padding-left:10%;"><h3 style="padding-left:10%;"><span class="label label-primary">萌宠视频</span></h3></p>
                         <hr style="margin-bottom:20px;"/>
                         <table style="width:100%;height:250px;">
-                            <tr style="width:100%;background-color:darkgray;     ">
+                            <tr style="width:100%;">
                                 <td>
-
+								  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="201" height="113" id="FLVPlayer">
+									  <param name="movie" value="FLVPlayer_Progressive.swf" />
+									  <param name="quality" value="high">
+									  <param name="wmode" value="opaque">
+									  <param name="scale" value="noscale">
+									  <param name="salign" value="lt">
+									  <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&amp;autoPlay=false&amp;autoRewind=false" />
+									  <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&autoPlay=false&autoRewind=false" quality="high" wmode="opaque" scale="noscale" width="201" height="113" name="FLVPlayer" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+							    </object></td>
+                                <td>
+									<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="201" height="113" id="FLVPlayer">
+									  <param name="movie" value="FLVPlayer_Progressive.swf" />
+									  <param name="quality" value="high">
+									  <param name="wmode" value="opaque">
+									  <param name="scale" value="noscale">
+									  <param name="salign" value="lt">
+									  <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&amp;autoPlay=false&amp;autoRewind=false" />
+									  <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&autoPlay=false&autoRewind=false" quality="high" wmode="opaque" scale="noscale" width="201" height="113" name="FLVPlayer" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+							    </object>
                                 </td>
                                 <td>
-
+								<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="201" height="113" id="FLVPlayer">
+									  <param name="movie" value="FLVPlayer_Progressive.swf" />
+									  <param name="quality" value="high">
+									  <param name="wmode" value="opaque">
+									  <param name="scale" value="noscale">
+									  <param name="salign" value="lt">
+									  <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&amp;autoPlay=false&amp;autoRewind=false" />
+									  <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&autoPlay=false&autoRewind=false" quality="high" wmode="opaque" scale="noscale" width="201" height="113" name="FLVPlayer" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+							    </object>
                                 </td>
                                 <td>
-
-                                </td>
-                                <td>
-
+								<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="201" height="113" id="FLVPlayer">
+									  <param name="movie" value="FLVPlayer_Progressive.swf" />
+									  <param name="quality" value="high">
+									  <param name="wmode" value="opaque">
+									  <param name="scale" value="noscale">
+									  <param name="salign" value="lt">
+									  <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&amp;autoPlay=false&amp;autoRewind=false" />
+									  <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../%E8%A7%86%E9%A2%91flv%E6%A0%BC%E5%BC%8F&autoPlay=false&autoRewind=false" quality="high" wmode="opaque" scale="noscale" width="201" height="113" name="FLVPlayer" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+							    </object>
                                 </td>
                             </tr>
                         </table>

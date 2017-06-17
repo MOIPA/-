@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="/index/index.aspx" title="首页"  description="首页">
+        <siteMapNode url="/index/aboutus.aspx" title="关于我们"  description="关于我们" />
+        <siteMapNode url="/index/Baike.aspx" title="百科"  description="百科" />
+        <siteMapNode url="/index/login.aspx" title="登陆"  description="登陆" />
+        <siteMapNode url="/index/newUser.aspx" title="新建用户"  description="新建用户" />
+        <siteMapNode url="/index/Pet.aspx" title="小游戏"  description="小游戏" />
+        <siteMapNode url="/index/petstory.aspx" title="宠物故事"  description="宠物故事" />
+        <siteMapNode url="/index/shopcenter.aspx" title="宠物中心"  description="宠物中心" />
+        <siteMapNode url="/index/SubmitCart.aspx" title="提交"  description="提交" />  
+    </siteMapNode>
+</siteMap>

@@ -13,22 +13,19 @@
                     <tr>
                         <td>
                             <p>&nbsp;&nbsp;&nbsp; <img style="float:right;" src="<%# "tablePic/id"+Eval("id")+".jpg" %>" height="400" width="400"></p>
-                            <div style="font-size:12px; width:350px;height:250px;background-color:black;">影片预告<br/>
+                            <div style="font-size:12px; width:350px;height:250px;">影片预告<br/>
                                 <%--<video src="../../video/demo2.wmv"  />--%>
-                                
+                                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="301" height="169" id="FLVPlayer1">
+                                  <param name="movie" value="FLVPlayer_Progressive.swf" />
+                                  <param name="quality" value="high">
+                                  <param name="wmode" value="opaque">
+                                  <param name="scale" value="noscale">
+                                  <param name="salign" value="lt">
+                                  <param name="FlashVars" value="&amp;MM_ComponentVersion=1&amp;skinName=Clear_Skin_1&amp;streamName=../../video/demo1&amp;autoPlay=true&amp;autoRewind=true" />
+                                  <embed src="FLVPlayer_Progressive.swf" flashvars="&MM_ComponentVersion=1&skinName=Clear_Skin_1&streamName=../../video/demo1&autoPlay=true&autoRewind=true" quality="high" wmode="opaque" scale="noscale" width="301" height="169" name="FLVPlayer1" salign="lt" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+                              </object>
                             </div>
-                            <object id="player" height="224" width="202" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6" viewastext="VIEWASTEXT"> 
-                    <param name="AutoStart" value="-1" />
-                    <param name="Balance" value="0" />
-                    <param name="enabled" value="-1" />
-                    <param name="url" value="../../video/demo2.wmv" />
-                    <param name="PlayCount" value="1" />
-                    <param name="rate" value="1" />                  
-                    <param name="uiMode" value="Full" />
-                    <param name="windowlessVideo" value="0" />
-                    <param name="fullScreen" value="0" />
-                    <param name="enableErrorDialogs" value="-1" />                   
-                  </object>
+                            
                             <p>&nbsp</p>
 
                             <p><b>片名:</b><%#Eval("name") %></p>

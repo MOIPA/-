@@ -126,7 +126,7 @@
                             <th class="auto-style1"><a style="color:black;" href="DownLoad.aspx" onmousemove="this.style.color='#63B8FF';"
                     onmouseout="this.style.color='black';" ><img src="../indexPics/xz.png" height="20" width="20"><br>下载中心</a></th>
                             <th class="auto-style1"><a style="color:black;" href="MovieIF.aspx" onmousemove="this.style.color='#63B8FF';"
-                    onmouseout="this.style.color='black';" ><img src="../indexPics/bk.png" height="20" width="20"><br>电影百科</a></th>
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/bk.png" height="20" width="20"><br>每日推荐</a></th>
                             <th class="auto-style1"><a style="color:black;" href="UserCenter.aspx" onmousemove="this.style.color='#63B8FF';"
                     onmouseout="this.style.color='black';" ><img src="../indexPics/gr.png" height="20" width="20"><br>用户中心</a></th>
                         </tr>
@@ -134,7 +134,7 @@
                 <ul class="nav nav-pills nav-justified">
 	                <li><a href="index.aspx" style="font-size:18px;">首页</a></li>
 	                <li><a href="DownLoad.aspx" style="font-size:18px;">下载中心</a></li>
-	                <li><a href="MovieIF.aspx" style="font-size:18px;">电影百科</a></li>
+	                <li><a href="MovieIF.aspx" style="font-size:18px;">每日推荐</a></li>
 	                <li><a href="UserCenter.aspx" style="font-size:18px;">用户中心</a></li>
 
                 </ul><br><br><br>

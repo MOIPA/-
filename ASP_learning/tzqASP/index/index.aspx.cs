@@ -12,6 +12,11 @@ public partial class index_index : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         get_dataTable();
+        lblTime.Text = DateTime.Now.ToLongTimeString();
+    }
+    protected void Unnamed1_Tick(object sender, EventArgs e)
+    {
+        lblTime.Text = DateTime.Now.ToLongTimeString();
     }
 
     private void get_dataTable()
@@ -63,5 +68,6 @@ public partial class index_index : System.Web.UI.Page
         //绑定数据源
         MyRep.DataSource = pds;
         MyRep.DataBind();
+        conn.Close();
     }
 }

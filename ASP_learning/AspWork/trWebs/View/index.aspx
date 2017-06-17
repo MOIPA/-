@@ -92,7 +92,7 @@
             <%--<img class="blogo" src="../indexPics/blogo.jpg" height="50px" width="63px" />--%>
 		    <div class="top_content">
                 <a href="denglu.aspx"><input style="color:black;" type="button" ID="denglu" runat="server" value="登陆" /></a>
-                <hr class="hr1" color="white" size="" width="1" align="right">
+                <%--<hr class="hr1" color="white" size="3" width="1" align="right">--%>
                 <a href="NewUser.aspx"><input style="color:black;" type="button" ID="zhuce" runat="server" value="注册" /></a>
                 <div style="height:5px;"></div>
                 <div style="margin-top:5px;"></div>
@@ -113,7 +113,7 @@
                             <th class="auto-style1"><a style="color:black;" href="DownLoad.aspx" onmousemove="this.style.color='#63B8FF';"
                     onmouseout="this.style.color='black';" ><img src="../indexPics/xz.png" height="20" width="20"><br>下载中心</a></th>
                             <th class="auto-style1"><a style="color:black;" href="MovieIF.aspx" onmousemove="this.style.color='#63B8FF';"
-                    onmouseout="this.style.color='black';" ><img src="../indexPics/bk.png" height="20" width="20"><br>电影百科</a></th>
+                    onmouseout="this.style.color='black';" ><img src="../indexPics/bk.png" height="20" width="20"><br>每日推荐</a></th>
                             <th class="auto-style1"><a style="color:black;" href="UserCenter.aspx" onmousemove="this.style.color='#63B8FF';"
                     onmouseout="this.style.color='black';" ><img src="../indexPics/gr.png" height="20" width="20"><br>用户中心</a></th>
                         </tr>
@@ -121,14 +121,14 @@
                 <ul class="nav nav-pills nav-justified">
 	                <li class="active"><a href="#" style="font-size:18px;">首页</a></li>
 	                <li><a href="DownLoad.aspx" style="font-size:18px;">下载中心</a></li>
-	                <li><a href="MovieIF.aspx" style="font-size:18px;">电影百科</a></li>
+	                <li><a href="MovieIF.aspx" style="font-size:18px;">每日推荐</a></li>
 	                <li><a href="UserCenter.aspx" style="font-size:18px;">用户中心</a></li>
 
                 </ul><br><br><br>
                 
 		    </div>
 
-            <%--首页logo必须做到很厉害的效果 正在思考图片轮播--%>
+            <%--首页logo--%>
 		    <div class="body_image" style="border-radius: 5px;margin-top:-30px;">
                 <div class="slider">
 	                <div class="slider-img">

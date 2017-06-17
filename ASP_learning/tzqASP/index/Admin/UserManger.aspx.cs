@@ -12,6 +12,7 @@ public partial class index_Admin_UserManger : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        lblTime.Text = DateTime.Now.ToLongTimeString();
         if (!IsPostBack)
         {
             GetAllUsers();
@@ -27,6 +28,10 @@ public partial class index_Admin_UserManger : System.Web.UI.Page
             GetUsersInRole();
         }
        
+    }
+    protected void Unnamed1_Tick(object sender, EventArgs e)
+    {
+        lblTime.Text = DateTime.Now.ToLongTimeString();
     }
 
     private void GetUsersInRole()
@@ -104,12 +109,4 @@ public partial class index_Admin_UserManger : System.Web.UI.Page
         GetAllUsers();
     }
 
-    protected void dvCategory_ItemDeleted(object sender, DetailsViewDeletedEventArgs e)
-    {
-        gvPet.DataBind();
-    }
-    protected void dvCategory_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
-    {
-        gvPet.DataBind();
-    }
 }

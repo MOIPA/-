@@ -12,6 +12,7 @@
                 <ContentTemplate>
                     <h3><asp:LoginName ID="lognAdmin" CssClass="label label-info" runat="server" FormatString="您好, {0}" /></h3>
                     <asp:LinkButton CssClass="btn btn-primary"  ID="lnkbtnManage" runat="server" OnClick="lnkbtnManage_Click">系统管理</asp:LinkButton>
+                    <asp:Button ID="Button1" runat="server" CssClass="btn btn-primary" OnClick="Button1_Click" Text="修改密码" />
                     <asp:LoginStatus  CssClass="btn btn-danger" ID="logsAdmin" runat="server" />
                 </ContentTemplate>
             </asp:RoleGroup>
@@ -19,6 +20,7 @@
                 <ContentTemplate>
                     <asp:LoginName CssClass="label label-info" ID="lognAdmin" runat="server" FormatString="您好,{0}" />
                     <asp:LinkButton CssClass="btn btn-primary" ID="lnkbtnCart" runat="server" OnClick="lnkbtnCart_Click">购物记录</asp:LinkButton>
+                    <asp:Button ID="Button2" runat="server" CssClass="btn btn-primary" OnClick="Button2_Click" Text="修改密码" />
                     <asp:LoginStatus CssClass="btn btn-danger" ID="logsMember" runat="server" />
                 </ContentTemplate>
             </asp:RoleGroup>

@@ -9,6 +9,10 @@ public partial class MyMasterPage2 : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        lblTime.Text = DateTime.Now.ToLongTimeString();
+    }
+    protected void Unnamed1_Tick(object sender, EventArgs e)
+    {
+        lblTime.Text = DateTime.Now.ToLongTimeString();
     }
 }

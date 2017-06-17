@@ -1,9 +1,8 @@
-﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="index_MasterPage" %>
-
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <asp:ContentPlaceHolder id="head" runat="server">
@@ -13,7 +12,7 @@
     <script src="../Scripts/bootstrap.min.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body style="background-color:#FFFFE0;width:100%;height:100%;">
+<body style="background-color:#FFFFE0;width:100%;height:100%;z-index:99;">
     <%--热门排行--%>
     <div style="height:200px;width:300px;position:fixed;margin-top:100px;">
         <table>
@@ -67,10 +66,10 @@
 			            <img src="indexPICS/h2.jpg" alt="First slide">
 		            </div>
 		            <div class="item">
-			            <img src="indexPICS/h2.jpg" alt="Second slide">
+			            <img src="indexPICS/h3.png" alt="Second slide">
 		            </div>
 		            <div class="item">
-			            <img src="indexPICS/h2.jpg" alt="Third slide">
+			            <img src="indexPICS/h4.png" alt="Third slide">
 		            </div>
 	            </div>
 	            <!-- 轮播（Carousel）导航 -->
@@ -107,6 +106,22 @@
     </div>
     <br/>
     <br/>
+
+    <center><div style="height:40px;width:75%;color:lightblue;">
+        
+          <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+          <asp:Timer ID="MyTimer" runat="server" Interval="1000" OnTick="Unnamed1_Tick" ></asp:Timer>
+          <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+              <ContentTemplate>
+                  当前位置：<asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>&nbsp;and&nbsp;
+                现在时间：<asp:Label ID="lblTime" runat="server" Text="Label"></asp:Label>
+              </ContentTemplate>
+              <Triggers>
+                  <asp:AsyncPostBackTrigger ControlID="MyTimer" EventName="Tick" />
+              </Triggers>
+          </asp:UpdatePanel>
+      </div>
+    </center>
 
     <div id="body_text" style="height:100%;background-color:white;">
         <div style="height:100%;width:900px;background-color:white;">

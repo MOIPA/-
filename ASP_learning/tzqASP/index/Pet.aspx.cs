@@ -25,5 +25,6 @@ public partial class index_Pet : System.Web.UI.Page
         sda.Fill(ds, "t");
         MyRep.DataSource = ds.Tables["t"].DefaultView;
         MyRep.DataBind();
+        conn.Close();
     }
 }

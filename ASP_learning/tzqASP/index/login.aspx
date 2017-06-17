@@ -3,8 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <div class="jumbotron">
-	<div class="container">
+    <div class="jumbotron" style="background-color:white;">
+	<div class="container" style="background-color:white;">
 		<h1>欢迎登陆！</h1>
 		<p>在此寻找属于你的宠物。</p>
 

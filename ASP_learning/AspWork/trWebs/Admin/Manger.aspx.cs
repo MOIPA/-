@@ -104,12 +104,8 @@ public partial class trWebs_Admin_Manger : System.Web.UI.Page
     }
 
 
-    protected void dvCategory_ItemDeleted(object sender, DetailsViewDeletedEventArgs e)
+    protected void btnDetails_Click(object sender, EventArgs e)
     {
-        gvCategory.DataBind();
-    }
-    protected void dvCategory_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
-    {
-        gvCategory.DataBind();
+        Response.Redirect("DetailsManger.aspx");
     }
 }

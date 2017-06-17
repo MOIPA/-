@@ -13,10 +13,10 @@
                     <thead>
                     <tr>
                         <td style="height:30px;width:300px;color:black;font-size:18px;">
-                            电影名称<hr / style="width:90%">
+                            电影名称
                         </td>
                         <td style="height:30px;width:300px; color:black;font-size:18px;">
-                            下载地址<hr / style="width:90%">
+                            下载地址
                         </td>
                     </tr>
                     </thead>

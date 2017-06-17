@@ -15,7 +15,7 @@
 </head>
 <body style="background-color:#FFFFE0;width:100%;height:100%;">
     <%--热门排行--%>
-    <div style="height:200px;width:300px;position:fixed;margin-top:100px;">
+    <div style="height:200px;width:300px;position:fixed;margin-top:100px;z-index:999;">
         <table>
                             <tr>
                                 <td style=" text-decoration:none; font-size:18px;  padding:0px 20px; border-radius:10px; line-height:5px; height:100%;width:35%;border:0px;text-align:center;color:yellow;">
@@ -44,7 +44,7 @@
 
     <div class="mybody" style="margin:auto;
     width:1200px;
-    height:2050px;
+    height:2150px;
     background-color:#FFFFE0;">
 	<form id="form1" runat="server">
 
@@ -67,10 +67,10 @@
 			            <img src="indexPICS/h2.jpg" alt="First slide">
 		            </div>
 		            <div class="item">
-			            <img src="indexPICS/h2.jpg" alt="Second slide">
+			            <img src="indexPICS/h3.png" alt="Second slide">
 		            </div>
 		            <div class="item">
-			            <img src="indexPICS/h2.jpg" alt="Third slide">
+			            <img src="indexPICS/h4.png" alt="Third slide">
 		            </div>
 	            </div>
 	            <!-- 轮播（Carousel）导航 -->
@@ -107,9 +107,23 @@
     </div>
     <br/>
     <br/>
-
+        <center><div style="height:40px;width:75%;color:lightblue;">
+        
+          <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+          <asp:Timer ID="MyTimer" runat="server" Interval="1000" OnTick="Unnamed1_Tick" ></asp:Timer>
+          <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+              <ContentTemplate>
+                  当前位置：<asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>&nbsp;and&nbsp;
+                现在时间：<asp:Label ID="lblTime" runat="server" Text="Label"></asp:Label>
+              </ContentTemplate>
+              <Triggers>
+                  <asp:AsyncPostBackTrigger ControlID="MyTimer" EventName="Tick" />
+              </Triggers>
+          </asp:UpdatePanel>
+      </div>
+    </center>
     <div id="body_text" style="height:100%;background-color:white;">
-        <div style="height:100%;width:900px;background-color:white;">
+        <div style="height:100%;width:1000px;background-color:white;">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 
             </asp:ContentPlaceHolder>
