@@ -1,0 +1,44 @@
+安装 Apache2：
+
+　　sudo apt-get install apache2
+
+　　安装PHP模块：
+
+　　sudo apt-get install php5
+
+　　安装Mysql
+
+　　sudo apt-get install mysql-server
+
+　　其他模块安装：
+
+　　sudo apt-get install libapache2-mod-php5
+
+　　sudo apt-get install libapache2-mod-auth-mysql
+
+　　sudo apt-get install php5-mysql
+
+　　sudo apt-get install php5-gd
+
+配置：
+	1、apache2，根目录在/var/www下，可以通过http://localhost/测试
+	
+	2、apache2配置在/etc/apache2目录
+	
+	3、apache2的默认目录配置在/etc/apache2/sites-enabled/00default文件中
+	DocumentRoot项， 将/var/www改为你的开发目录就OK了
+	
+	
+	比如你的目录在/home/username/phplearn，那么你只要
+　　sudo ln -s /home/tr/phplearn /var/www/html/phplearn
+　　这样你就可以通过w3m http://localhost/phplearn/test.html访问你的工作目录了
+	
+	
+	4、配置中常用命令
+　　重启apache
+　　sudo /etc/init.d/apache2 restart
+	
+	我的工作目录在/home/tr/phplearn  
+	由于链接（ln -s /home/tr/phplearn /var/www/html/phplearn）
+	服务器目录自动在/var/www/html/phplearn下面部署了
+	使用w3m http://localhost/phplearn/test.html

@@ -1,0 +1,10 @@
+发现Ubuntu中无法用su命令切换到root用户。
+$ su
+Password:
+su: Authentication failure
+$
+原来Ubuntu中root用户默认是禁止使用的，需要手工开启。
+开启方法：sudo passwd
+关闭方法：sudo passwd -l root
+
+开启root用户后就可以使用su命令了。
