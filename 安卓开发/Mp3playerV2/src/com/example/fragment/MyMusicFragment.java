@@ -112,7 +112,6 @@ public class MyMusicFragment extends Fragment {
 			Bundle savedInstanceState) {
 		lists = null;
 		lists = GetMusicInfo.searchData(getActivity());
-
 		View view = inflater.inflate(R.layout.mymusic, null);
 		ListView lv = (ListView) view.findViewById(R.id.lv_musiclist);
 		lv.setAdapter(new MyAdapter());

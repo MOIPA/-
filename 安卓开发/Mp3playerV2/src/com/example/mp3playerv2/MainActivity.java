@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +50,31 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 //		beginTransaction.replace(android.R.id.content, new MusicStore());
 //		beginTransaction.commit();
         
+        
+        
     }
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 1, 0, "通知数据库刷新");
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case 1:
+			//通知mediastorage刷新一下
+			sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+Environment.getExternalStorageDirectory())));
+			break;
+
+		default:
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	public void onClick(View v) {
