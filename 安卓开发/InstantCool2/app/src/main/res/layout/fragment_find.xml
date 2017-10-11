@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tr.instantcool2.FindFragment">
+    tools:context="com.example.tr.instantcool2.Fragment.FindFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
