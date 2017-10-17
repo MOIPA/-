@@ -5,7 +5,7 @@ package com.example.tr.instantcool2.LocalDB;
  */
 
 public class TempData {
-    public static String Name;
+    public static String NickName;
     public static  String AName;
     public static  String pwd;
 }

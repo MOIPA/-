@@ -95,6 +95,6 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(serviceConn);
+//        unbindService(serviceConn);
     }
 }

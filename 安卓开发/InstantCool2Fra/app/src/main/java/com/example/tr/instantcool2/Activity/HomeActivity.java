@@ -4,14 +4,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TabHost;
 
 import com.example.tr.instantcool2.Fragment.ChatFragment;
 import com.example.tr.instantcool2.Fragment.ConnectorFragment;
 import com.example.tr.instantcool2.Fragment.FindFragment;
 import com.example.tr.instantcool2.Fragment.MeFragment;
+import com.example.tr.instantcool2.LocalDB.TempData;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
+import com.example.tr.instantcool2.Utils.ShowInfoUtil;
+import com.example.tr.instantcool2.Utils.StreamUtil;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 //最后还是决定由HomeActivity实现OnTabChangeListener
 // 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
@@ -90,6 +97,37 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //改变用户登陆状态
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+ TempData.AName+"&status="+0;
+                    URL url = new URL(statusPath);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000);
+                    int code1 = conn.getResponseCode();
+                    if(200==code1){
+                        final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
+                        Log.d("Login", "status is: "+satus);
+                    }else{
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 }
 
 

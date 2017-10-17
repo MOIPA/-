@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,10 @@ import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.LocalDB.TempData;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
+import com.example.tr.instantcool2.Utils.StreamUtil;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by TR on 2017/10/11.
@@ -46,7 +51,43 @@ public class FillInfoMationFragment extends Fragment implements TopBarIndicatorV
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TempData.Name = et_name.getText().toString().trim();
+                TempData.NickName = et_name.getText().toString().trim();
+                //上传昵称
+                new Thread(){
+                    @Override
+                    public void run() {
+                        String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserName.php?name="+TempData.AName+"&nickname="+TempData.NickName;
+                        Log.d("FillInfo", "run: "+path);
+                        URL url = null;
+                        try {
+                            url = new URL(path);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(5000);
+                            int code = connection.getResponseCode();
+                            if(200==code){
+                                if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ShowInfoUtil.showInfo(getContext(),"信息已完善");
+                                        }
+                                    });
+                                }
+                            }else{
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ShowInfoUtil.showInfo(getContext(),"链接服务器失败！");
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
                 //开启homeActivity
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 startActivity(intent);

@@ -17,4 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+
+
+    <!--android:background="@mipmap/ic_launcher_round"-->
+    <!--android:drawableLeft="@mipmap/ic_launcher_round"-->
+    <!--android:drawableStart="@mipmap/ic_launcher_round"-->
+    <!--android:hint="用户名/手机号"-->
+
 </resources>
