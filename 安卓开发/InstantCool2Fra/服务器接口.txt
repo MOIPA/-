@@ -62,6 +62,38 @@
 
 	成功返回succeed
 
+添加会话：
+
+	http://39.108.159.175/phpworkplace/androidLogin/SetConversation.php?owner=&targetaccount=&targetname=
+	http://39.108.159.175/phpworkplace/androidLogin/SetConversation.php
+	?owner=tr&targetaccount=tzq&targetname=汤子晴
+	无返回值
+
+删除会话：
+
+	http://39.108.159.175/phpworkplace/androidLogin/SetConversation.php?owner=&targetaccount=
+	http://39.108.159.175/phpworkplace/androidLogin/SetConversation.php?owner=tr&targetaccount=sx
+	无返回值
+
+查询会话：
+	
+	http://39.108.159.175/phpworkplace/androidLogin/GetConversation.php?owner=
+	返回：
+
+	
+	<?xml version='1.0'encoding='UTF-8?>
+	<contents>
+		<conversation>
+			<targetaccount>tzq</targetaccount>
+			<targetname></targetname>
+		</conversation>
+		<conversation>
+			<targetaccount>sx</targetaccount>
+			<targetname>ssx</targetname>
+		</conversation>
+	</contents>
+
+
 添加信息	
 
 	http://39.108.159.175/phpworkplace/androidLogin/TheSendMessage.php
@@ -96,6 +128,43 @@
 			<isread>1<isread>
 		</message>
 	</contents>
+
+查询信息并且修改信息为已读
+
+	http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageASU.php?owner=唐锐
+	成功返回：
+	<?xml version='1.0' encoding='UTF-8'?>
+	<contents>
+		<message>
+			<time>2017、10、26</time>
+			<owner>唐锐</owner>
+			<direct>1</direct>
+			<targetaccount>汤子晴<targetaccount>
+			<content>你好<content>
+			<isread>1<isread>
+		</message>
+		<message>
+			<time>2017/10/16</time>
+			<owner>唐锐</owner>
+			<direct>1</direct>
+			<targetaccount>汤子晴<targetaccount>
+			<content>你好<content>
+			<isread>1<isread>
+		</message>
+	</contents>
+
+查询消息未读总数量：
+
+	http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=tr
+
+	成功返回消息数量
+
+查询未读某人消息数量：
+
+	http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCountSingle.php?owner=tr&receiver=tzq
+
+	成功返回消息数量
+	
 
 
 
