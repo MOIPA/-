@@ -17,8 +17,6 @@ import com.example.tr.instantcool2.Fragment.FirstSinghtFragment;
 import com.example.tr.instantcool2.Fragment.SignUpFragment;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
-import com.example.tr.instantcool2.service.InterfaceStoreData;
-import com.example.tr.instantcool2.service.StoreDataService;
 
 public class StartActivity extends AppCompatActivity {
 

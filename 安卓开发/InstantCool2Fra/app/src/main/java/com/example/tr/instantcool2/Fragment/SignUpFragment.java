@@ -2,8 +2,6 @@ package com.example.tr.instantcool2.Fragment;
 
 import android.app.Instrumentation;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -18,17 +16,10 @@ import android.widget.EditText;
 
 import com.example.tr.instantcool2.Activity.StartActivity;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
-import com.example.tr.instantcool2.LocalDB.TempData;
+import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
-import com.example.tr.instantcool2.Utils.ShowInfoUtil;
-import com.example.tr.instantcool2.Utils.StreamUtil;
-import com.example.tr.instantcool2.service.InterfaceStoreData;
-import com.example.tr.instantcool2.service.StoreDataService;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 
 
@@ -97,8 +88,8 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
                                     if(stream.equals("注册成功")){
                                         System.out.println("注册成功");
                                         sendMsg2Activity("succeed","注册成功");
-                                        TempData.AName = account_name;
-                                        TempData.pwd=account_pwd;
+                                        UserInfoSotrage.AName = account_name;
+                                        UserInfoSotrage.pwd=account_pwd;
 //                                        getActivity().runOnUiThread();也可以 不过用handler看起来更加分离UI
 //                                        Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                                         //TODO

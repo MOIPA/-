@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import com.example.tr.instantcool2.Activity.HomeActivity;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
-import com.example.tr.instantcool2.LocalDB.TempData;
+import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
@@ -100,7 +100,7 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                             int code1 = conn.getResponseCode();
                             if(200==code1){
                                 final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
-                                Log.d("Login", "Login Status is:"+satus+":"+TempData.AName);
+                                Log.d("Login", "Login Status is:"+satus+":"+ UserInfoSotrage.AName);
 
                                 if(satus.equals("1")){
                                     getActivity().runOnUiThread(new Runnable() {
@@ -138,9 +138,9 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                                             if (result.trim().equals("success")){
                                                                 ShowInfoUtil.showInfo(getContext(),"登陆成功");
                                                                 //存储登陆用户昵称信息
-                                                                TempData.AName=account;
-                                                                TempData.pwd=pwd;
-                                                                final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name="+TempData.AName;
+                                                                UserInfoSotrage.AName=account;
+                                                                UserInfoSotrage.pwd=pwd;
+                                                                final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name="+ UserInfoSotrage.AName;
                                                                 new Thread(){
                                                                     @Override
                                                                     public void run() {
@@ -152,8 +152,8 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                                                             int code1 = conn.getResponseCode();
                                                                             if(200==code1){
                                                                                 final String nickname = StreamUtil.readStream(conn.getInputStream()).trim();
-                                                                                TempData.NickName =nickname;
-                                                                                Log.d("Login", "run: "+TempData.NickName+":"+TempData.AName+":"+TempData.pwd);
+                                                                                UserInfoSotrage.NickName =nickname;
+                                                                                Log.d("Login", "run: "+ UserInfoSotrage.NickName+":"+ UserInfoSotrage.AName+":"+ UserInfoSotrage.pwd);
                                                                             }else{
                                                                                 getActivity().runOnUiThread(new Runnable() {
                                                                                     @Override

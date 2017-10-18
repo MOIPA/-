@@ -8,10 +8,11 @@ import android.util.Log;
 import android.widget.TabHost;
 
 import com.example.tr.instantcool2.Fragment.ChatFragment;
-import com.example.tr.instantcool2.Fragment.ConnectorFragment;
-import com.example.tr.instantcool2.Fragment.FindFragment;
+import com.example.tr.instantcool2.Fragment.FunctionFragment;
+import com.example.tr.instantcool2.Fragment.FriendsFragment;
 import com.example.tr.instantcool2.Fragment.MeFragment;
-import com.example.tr.instantcool2.LocalDB.TempData;
+import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
+import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
@@ -22,10 +23,10 @@ import java.net.URL;
 
 //最后还是决定由HomeActivity实现OnTabChangeListener
 // 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
-public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener {
+public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener{
     private final static String TAG_CHAT = "chat";
-    private final static String TAG_FIND = "find";
-    private final static String TAG_CONECTER = "connecter";
+    private final static String TAG_Friends = "friends";
+    private final static String TAG_Functions = "functions";
     private final static String TAG_MY = "my";
     private FragmentTabHost tabHost;
     TabindicatorView chatIndicator;
@@ -41,17 +42,21 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         //初始化tabhost
         tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.activity_home_container);
-
         chatIndicator = new TabindicatorView(this);
         findIndicator = new TabindicatorView(this);
         connecotrIndicator = new TabindicatorView(this);
         meIndicator = new TabindicatorView(this);
 
         init("消息", TAG_CHAT, chatIndicator,new ChatFragment());
-        init("发现", TAG_FIND, findIndicator,new FindFragment());
-        init("通讯录", TAG_CONECTER, connecotrIndicator,new ConnectorFragment());
+        init("好友", TAG_Friends, findIndicator,new FriendsFragment());
+        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
         init("我", TAG_MY, meIndicator,new MeFragment());
+
+        //初始化topbar
+
     }
+
+
 
     private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment) {
         //新建tabspec
@@ -85,10 +90,10 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             case TAG_CHAT:
                 chatIndicator.setTabSelected(true);
                 break;
-            case TAG_CONECTER:
+            case TAG_Functions:
                 connecotrIndicator.setTabSelected(true);
                 break;
-            case TAG_FIND:
+            case TAG_Friends:
                 findIndicator.setTabSelected(true);
                 break;
             case TAG_MY:
@@ -100,12 +105,12 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //改变用户登陆状态
+        //改变用户登陆状态为未登陆
         new Thread(){
             @Override
             public void run() {
                 try {
-                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+ TempData.AName+"&status="+0;
+                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+ UserInfoSotrage.AName+"&status="+0;
                     URL url = new URL(statusPath);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
@@ -127,6 +132,12 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                 }
             }
         }.start();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
 

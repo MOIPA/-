@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.example.tr.instantcool2.Activity.HomeActivity;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
-import com.example.tr.instantcool2.LocalDB.TempData;
+import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
@@ -51,12 +51,12 @@ public class FillInfoMationFragment extends Fragment implements TopBarIndicatorV
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TempData.NickName = et_name.getText().toString().trim();
+                UserInfoSotrage.NickName = et_name.getText().toString().trim();
                 //上传昵称
                 new Thread(){
                     @Override
                     public void run() {
-                        String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserName.php?name="+TempData.AName+"&nickname="+TempData.NickName;
+                        String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserName.php?name="+ UserInfoSotrage.AName+"&nickname="+ UserInfoSotrage.NickName;
                         Log.d("FillInfo", "run: "+path);
                         URL url = null;
                         try {

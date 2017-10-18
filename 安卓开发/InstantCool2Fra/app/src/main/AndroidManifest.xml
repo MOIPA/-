@@ -23,11 +23,8 @@
             android:name=".Activity.HomeActivity"
             android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar" />
+        <service android:name=".service.DetectMessage"/>
 
-        <service
-            android:name=".service.StoreDataService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
