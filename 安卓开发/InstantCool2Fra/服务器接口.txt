@@ -129,7 +129,7 @@
 		</message>
 	</contents>
 
-查询信息并且修改信息为已读
+查询信息并且修改duifang信息为已读
 
 	http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageASU.php?owner=唐锐
 	成功返回：
