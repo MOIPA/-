@@ -158,6 +158,8 @@
 	http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=tr
 
 	成功返回消息数量
+	0:未读
+	1:已读
 
 查询未读某人消息数量：
 
