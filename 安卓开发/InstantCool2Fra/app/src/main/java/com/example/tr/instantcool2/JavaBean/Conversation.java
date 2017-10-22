@@ -6,6 +6,16 @@ package com.example.tr.instantcool2.JavaBean;
 
 public class Conversation {
 
+    private int unreadCount=0;
+
+    public int getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(int unreadCount) {
+        this.unreadCount = unreadCount;
+    }
+
     private String targetaccount;
 
     private String targetname;

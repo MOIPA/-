@@ -29,8 +29,6 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
     private EditText etPwd;
     private Button btnSignUp;
     private TopBarIndicatorView topbar;
-    private InterfaceStoreData interfaceStoreData;
-    private MyConn conn;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -157,17 +155,4 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
         StartActivity.handeToast.sendMessage(msg);
     }
 
-    //创建连接管理类
-    private class MyConn implements ServiceConnection {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            interfaceStoreData = (InterfaceStoreData) service;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    }
 }

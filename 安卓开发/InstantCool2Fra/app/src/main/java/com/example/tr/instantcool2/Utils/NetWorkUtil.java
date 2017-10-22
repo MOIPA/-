@@ -24,8 +24,8 @@ public class NetWorkUtil {
             connection.setRequestMethod("GET");
             code = connection.getResponseCode();
             InputStream in = connection.getInputStream();
-            String stream = StreamUtil.readStream(in).trim();
-            data.putString("stream",stream);
+            String result = StreamUtil.readStream(in).trim();
+            data.putString("result",result);
             data.putInt("code",code);
             return data;
         } catch (Exception e) {

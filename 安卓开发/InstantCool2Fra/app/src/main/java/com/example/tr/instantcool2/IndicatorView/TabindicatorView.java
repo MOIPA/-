@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.example.tr.instantcool2.R;
 
-import java.text.AttributedCharacterIterator;
-
 /**
  * Created by TR on 2017/10/9.
  */
@@ -31,7 +29,7 @@ public class TabindicatorView extends RelativeLayout {
     public TabindicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         //将布局文件和代码绑定
-        View.inflate(context, R.layout.tab_indicator,this);
+        View.inflate(context, R.layout.indicator_tab,this);
         ivTabCon = (ImageView) findViewById(R.id.tab_indicator_icon);
         tvTabHint = (TextView) findViewById(R.id.tab_indicator_hint);
         tvTabUnread = (TextView) findViewById(R.id.tab_indicator_unread);
@@ -56,10 +54,12 @@ public class TabindicatorView extends RelativeLayout {
     //设置未读数
     public void setTabUnreadCount(int unreadCount){
         if(unreadCount<=0){
-            tvTabUnread.setVisibility(View.GONE);
+            tvTabUnread.setVisibility(View.INVISIBLE);
         }else if(unreadCount<=99){
+            tvTabUnread.setVisibility(View.VISIBLE);
             tvTabUnread.setText(unreadCount+"");
         }else{
+            tvTabUnread.setVisibility(View.VISIBLE);
             tvTabUnread.setText("99+");
         }
     }

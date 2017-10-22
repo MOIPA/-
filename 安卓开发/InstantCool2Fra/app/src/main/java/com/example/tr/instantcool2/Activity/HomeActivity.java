@@ -1,5 +1,7 @@
 package com.example.tr.instantcool2.Activity;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -12,14 +14,19 @@ import com.example.tr.instantcool2.Fragment.FunctionFragment;
 import com.example.tr.instantcool2.Fragment.FriendsFragment;
 import com.example.tr.instantcool2.Fragment.MeFragment;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
+import com.example.tr.instantcool2.JavaBean.MyAccount;
+import com.example.tr.instantcool2.LocalDB.StorageOfUserInfo;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
+import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //最后还是决定由HomeActivity实现OnTabChangeListener
 // 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
@@ -29,15 +36,34 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     private final static String TAG_Functions = "functions";
     private final static String TAG_MY = "my";
     private FragmentTabHost tabHost;
+    private TimerTask task;
     TabindicatorView chatIndicator;
     TabindicatorView findIndicator;
     TabindicatorView connecotrIndicator;
     TabindicatorView meIndicator;
+    private final int REFRESH_CHAT_INDICATOR = 1;
+    private final int CLEAR_CHAT_INDICATOR= 2;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==REFRESH_CHAT_INDICATOR&&!chatIndicator.isSelected()){
+                Bundle data = msg.getData();
+                int number = data.getInt("number");
+                chatIndicator.setTabUnreadCount(number);
+            }
+            if(chatIndicator.isSelected()){
+                chatIndicator.setTabUnreadCount(0);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         //初始化tabhost
         tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
@@ -54,14 +80,44 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
         //初始化topbar
 
+        //开启自动检测消息线程
+        detectUnreadMessageCount();
     }
 
 
+    private void detectUnreadMessageCount(){
+        //每隔一秒检测是否有新消息 查询消息未读总数量设置chatIndicator未读数
+        new Thread(){
+            @Override
+            public void run() {
+                Timer timer = new Timer();
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Bundle bundle = NetWorkUtil.getInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.AName);
+                        String result = bundle.getString("result");
+                        Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.AName);
+//                        chatIndicator.setTabUnreadCount(1);
+                        //通知主线程刷新tab
+                        Bundle bud = new Bundle();
+                        bud.putInt("number",Integer.parseInt(result));
+                        Message msg = new Message();
+                        msg.what=REFRESH_CHAT_INDICATOR;
+                        msg.setData(bud);
+                        handler.sendMessage(msg);
+                    }
+                };
+                timer.schedule(task,500,500);
+                Log.d("detect", "run: detect thread!");
+            }
+        }.start();
+    }
 
     private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment) {
         //新建tabspec
         TabHost.TabSpec spec = tabHost.newTabSpec(TAG);
 //        TabindicatorView indicator = new TabindicatorView(this);
+        indicator.setTabUnreadCount(0);
         indicator.setTableTitle(title);
         indicator.setTableIcon(R.mipmap.ic_launcher, R.mipmap.ic_launcher_round);
         spec.setIndicator(indicator);
@@ -105,6 +161,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        task.cancel();
         //改变用户登陆状态为未登陆
         new Thread(){
             @Override
@@ -133,6 +190,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             }
         }.start();
     }
+
 
 
     @Override

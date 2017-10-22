@@ -22,8 +22,6 @@ public class StartActivity extends AppCompatActivity {
 
     private FirstSinghtFragment firstFragment ;
     private static Context context;
-    private InterfaceStoreData interfaceStoreData;
-    private MyConn serviceConn;
     private Intent service;
 
     //负责处理界面toast的handler
@@ -68,27 +66,7 @@ public class StartActivity extends AppCompatActivity {
         context = getApplicationContext();
     }
 
-    private void StartDataStoreService(){
-        Intent service =new Intent(this, StoreDataService.class);
-        startService(service);
-        Log.d("Service","service running!");
-//        serviceConn = new MyConn();
-//        bindService(service,serviceConn,BIND_AUTO_CREATE);
-    }
 
-    //创建连接管理类
-    private class MyConn implements ServiceConnection{
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            interfaceStoreData = (InterfaceStoreData) service;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    }
 
     @Override
     protected void onDestroy() {

@@ -1,6 +1,7 @@
 package com.example.tr.instantcool2.Fragment;
 
 import android.app.Instrumentation;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,10 +12,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.tr.instantcool2.Activity.ChatActivity;
+import com.example.tr.instantcool2.IndicatorView.ListItemIndicatorView;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.JavaBean.Conversation;
 import com.example.tr.instantcool2.JavaBean.MyAccount;
@@ -36,11 +40,13 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            if(msg.what==1)lv_conversation.setAdapter(new MyAdapter());
         }
     };
     private ListView lv_conversation;
     private List<Conversation> list;
     private TopBarIndicatorView topbarview;
+    private ListItemIndicatorView listItemIndicatorView;
 
     @Nullable
     @Override
@@ -52,6 +58,28 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         initConversationList();
         initTopbar();
         //开启后台服务检测用户消息，若有消息则计算未读消息数并且传递到homeActivity 调用indicator的unread
+
+
+        //listview item点击事件
+        lv_conversation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                listItemIndicatorView.setIv_unreadCount(29);
+                //点击后修改Conversation list数据源里的unreadCount然后重新绑定后启动ChatActivity
+
+                int firstPosition = lv_conversation.getFirstVisiblePosition();
+//                if(position-firstPosition>0){
+                    View itemView = lv_conversation.getChildAt(position);
+                    ListItemIndicatorView view1 = (ListItemIndicatorView) itemView.findViewById(R.id.indicator_list_view_user);
+                    view1.setIv_unreadCount(0);
+//                }
+
+
+//                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                startActivity(intent);
+            }
+
+        });
 
         return view;
     }
@@ -81,8 +109,11 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 
                         Log.d("chat", "run: "+list.size());
 
-                        //解析完毕添加适配器
-                        lv_conversation.setAdapter(new MyAdapter());
+                        //解析完毕添加适配器 在某些手机会直接因为不能在线程中修改失败 使用handler
+//                        lv_conversation.setAdapter(new MyAdapter());
+                        Message msg = new Message();
+                        msg.what=1;
+                        handler.sendMessage(msg);
                     }else{
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -133,15 +164,20 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 
             final View view;
             if(convertView==null){
-                view = View.inflate(getContext(),R.layout.item_lv_chat_fragment,null);
+                view = View.inflate(getContext(),R.layout.item_listview_chat_fragment,null);
             }else{
                 view = convertView;
             }
-            TextView tv_account = (TextView) view.findViewById(R.id.tv_item_targetaccount);
-            TextView tv_name = (TextView) view.findViewById(R.id.tv_item_targetaname);
+            listItemIndicatorView = (ListItemIndicatorView) view.findViewById(R.id.indicator_list_view_user);
+//            TextView tv_account = (TextView) view.findViewById(R.id.tv);
+//            TextView tv_name = (TextView) view.findViewById(R.id.item_listview_chat_fragment);
+//            Conversation conversation = list.get(position);
+//            tv_account.setText("好友账户："+conversation.getTargetaccount());
+//            tv_name.setText("好友姓名："+conversation.getTargetname());
             Conversation conversation = list.get(position);
-            tv_account.setText("好友账户："+conversation.getTargetaccount());
-            tv_name.setText("好友姓名："+conversation.getTargetname());
+            listItemIndicatorView.setTv_account(conversation.getTargetaccount());
+            listItemIndicatorView.setTv_name(conversation.getTargetname());
+            listItemIndicatorView.setIv_unreadCount(99);
 
             return view;
         }

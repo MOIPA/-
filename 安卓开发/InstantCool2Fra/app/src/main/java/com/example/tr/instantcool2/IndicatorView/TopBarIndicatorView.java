@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ public class TopBarIndicatorView extends RelativeLayout {
         super(context, attrs);
 
         //绑定布局文件
-        View view = View.inflate(context, R.layout.top_bar_indicator, this);
+        View view = View.inflate(context, R.layout.indicator_top_bar, this);
         ib_back = (ImageButton) view.findViewById(R.id.ib_top_bar_back);
         tv_title = (TextView) findViewById(R.id.tv_top_bar_title);
 
