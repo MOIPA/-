@@ -1,10 +1,7 @@
 package com.example.tr.instantcool2.Fragment;
 
 import android.app.Instrumentation;
-import android.content.ComponentName;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -75,7 +72,7 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
 //                                connection.setRequestMethod("GET");
 //                                int code = connection.getResponseCode();
                                 int code = 0;
-                                Bundle data = NetWorkUtil.getInfoFromServer(path);
+                                Bundle data = NetWorkUtil.getSingleInfoFromServer(path);
                                 String stream = data.getString("stream");
                                 code = data.getInt("code");
                                 if(code==200){

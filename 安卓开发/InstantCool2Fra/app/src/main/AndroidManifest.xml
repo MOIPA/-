@@ -25,7 +25,9 @@
 
         <service android:name=".service.DetectMessage" />
 
-        <activity android:name=".Activity.ChatActivity"></activity>
+        <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.FriendInfoActivity" />
+        <activity android:name=".Activity.AddFriendActivity"></activity>
     </application>
 
 </manifest>

@@ -13,14 +13,14 @@ import com.example.tr.instantcool2.R;
  * Created by TR on 2017/10/22.
  */
 
-public class ListItemIndicatorView extends RelativeLayout {
+public class List_Item_ChatFragment_IndicatorView extends RelativeLayout {
 
     private ImageView iv_userImage;
     private TextView iv_unreadCount;
     private TextView tv_name;
     private TextView tv_account;
 
-    public ListItemIndicatorView(Context context, AttributeSet attrs) {
+    public List_Item_ChatFragment_IndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = View.inflate(context, R.layout.indicator_item_chat_fragment,this);
         iv_unreadCount = (TextView) view.findViewById(R.id.iv_unread_count);
@@ -51,5 +51,8 @@ public class ListItemIndicatorView extends RelativeLayout {
         tv_account.setText(account);
     }
 
+    public String getAccount(){
+        return tv_account.getText().toString().trim();
+    }
 
 }

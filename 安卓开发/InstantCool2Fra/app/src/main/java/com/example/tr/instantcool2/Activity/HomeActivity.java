@@ -13,9 +13,6 @@ import com.example.tr.instantcool2.Fragment.ChatFragment;
 import com.example.tr.instantcool2.Fragment.FunctionFragment;
 import com.example.tr.instantcool2.Fragment.FriendsFragment;
 import com.example.tr.instantcool2.Fragment.MeFragment;
-import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
-import com.example.tr.instantcool2.JavaBean.MyAccount;
-import com.example.tr.instantcool2.LocalDB.StorageOfUserInfo;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
@@ -37,6 +34,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     private final static String TAG_MY = "my";
     private FragmentTabHost tabHost;
     private TimerTask task;
+    private Timer timer;
     TabindicatorView chatIndicator;
     TabindicatorView findIndicator;
     TabindicatorView connecotrIndicator;
@@ -53,6 +51,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                 int number = data.getInt("number");
                 chatIndicator.setTabUnreadCount(number);
             }
+
             if(chatIndicator.isSelected()){
                 chatIndicator.setTabUnreadCount(0);
             }
@@ -90,27 +89,33 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         new Thread(){
             @Override
             public void run() {
-                Timer timer = new Timer();
-                task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Bundle bundle = NetWorkUtil.getInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.AName);
-                        String result = bundle.getString("result");
-                        Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.AName);
-//                        chatIndicator.setTabUnreadCount(1);
-                        //通知主线程刷新tab
-                        Bundle bud = new Bundle();
-                        bud.putInt("number",Integer.parseInt(result));
-                        Message msg = new Message();
-                        msg.what=REFRESH_CHAT_INDICATOR;
-                        msg.setData(bud);
-                        handler.sendMessage(msg);
-                    }
-                };
+                timer = new Timer();
+                //初始化task
+                initTask();
                 timer.schedule(task,500,500);
                 Log.d("detect", "run: detect thread!");
             }
         }.start();
+    }
+
+    //初始化task方法 用于得知未读消息通知主线程刷新
+    private void initTask(){
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                Bundle bundle = NetWorkUtil.getSingleInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.AName);
+                String result = bundle.getString("result");
+                Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.AName);
+//                        chatIndicator.setTabUnreadCount(1);
+                //通知主线程刷新tab
+                Bundle bud = new Bundle();
+                bud.putInt("number",Integer.parseInt(result));
+                Message msg = new Message();
+                msg.what=REFRESH_CHAT_INDICATOR;
+                msg.setData(bud);
+                handler.sendMessage(msg);
+            }
+        };
     }
 
     private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment) {
@@ -161,7 +166,46 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        if(task!=null)
+            //结束时取消线程
         task.cancel();
+        ChangeUserLoginStatus();
+    }
+
+    /**
+     * 在honmeactivity  pause时或者stop时结束task节省资源
+     * 恢复时重新初始化task
+     */
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        if(task==null){
+//            detectUnreadMessageCount();
+//        }
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if(task!=null)task.cancel();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if(task!=null)task.cancel();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(task==null){
+//            detectUnreadMessageCount();
+//        }
+//    }
+
+    private void ChangeUserLoginStatus(){
         //改变用户登陆状态为未登陆
         new Thread(){
             @Override

@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class NetWorkUtil {
 
-    public static Bundle getInfoFromServer(String path){
+    public static Bundle getSingleInfoFromServer(String path){
         Bundle data = new Bundle();
         int code = -1;
         URL url = null;
@@ -32,6 +32,25 @@ public class NetWorkUtil {
             e.printStackTrace();
         }
         return null;
+    }
+    public static String DetechUnreadCount(String path){
+        Bundle data = new Bundle();
+        int code = -1;
+        URL url = null;
+        try {
+            url = new URL(path);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setRequestMethod("GET");
+            code = connection.getResponseCode();
+            InputStream in = connection.getInputStream();
+            String result = StreamUtil.readStream(in).trim();
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0+"";
     }
 
 }

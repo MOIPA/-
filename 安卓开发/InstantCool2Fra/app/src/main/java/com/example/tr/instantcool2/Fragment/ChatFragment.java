@@ -1,7 +1,6 @@
 package com.example.tr.instantcool2.Fragment;
 
 import android.app.Instrumentation;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,38 +14,74 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.tr.instantcool2.Activity.ChatActivity;
-import com.example.tr.instantcool2.IndicatorView.ListItemIndicatorView;
+import com.example.tr.instantcool2.IndicatorView.List_Item_ChatFragment_IndicatorView;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.JavaBean.Conversation;
-import com.example.tr.instantcool2.JavaBean.MyAccount;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
+import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBarClickedListener{
 
+    private final static int UPDATE_ADAPTER=1;
+    private final static int UPDATE_UNREAD_COUNT=2;
+    private final static int UPDATA_INVITATION = 3;
+    private MyAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new MyAdapter();
+    }
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==1)lv_conversation.setAdapter(new MyAdapter());
+            if(msg.what==UPDATE_ADAPTER)lv_conversation.setAdapter(adapter);
+
+            if(msg.what==UPDATE_UNREAD_COUNT){
+                //更新listview相对的item未读数量
+                Bundle data = msg.getData();
+                int position = data.getInt("position");
+                String unreadcount = data.getString("unreadcount");
+                View child = lv_conversation.getChildAt(position);
+                List_Item_ChatFragment_IndicatorView indicatorV = (List_Item_ChatFragment_IndicatorView) child.findViewById(R.id.indicator_list_view_user);
+                indicatorV.setIv_unreadCount(Integer.parseInt(unreadcount));
+            }
+
+            if(msg.what==UPDATA_INVITATION){
+                //在listview里添加一条好友邀请
+                Bundle data = msg.getData();
+                String inviter = data.getString("inviter");
+
+                Conversation conversation = new Conversation();
+                conversation.setUnreadCount(0);
+                conversation.setTargetaccount("有新的好友请求！");
+                conversation.setTargetname(inviter);
+                list.add(conversation);
+
+                adapter.notifyDataSetChanged();
+            }
         }
     };
     private ListView lv_conversation;
     private List<Conversation> list;
     private TopBarIndicatorView topbarview;
-    private ListItemIndicatorView listItemIndicatorView;
+    private List_Item_ChatFragment_IndicatorView listItemChatFragmentIndicatorView;
+    private TimerTask taskUnread;
+    private Timer timer;
+    private boolean flag=true;
 
     @Nullable
     @Override
@@ -57,10 +92,13 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 
         initConversationList();
         initTopbar();
-        //开启后台服务检测用户消息，若有消息则计算未读消息数并且传递到homeActivity 调用indicator的unread
+        //开启检测消息未读数量线程
+        initUnreadDetech();
+        //开启检测是否有好友请求线程
+        initInvitationDetech();
 
 
-        //listview item点击事件
+        //listview item点击事件 点击后进入聊天界面并且设置未读数量为0
         lv_conversation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -70,10 +108,10 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                 int firstPosition = lv_conversation.getFirstVisiblePosition();
 //                if(position-firstPosition>0){
                     View itemView = lv_conversation.getChildAt(position);
-                    ListItemIndicatorView view1 = (ListItemIndicatorView) itemView.findViewById(R.id.indicator_list_view_user);
+                    List_Item_ChatFragment_IndicatorView view1 = (List_Item_ChatFragment_IndicatorView) itemView.findViewById(R.id.indicator_list_view_user);
                     view1.setIv_unreadCount(0);
 //                }
-
+                //TODO 进入交流界面
 
 //                Intent intent = new Intent(getActivity(), ChatActivity.class);
 //                startActivity(intent);
@@ -82,6 +120,50 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         });
 
         return view;
+    }
+
+    //检测是否有人发送好友邀请 有则交给主线程处理
+    //TODO 存在bug  需要修改
+    private void initInvitationDetech() {
+        Timer timerInvi = new Timer();
+        TimerTask taskInvi = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    String path="http://39.108.159.175/phpworkplace/androidLogin/GetInvitation.php?receiver="+UserInfoSotrage.AName;
+                    URL url = new URL(path);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setConnectTimeout(5000);
+                    connection.setRequestMethod("GET");
+                    int code = connection.getResponseCode();
+                    InputStream in= connection.getInputStream();
+                    if(200==code){
+                        String inviter = StreamUtil.readStream(in);
+                        if(inviter.equals("")){
+                            //没人邀请
+                        }else{
+                            //有人邀请
+                            Message msg  = new Message();
+                            msg.what=3;
+                            Bundle data = new Bundle();
+                            data.putString("inviter",inviter);
+                            msg.setData(data);
+                            handler.sendMessage(msg);
+                        }
+                    }else{}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        timerInvi.schedule(taskInvi,0,1000);
+
+    }
+
+    //                遍历查看未读数量
+    private void initUnreadDetech() {
+                initTimerDetechUnreadCount();
+//                timer.schedule(taskUnread,0,1000);
     }
 
     //初始化topbar
@@ -130,6 +212,77 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         }.start();
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //不是第一次启动的话就notify
+        if(flag==false){
+//           timer.notify();
+//            timer.cancel();
+            //重启timer
+            initTimerDetechUnreadCount();
+        }
+
+        flag=false;
+        Log.d("CHATFRAGMENT", "onResume: ");
+    }
+
+    //
+    private void initTimerDetechUnreadCount(){
+        if(taskUnread!=null)taskUnread.cancel();
+        if(timer!=null)timer.cancel();
+
+        timer=new Timer();
+        taskUnread = new TimerTask() {
+            @Override
+            public void run() {
+                View v;
+                List_Item_ChatFragment_IndicatorView indicatorV;
+                Log.d("initUnreadDetech", "run: "+lv_conversation.getChildCount());
+                for(int i=0;i<lv_conversation.getChildCount();i++) {
+                    v = lv_conversation.getChildAt(i);
+                    indicatorV = (List_Item_ChatFragment_IndicatorView) v.findViewById(R.id.indicator_list_view_user);
+                    String account = indicatorV.getAccount();
+                    if (!account.equals("有新的好友请求！")) {
+                        String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCountSingle.php?owner=" + UserInfoSotrage.AName + "&receiver=" + account;
+                        String unreadCount = NetWorkUtil.DetechUnreadCount(path);
+
+                        //通知主线程修改
+                        Message msg = new Message();
+                        Bundle data = new Bundle();
+                        data.putInt("position", i);
+                        data.putString("unreadcount", unreadCount);
+                        msg.what = 2;
+                        msg.setData(data);
+                        handler.sendMessage(msg);
+//                            indicatorV.setIv_unreadCount(Integer.parseInt(unreadCount));
+                    }
+                }
+            }
+        };
+        timer.schedule(taskUnread,0,1000);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        taskUnread.cancel();
+        timer.cancel();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        try {
+            taskUnread.cancel();
+            timer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("chatfragment", "onDestroyView: ");
+    }
+
     @Override
     public void OnBackClicked() {
         new Thread(){
@@ -168,16 +321,16 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
             }else{
                 view = convertView;
             }
-            listItemIndicatorView = (ListItemIndicatorView) view.findViewById(R.id.indicator_list_view_user);
+            listItemChatFragmentIndicatorView = (List_Item_ChatFragment_IndicatorView) view.findViewById(R.id.indicator_list_view_user);
 //            TextView tv_account = (TextView) view.findViewById(R.id.tv);
 //            TextView tv_name = (TextView) view.findViewById(R.id.item_listview_chat_fragment);
 //            Conversation conversation = list.get(position);
 //            tv_account.setText("好友账户："+conversation.getTargetaccount());
 //            tv_name.setText("好友姓名："+conversation.getTargetname());
             Conversation conversation = list.get(position);
-            listItemIndicatorView.setTv_account(conversation.getTargetaccount());
-            listItemIndicatorView.setTv_name(conversation.getTargetname());
-            listItemIndicatorView.setIv_unreadCount(99);
+            listItemChatFragmentIndicatorView.setTv_account(conversation.getTargetaccount());
+            listItemChatFragmentIndicatorView.setTv_name(conversation.getTargetname());
+//            listItemChatFragmentIndicatorView.setIv_unreadCount(99);
 
             return view;
         }

@@ -3,6 +3,7 @@ package com.example.tr.instantcool2.Utils;
 import android.util.Xml;
 
 import com.example.tr.instantcool2.JavaBean.Conversation;
+import com.example.tr.instantcool2.JavaBean.Friend;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -79,5 +80,36 @@ public class StreamUtil {
 
         return list;
     }
+    public static List<Friend> XmlParserFriend(InputStream in)throws Exception{
 
+        List<Friend> list = null;
+        Friend friend=null;
+
+        XmlPullParser parser = Xml.newPullParser();
+        parser.setInput(in,"utf-8");
+        int eventType = parser.getEventType();
+        while(eventType!=XmlPullParser.END_DOCUMENT){
+
+            switch (eventType){
+                case XmlPullParser.START_TAG :
+                    if(parser.getName().equals("contents"))list = new ArrayList<Friend>();
+                    else if(parser.getName().equals("Friends"))friend = new Friend();
+                    else if(parser.getName().equals("friendaccount")){
+                        friend.setFriendAccount(parser.nextText());
+                    }else if(parser.getName().equals("friendname")){
+                        friend.setFriendName(parser.nextText());
+                    }
+                    break;
+                case XmlPullParser.END_TAG:
+                    if(parser.getName().equals("Friends")){
+                        list.add(friend);
+                    }
+                    break;
+            }
+
+            eventType = parser.next();
+        }
+
+        return list;
+    }
 }
