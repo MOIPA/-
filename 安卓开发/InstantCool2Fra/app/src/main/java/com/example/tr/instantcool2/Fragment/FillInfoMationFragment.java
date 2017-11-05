@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.example.tr.instantcool2.Utils.StreamUtil;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Created by TR on 2017/10/11.
@@ -51,15 +51,14 @@ public class FillInfoMationFragment extends Fragment implements TopBarIndicatorV
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoSotrage.NickName = et_name.getText().toString().trim();
+                UserInfoSotrage.Name = et_name.getText().toString().trim();
                 //上传昵称
                 new Thread(){
                     @Override
                     public void run() {
-                        String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserName.php?name="+ UserInfoSotrage.AName+"&nickname="+ UserInfoSotrage.NickName;
-                        Log.d("FillInfo", "run: "+path);
                         URL url = null;
                         try {
+                            String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserName.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&nickname="+URLEncoder.encode( UserInfoSotrage.Name,"utf-8");
                             url = new URL(path);
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                             connection.setRequestMethod("GET");

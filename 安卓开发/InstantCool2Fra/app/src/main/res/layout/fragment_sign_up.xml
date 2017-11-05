@@ -37,6 +37,7 @@
                 android:singleLine="true" />
 
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/et_sign_up_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

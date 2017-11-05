@@ -24,6 +24,7 @@ import com.example.tr.instantcool2.Utils.StreamUtil;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 public class SignInFragment extends Fragment implements TopBarIndicatorView.TopBarClickedListener {
@@ -91,7 +92,7 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                     @Override
                     public void run() {
                         try {
-                            String checkPath = "http://39.108.159.175/phpworkplace/androidLogin/CheckLoginStatus.php?name="+account;
+                            String checkPath = "http://39.108.159.175/phpworkplace/androidLogin/CheckLoginStatus.php?name="+ URLEncoder.encode(account,"utf-8");
                             Log.d("Login", "Check path is:"+checkPath);
                             URL url = new URL(checkPath);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -100,7 +101,7 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                             int code1 = conn.getResponseCode();
                             if(200==code1){
                                 final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
-                                Log.d("Login", "Login Status is:"+satus+":"+ UserInfoSotrage.AName);
+                                Log.d("Login", "Login Status is:"+satus+":"+ UserInfoSotrage.Account);
 
                                 if(satus.equals("1")){
                                     getActivity().runOnUiThread(new Runnable() {
@@ -120,9 +121,9 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                         @Override
                                         public void run() {
                                             //登陆业务
-                                            final String path  = "http://39.108.159.175/phpworkplace/androidLogin/Login.php?name="+account+"&password="+pwd;
-                                            Log.d("Login", "run: "+path);
+
                                             try {
+                                                final String path  = "http://39.108.159.175/phpworkplace/androidLogin/Login.php?name="+URLEncoder.encode(account,"utf-8")+"&password="+URLEncoder.encode(pwd,"utf-8");
                                                 URL url = new URL(path);
                                                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                                                 connection.setConnectTimeout(5000);
@@ -138,13 +139,14 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                                             if (result.trim().equals("success")){
                                                                 ShowInfoUtil.showInfo(getContext(),"登陆成功");
                                                                 //存储登陆用户昵称信息
-                                                                UserInfoSotrage.AName=account;
+                                                                UserInfoSotrage.Account =account;
                                                                 UserInfoSotrage.pwd=pwd;
-                                                                final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name="+ UserInfoSotrage.AName;
+
                                                                 new Thread(){
                                                                     @Override
                                                                     public void run() {
                                                                         try {
+                                                                            final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
                                                                             URL url = new URL(infoPath);
                                                                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                                                                             conn.setRequestMethod("GET");
@@ -152,8 +154,8 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                                                             int code1 = conn.getResponseCode();
                                                                             if(200==code1){
                                                                                 final String nickname = StreamUtil.readStream(conn.getInputStream()).trim();
-                                                                                UserInfoSotrage.NickName =nickname;
-                                                                                Log.d("Login", "run: "+ UserInfoSotrage.NickName+":"+ UserInfoSotrage.AName+":"+ UserInfoSotrage.pwd);
+                                                                                UserInfoSotrage.Name =nickname;
+                                                                                Log.d("Login", "run: "+ UserInfoSotrage.Name +":"+ UserInfoSotrage.Account +":"+ UserInfoSotrage.pwd);
                                                                             }else{
                                                                                 getActivity().runOnUiThread(new Runnable() {
                                                                                     @Override
@@ -172,7 +174,7 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
                                                                     @Override
                                                                     public void run() {
                                                                         try {
-                                                                            String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+account+"&status="+1;
+                                                                            String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+URLEncoder.encode(account,"utf-8")+"&status="+1;
                                                                             URL url = new URL(statusPath);
                                                                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                                                                             conn.setRequestMethod("GET");

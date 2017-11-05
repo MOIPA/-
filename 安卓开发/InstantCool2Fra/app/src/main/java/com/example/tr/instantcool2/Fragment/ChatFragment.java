@@ -1,6 +1,7 @@
 package com.example.tr.instantcool2.Fragment;
 
 import android.app.Instrumentation;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.example.tr.instantcool2.Activity.ChatActivity;
+import com.example.tr.instantcool2.Activity.ConfirmInvitationActivity;
 import com.example.tr.instantcool2.IndicatorView.List_Item_ChatFragment_IndicatorView;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.JavaBean.Conversation;
@@ -24,9 +27,12 @@ import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,12 +44,16 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     private final static int UPDATE_UNREAD_COUNT=2;
     private final static int UPDATA_INVITATION = 3;
     private MyAdapter adapter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        adapter = new MyAdapter();
-    }
+    private Boolean isFirstStart = true;
+    private ListView lv_conversation;
+    private List<Conversation> list;
+    private TopBarIndicatorView topbarview;
+    private List_Item_ChatFragment_IndicatorView listItemChatFragmentIndicatorView;
+    private TimerTask taskUnread;
+    private Timer timer;
+    private boolean flag=true;
+    private TimerTask taskInvi;
+    private Timer timerInvi;
 
     private Handler handler = new Handler(){
         @Override
@@ -63,25 +73,31 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
             if(msg.what==UPDATA_INVITATION){
                 //在listview里添加一条好友邀请
                 Bundle data = msg.getData();
-                String inviter = data.getString("inviter");
+                String[] inviter = data.getStringArray("inviter");
+                for(int i=0;i<inviter.length;i++){
+                    Conversation conversation = new Conversation();
+                    conversation.setUnreadCount(0);
+                    conversation.setTargetaccount("有新的好友请求！");
+                    conversation.setTargetname(inviter[i]);
+                    //并且全局静态变量中保存
+                    UserInfoSotrage.inviters.add(inviter[i]);
 
-                Conversation conversation = new Conversation();
-                conversation.setUnreadCount(0);
-                conversation.setTargetaccount("有新的好友请求！");
-                conversation.setTargetname(inviter);
-                list.add(conversation);
-
+                    list.add(conversation);
+                }
+                Log.d("data", "handleMessage: "+list.size());
                 adapter.notifyDataSetChanged();
             }
         }
     };
-    private ListView lv_conversation;
-    private List<Conversation> list;
-    private TopBarIndicatorView topbarview;
-    private List_Item_ChatFragment_IndicatorView listItemChatFragmentIndicatorView;
-    private TimerTask taskUnread;
-    private Timer timer;
-    private boolean flag=true;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //初始化数据
+        initConversationList();
+        adapter = new MyAdapter();
+    }
 
     @Nullable
     @Override
@@ -90,7 +106,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         topbarview = (TopBarIndicatorView) view.findViewById(R.id.topbar_container_chat_fragment);
         lv_conversation = (ListView) view.findViewById(R.id.lv_conversation_chat_fragment);
 
-        initConversationList();
+
         initTopbar();
         //开启检测消息未读数量线程
         initUnreadDetech();
@@ -113,6 +129,23 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 //                }
                 //TODO 进入交流界面
 
+                //如果acccount是新好友请求 进入请求页面
+                Conversation conversation = list.get(position);
+                String targetaccount = conversation.getTargetaccount();
+                String targetname = conversation.getTargetname();
+                if(targetaccount.equals("有新的好友请求！")){
+                    //进入请求界面
+                    Intent intent = new Intent(getActivity(), ConfirmInvitationActivity.class);
+                    intent.putExtra("targetaccount",targetname);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("friendaccount",targetaccount);
+                    intent.putExtra("friendname",targetname);
+                    startActivity(intent);
+                }
+
+
 //                Intent intent = new Intent(getActivity(), ChatActivity.class);
 //                startActivity(intent);
             }
@@ -122,31 +155,62 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         return view;
     }
 
+
     //检测是否有人发送好友邀请 有则交给主线程处理
     //TODO 存在bug  需要修改
     private void initInvitationDetech() {
-        Timer timerInvi = new Timer();
-        TimerTask taskInvi = new TimerTask() {
+        timerInvi = new Timer();
+        taskInvi = new TimerTask() {
             @Override
             public void run() {
                 try {
-                    String path="http://39.108.159.175/phpworkplace/androidLogin/GetInvitation.php?receiver="+UserInfoSotrage.AName;
+                    String path="http://39.108.159.175/phpworkplace/androidLogin/GetInvitation.php?receiver="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setConnectTimeout(5000);
                     connection.setRequestMethod("GET");
                     int code = connection.getResponseCode();
                     InputStream in= connection.getInputStream();
+
+//                    Log.d("ChatFragmentInvitation", "return info"+StreamUtil.readStream(in));
                     if(200==code){
-                        String inviter = StreamUtil.readStream(in);
-                        if(inviter.equals("")){
+                        //复制流信息 待会解析两次
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = in.read(buffer)) > -1 ) {
+                            baos.write(buffer, 0, len);
+                        }
+                        baos.flush();
+                        //第一次解析用来判断值是否为空
+                        InputStream streamJudge = new ByteArrayInputStream(baos.toByteArray());
+                        String returnInfo = StreamUtil.readStream(streamJudge);
+//                        Log.d("ChatFragmentInvitation", "return info"+returnInfo);
+//                        Log.d("ChatFragmentInvitation", "return info"+StreamUtil.readStream(in));
+
+                        if(returnInfo.equals("")){
+//                            Log.d("ChatFragmentInvitation", "No Inviter");
                             //没人邀请
                         }else{
                             //有人邀请
+                            //解析xml流
+                            Log.d("ChatFragmentInvitation", "解析中");
+                            InputStream streamInfo = new ByteArrayInputStream(baos.toByteArray());
+                            List<String> invitaitonList = StreamUtil.XmlParserInvitation(streamInfo);
+                            if(invitaitonList==null){
+                                Log.d("ChatFragmentInvitation", "解析失败 返回为空");
+                                return;
+                            }
+                            String[] invitationS = new String[invitaitonList.size()];
+                            Log.d("ChatFragmentInvitation", "解析中 大小："+invitationS.length+";");
+                            for(int i=0;i<invitaitonList.size();i++){
+                                invitationS[i] = invitaitonList.get(i);
+                                Log.d("ChatFragmentInvitation", "run: "+invitationS[i]);
+                            }
                             Message msg  = new Message();
                             msg.what=3;
                             Bundle data = new Bundle();
-                            data.putString("inviter",inviter);
+                            data.putStringArray("inviter",invitationS);
                             msg.setData(data);
                             handler.sendMessage(msg);
                         }
@@ -156,7 +220,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                 }
             }
         };
-        timerInvi.schedule(taskInvi,0,1000);
+        timerInvi.schedule(taskInvi,1000,1000);
 
     }
 
@@ -164,6 +228,16 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     private void initUnreadDetech() {
                 initTimerDetechUnreadCount();
 //                timer.schedule(taskUnread,0,1000);
+    }
+
+
+    //切换fragment导致丢失绑定 重新绑定
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!isFirstStart)
+        lv_conversation.setAdapter(adapter);
+        isFirstStart=false;
     }
 
     //初始化topbar
@@ -177,7 +251,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         new Thread(){
             @Override
             public void run() {
-                String path = "http://39.108.159.175/phpworkplace/androidLogin/GetConversation.php?owner="+ UserInfoSotrage.AName;
+                String path = "http://39.108.159.175/phpworkplace/androidLogin/GetConversation.php?owner="+ UserInfoSotrage.Account;
                 try {
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -216,16 +290,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     @Override
     public void onResume() {
         super.onResume();
-        //不是第一次启动的话就notify
-        if(flag==false){
-//           timer.notify();
-//            timer.cancel();
-            //重启timer
-            initTimerDetechUnreadCount();
-        }
 
-        flag=false;
-        Log.d("CHATFRAGMENT", "onResume: ");
     }
 
     //
@@ -245,7 +310,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                     indicatorV = (List_Item_ChatFragment_IndicatorView) v.findViewById(R.id.indicator_list_view_user);
                     String account = indicatorV.getAccount();
                     if (!account.equals("有新的好友请求！")) {
-                        String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCountSingle.php?owner=" + UserInfoSotrage.AName + "&receiver=" + account;
+                        String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCountSingle.php?owner=" + UserInfoSotrage.Account + "&receiver=" + account;
                         String unreadCount = NetWorkUtil.DetechUnreadCount(path);
 
                         //通知主线程修改
@@ -269,18 +334,14 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         super.onDestroy();
         taskUnread.cancel();
         timer.cancel();
+        taskInvi.cancel();
+        timerInvi.cancel();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        try {
-            taskUnread.cancel();
-            timer.cancel();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d("chatfragment", "onDestroyView: ");
+
     }
 
     @Override

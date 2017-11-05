@@ -14,6 +14,7 @@ import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class FriendInfoActivity extends Activity {
 
@@ -48,6 +49,12 @@ public class FriendInfoActivity extends Activity {
                 //进入交流页面 并且判断是否可以插入Conversation 可以就插入
                 //判断逻辑
                 InsertConversation();
+                Intent intent = new Intent(FriendInfoActivity.this,ChatActivity.class);
+                intent.putExtra("friendaccount",friendaccount);
+                intent.putExtra("friendname",friendname);
+
+
+                startActivity(intent);
 
 
             }
@@ -64,7 +71,7 @@ public class FriendInfoActivity extends Activity {
                     new Thread(){
                         @Override
                         public void run() {
-                            if(UserInfoSotrage.AName.equals(friendaccount)){
+                            if(UserInfoSotrage.Account.equals(friendaccount)){
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -73,8 +80,29 @@ public class FriendInfoActivity extends Activity {
                                 });
                             }
                             else  {
-                                String path = "http://39.108.159.175/phpworkplace/androidLogin/SendInvitation.php?inviter="+UserInfoSotrage.AName+"&targetaccount="+friendaccount+"&isagree=0";
 
+                                new Thread(){
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            final String path = "http://39.108.159.175/phpworkplace/androidLogin/SendInvitation.php?inviter="
+                                                + URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&targetaccount="
+                                                +URLEncoder.encode(friendaccount,"utf-8")+"&isagree=0";
+                                            URL url = new URL(path);
+                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                            conn.setRequestMethod("GET");
+                                            int code = conn.getResponseCode();
+                                            if(200==code){
+
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+                                }.start();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -99,7 +127,11 @@ public class FriendInfoActivity extends Activity {
                 try{
 
                     String path="http://39.108.159.175/phpworkplace/androidLogin/InsertConversation.php?" +
-                            "owner="+ UserInfoSotrage.AName+"&targetaccount="+friendaccount+"&targetname="+friendname;
+                            "owner="+
+                            URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&targetaccount="
+                            +URLEncoder.encode(friendaccount,"utf-8")+"&targetname="+URLEncoder.encode(friendname,"utf-8");
+
+//                    Log.d("FriendInfo", path);
                     URL url = new URL(path);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setConnectTimeout(5000);

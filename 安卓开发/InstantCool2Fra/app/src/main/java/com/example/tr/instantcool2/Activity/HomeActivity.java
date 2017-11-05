@@ -22,6 +22,7 @@ import com.example.tr.instantcool2.Utils.StreamUtil;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -103,9 +104,9 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         task = new TimerTask() {
             @Override
             public void run() {
-                Bundle bundle = NetWorkUtil.getSingleInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.AName);
+                Bundle bundle = NetWorkUtil.getSingleInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.Account);
                 String result = bundle.getString("result");
-                Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.AName);
+                Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.Account);
 //                        chatIndicator.setTabUnreadCount(1);
                 //通知主线程刷新tab
                 Bundle bud = new Bundle();
@@ -211,7 +212,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             @Override
             public void run() {
                 try {
-                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+ UserInfoSotrage.AName+"&status="+0;
+                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&status="+0;
                     URL url = new URL(statusPath);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");

@@ -1,6 +1,7 @@
 package com.example.tr.instantcool2.IndicatorView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class TabindicatorView extends RelativeLayout {
         tvTabHint = (TextView) findViewById(R.id.tab_indicator_hint);
         tvTabUnread = (TextView) findViewById(R.id.tab_indicator_unread);
         //初始化设置未读数为0
-        setTabUnreadCount(0);
+//        setTabUnreadCount(1);
     }
     //设置文本title
     public void setTableTitle(String title){
@@ -54,7 +55,7 @@ public class TabindicatorView extends RelativeLayout {
     //设置未读数
     public void setTabUnreadCount(int unreadCount){
         if(unreadCount<=0){
-            tvTabUnread.setVisibility(View.INVISIBLE);
+            tvTabUnread.setVisibility(View.GONE);
         }else if(unreadCount<=99){
             tvTabUnread.setVisibility(View.VISIBLE);
             tvTabUnread.setText(unreadCount+"");
@@ -70,6 +71,10 @@ public class TabindicatorView extends RelativeLayout {
         }else{
             ivTabCon.setImageResource(normalIconID);
         }
+    }
+    //设置字体颜色
+    public void setFontColor(int color){
+        tvTabUnread.setTextColor(color);
     }
 
 }

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,10 @@ import com.example.tr.instantcool2.Utils.StreamUtil;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsView.TopBarClickedListener{
@@ -36,13 +41,17 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
     private List<Friend> friends;
     private ListView lv_friend;
     private List_Item_FriendFragment_indicatorView itemIndicator;
+    private MyAdapter adapter;
+    private Timer timerFriend;
+    private TimerTask taskFriend;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==1){
                 //add adapter
-                lv_friend.setAdapter(new MyAdapter());
+                adapter  = new MyAdapter();
+                lv_friend.setAdapter(adapter);
             }
         }
     };
@@ -56,6 +65,15 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
         topBarIndicatorView = (TopBarIndicatorFriendsView) view.findViewById(R.id.topbar_container_friend_fragment);
         initData();
         initTopBar();
+        //刷新好友列表
+        timerFriend = new Timer();
+        taskFriend = new TimerTask() {
+            @Override
+            public void run() {
+                initData();
+            }
+        };
+        timerFriend.schedule(taskFriend,1000,1000);
 
         lv_friend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,6 +90,34 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        Timer timer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                adapter.notifyDataSetChanged();
+//            }
+//        };
+//        timer.schedule(task,3000,1000);
+        Log.d("CONFIRM", "onCreate: start");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timerFriend.cancel();
+    }
+
+    //切换时启动ONSTART
+    @Override
+    public void onStart() {
+        super.onStart();
+//        adapter.notifyDataSetChanged();
+        Log.d("CONFIRM", "ONSTART: start");
+    }
+
     private List<Friend> initData() {
 
         new Thread(){
@@ -79,7 +125,7 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
             public void run() {
                 try{
 
-                    String path= "http://39.108.159.175/phpworkplace/androidLogin/GetFriend.php?owner="+ UserInfoSotrage.AName;
+                    String path= "http://39.108.159.175/phpworkplace/androidLogin/GetFriend.php?owner="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");

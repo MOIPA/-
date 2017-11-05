@@ -15,8 +15,11 @@ import com.example.tr.instantcool2.Activity.StartActivity;
 import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
-import com.example.tr.instantcool2.Utils.NetWorkUtil;
+import com.example.tr.instantcool2.Utils.StreamUtil;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 
 
@@ -58,7 +61,6 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
                             }
                             try {
                                 //开始注册代码
-                                //中文可能有中文所以encode
                                 String tempName= URLEncoder.encode(account_name,"utf-8");
                                 //设置路径
 //                                System.out.println("tempName:"+tempName+"account_name:"+account_name);
@@ -71,19 +73,17 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
 //                                connection.setConnectTimeout(5000);
 //                                connection.setRequestMethod("GET");
 //                                int code = connection.getResponseCode();
-                                int code = 0;
-                                Bundle data = NetWorkUtil.getSingleInfoFromServer(path);
-                                String stream = data.getString("stream");
-                                code = data.getInt("code");
+                                URL url = new URL(path);
+                                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                int code = conn.getResponseCode();
                                 if(code==200){
                                     //连接成功获得传递的流信息
-//                                    InputStream in = connection.getInputStream();
-//                                    String stream = StreamUtil.readStream(in).trim();
-                                    System.out.println("返回信息 ： "+stream);
+                                    InputStream in = conn.getInputStream();
+                                    String stream = StreamUtil.readStream(in).trim();
                                     if(stream.equals("注册成功")){
                                         System.out.println("注册成功");
                                         sendMsg2Activity("succeed","注册成功");
-                                        UserInfoSotrage.AName = account_name;
+                                        UserInfoSotrage.Account = account_name;
                                         UserInfoSotrage.pwd=account_pwd;
 //                                        getActivity().runOnUiThread();也可以 不过用handler看起来更加分离UI
 //                                        Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();

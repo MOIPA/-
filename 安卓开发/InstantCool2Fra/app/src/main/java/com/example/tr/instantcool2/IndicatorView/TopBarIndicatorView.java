@@ -1,6 +1,7 @@
 package com.example.tr.instantcool2.IndicatorView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
@@ -47,6 +48,8 @@ public class TopBarIndicatorView extends RelativeLayout {
         public void OnBackClicked();
 
     }
+
+
 
     public void setTopBarOnClickedListener(TopBarClickedListener listener) {
         this.topBarClickedListener = listener;

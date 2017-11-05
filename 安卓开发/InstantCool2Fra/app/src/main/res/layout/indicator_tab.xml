@@ -29,7 +29,6 @@
     <TextView
         android:textSize="10sp"
         android:textColor="#FFFFFFFF"
-        android:text="1"
         android:gravity="center"
         android:background="@mipmap/ic_launcher"
         android:layout_marginTop="3dp"

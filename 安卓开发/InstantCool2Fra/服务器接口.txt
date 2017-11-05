@@ -50,7 +50,7 @@
 		<Friends>
 		<friendaccount>tr</friendaccount>
 		<friendname>唐锐</friendname>
-		</Friend
+		</Friend>
 
 获取用户好友
 
@@ -79,6 +79,7 @@
 	http://39.108.159.175/phpworkplace/androidLogin/SetConversation.php
 	?owner=tr&targetaccount=tzq&targetname=汤子晴
 	无返回值
+
 
 添加不重复会话
 	http://39.108.159.175/phpworkplace/androidLogin/InsertConversation.php?
@@ -187,23 +188,22 @@
 	http://39.108.159.175/phpworkplace/androidLogin/SendInvitation.php?inviter=tzq&targetaccount=sx&isagree=0
 
 
-查看是否有人请求加好友：
+查看是否有人请求加好友并且设置为已读：
 
 	http://39.108.159.175/phpworkplace/androidLogin/GetInvitation.php?receiver=sx
 
 
-	成功返回请求者
-
+	成功返回请求者的xml流
 	
-	
-
-
-
-
-
-
-
-
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+	<invite>
+		<inviter>tr</inviter>
+	</invite>
+	<invite>
+		<inviter>sx</inviter>
+	</invite>
+</root>
 
 
 
