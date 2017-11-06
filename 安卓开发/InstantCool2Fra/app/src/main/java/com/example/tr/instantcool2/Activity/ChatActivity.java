@@ -18,12 +18,17 @@ import android.widget.TextView;
 import com.example.tr.instantcool2.JavaBean.MyMessage;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
+import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -82,9 +87,65 @@ public class ChatActivity extends AppCompatActivity {
         //每隔一秒刷新
         updateMessage();
 
+        //监听
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = etMessage.getText().toString().trim();
+                if(content.equals("")){
+                    ShowInfoUtil.showInfo(getApplicationContext(),"空消息！");
+                    return;
+                }
+                sendMessage(content);
+                etMessage.setText("");
+            }
+        });
+
 
     }
 
+    private void sendMessage(final String content){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Log.d("send", "run:********** ");
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//设置日期格式
+                    final String nowTime = df.format(new Date());
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/TheSendMessage.php" +
+                            "?owner="+UserInfoSotrage.Account+"&direct=1&targetaccount="+friendaccount+"&content="+ URLEncoder.encode(content,"utf-8")+"&isread=0&time="+URLEncoder.encode(nowTime,"utf-8");
+
+                    Log.d("send", "run:"+path);
+                    //linking
+                    URL url = new URL(path);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(5000);
+                    int responseCode = connection.getResponseCode();
+                    if(200==responseCode){
+                        InputStream inputStream = connection.getInputStream();
+                        String reslut = StreamUtil.readStream(inputStream);
+                        if(reslut.equals("error")){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ShowInfoUtil.showInfo(getApplicationContext(),"服务器繁忙");
+                                }
+                            });
+                        }else{
+                            //成功发送
+                            initMessageList();
+                        }
+                    }else{
+                        //failed connetc server
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }
     private void updateMessage(){
         taskMessage = new TimerTask() {
             @Override
