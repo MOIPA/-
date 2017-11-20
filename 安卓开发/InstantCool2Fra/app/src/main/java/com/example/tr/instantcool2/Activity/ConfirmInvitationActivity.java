@@ -51,7 +51,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_invitation);
         Intent intent = getIntent();
-        String targetaccount = intent.getStringExtra("targetaccount");
+        final String targetaccount = intent.getStringExtra("targetaccount");
         Log.d("confirmInvitation", "onCreate: "+targetaccount);
         //检测发送者的详细信息
         getDetailInfoInviter(targetaccount);
@@ -67,6 +67,23 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ShowInfoUtil.showInfo(getApplication(),"已拒绝");
                 onBackPressed();
+
+                //设置数据库里的这条invitation已读
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            String path = "http://39.108.159.175/phpworkplace/androidLogin/updateInvitation.php?receiver="+URLEncoder.encode(targetaccount,"utf-8");
+                            URL url = new URL(path);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(5000);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         });
 
@@ -75,6 +92,23 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                ShowInfoUtil.showInfo(getApplication(),"已同意");
                 agreeInvitation();
+
+                //设置数据库里的这条invitation已读
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            String path = "http://39.108.159.175/phpworkplace/androidLogin/updateInvitation.php?receiver="+URLEncoder.encode(targetaccount,"utf-8");
+                            URL url = new URL(path);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(5000);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
                 onBackPressed();
             }
 

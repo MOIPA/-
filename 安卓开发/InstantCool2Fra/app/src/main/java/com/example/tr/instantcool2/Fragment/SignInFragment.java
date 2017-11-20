@@ -26,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class SignInFragment extends Fragment implements TopBarIndicatorView.TopBarClickedListener {
 
@@ -59,7 +61,7 @@ public class SignInFragment extends Fragment implements TopBarIndicatorView.TopB
         pwd=et_pwd.getText().toString().trim();
 
         //记住登陆逻辑
-        SharedPreferences sp = getActivity().getSharedPreferences("login",1);
+        SharedPreferences sp = getActivity().getSharedPreferences("login",getContext().MODE_PRIVATE);
         cb_remember.setChecked(sp.getBoolean("cb",false));
         et_account.setText(sp.getString("account",""));
         et_pwd.setText(sp.getString("pwd",""));

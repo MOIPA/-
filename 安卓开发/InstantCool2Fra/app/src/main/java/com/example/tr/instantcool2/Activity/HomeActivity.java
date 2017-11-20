@@ -1,11 +1,16 @@
 package com.example.tr.instantcool2.Activity;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.TabHost;
 
@@ -23,17 +28,24 @@ import com.example.tr.instantcool2.Utils.StreamUtil;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 //最后还是决定由HomeActivity实现OnTabChangeListener
 // 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
-public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener{
+public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener,ViewPager.OnPageChangeListener {
     private final static String TAG_CHAT = "chat";
     private final static String TAG_Friends = "friends";
     private final static String TAG_Functions = "functions";
     private final static String TAG_MY = "my";
     private FragmentTabHost tabHost;
+    private ViewPager viewPager;
+    private static final String[] IDS = {"chat", "friends", "functions", "my"};
+    private List<String> ids = Arrays.asList(IDS);
+    List<Fragment> fragments = new ArrayList<Fragment>(IDS.length);
     private TimerTask task;
     private Timer timer;
     TabindicatorView chatIndicator;
@@ -61,13 +73,14 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
 
         //初始化tabhost
         tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), R.id.activity_home_container);
+        tabHost.setup(this, getSupportFragmentManager(), R.id.main_viewpager);
         chatIndicator = new TabindicatorView(this);
         findIndicator = new TabindicatorView(this);
         connecotrIndicator = new TabindicatorView(this);
@@ -77,6 +90,11 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         init("好友", TAG_Friends, findIndicator,new FriendsFragment());
         init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
         init("我", TAG_MY, meIndicator,new MeFragment());
+
+        //初始化viewpager
+        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        viewPager.setAdapter(new TabsFragmentPagerAdapter(getSupportFragmentManager(), fragments));
+        viewPager.setOnPageChangeListener(this);
 
         //初始化topbar
 
@@ -137,6 +155,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         chatIndicator.setTabSelected(true);
         //监听选中事件
         tabHost.setOnTabChangedListener(this);
+
+        fragments.add(Fragment.instantiate(this, fragment.getClass().getName()));
     }
 
     //设置tabhost选中事件
@@ -162,13 +182,15 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                 meIndicator.setTabSelected(true);
                 break;
         }
+
+        viewPager.setCurrentItem(ids.indexOf(tabId));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        if(task!=null)
-            //结束时取消线程
+        //结束时取消线程
         task.cancel();
         ChangeUserLoginStatus();
     }
@@ -223,6 +245,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                         Log.d("Login", "status is: "+satus);
                     }else{
                         runOnUiThread(new Runnable() {
+                            @RequiresApi(api = Build.VERSION_CODES.M)
                             @Override
                             public void run() {
                                 ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
@@ -238,9 +261,45 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
 
 
+    //重写viewpager方法
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        tabHost.setCurrentTab(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    class TabsFragmentPagerAdapter extends FragmentPagerAdapter{
+
+        List<Fragment> mfragments;
+
+        public TabsFragmentPagerAdapter(FragmentManager fm,List<Fragment> fragments) {
+            super(fm);
+            this.mfragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mfragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mfragments.size();
+        }
     }
 }
 

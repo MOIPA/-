@@ -4,14 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <FrameLayout
-        android:id="@+id/activity_home_container"
+    <android.support.v4.view.ViewPager
+        android:layout_weight="1"
+        android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="0dp" />
 
-    </FrameLayout>
+
 
     <android.support.v4.app.FragmentTabHost
         android:id="@android:id/tabhost"
@@ -22,6 +21,7 @@
         <!--android:id="@android:id/tabs"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"></TabWidget>-->
+
 
         <FrameLayout
             android:id="@android:id/tabcontent"

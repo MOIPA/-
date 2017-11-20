@@ -2,6 +2,7 @@ package com.example.tr.instantcool2.Fragment;
 
 
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.example.tr.instantcool2.Activity.AddFriendActivity;
 import com.example.tr.instantcool2.Activity.FriendInfoActivity;
 import com.example.tr.instantcool2.IndicatorView.List_Item_FriendFragment_indicatorView;
@@ -27,6 +29,7 @@ import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -35,26 +38,34 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsView.TopBarClickedListener{
 
     private List<Friend> friends;
     private ListView lv_friend;
     private List_Item_FriendFragment_indicatorView itemIndicator;
-    private MyAdapter adapter;
+//    private MyAdapter adapter;
+    private MyAdapterSwipeVertion adapter;
     private Timer timerFriend;
     private TimerTask taskFriend;
+    private int friendCounts=0;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==1){
                 //add adapter
-                adapter  = new MyAdapter();
+                if(friendCounts == friends.size())return;
+                if(friends==null)return;
+                adapter  = new MyAdapterSwipeVertion(getContext());
                 lv_friend.setAdapter(adapter);
             }
         }
     };
+
+
 
     private TopBarIndicatorFriendsView topBarIndicatorView;
     @Override
@@ -115,7 +126,9 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
     public void onStart() {
         super.onStart();
 //        adapter.notifyDataSetChanged();
-        Log.d("CONFIRM", "ONSTART: start");
+        //重新绑定
+        if(adapter!=null)
+        lv_friend.setAdapter(adapter);
     }
 
     private List<Friend> initData() {
@@ -164,10 +177,195 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
         topBarIndicatorView.setTopBarOnClickedListener(this);
     }
 
-    class MyAdapter extends BaseAdapter{
+//    class MyAdapter extends BaseAdapter{
+//
+//        @Override
+//        public int getCount() {
+//            return friends.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            final View view;
+//            if(convertView==null){
+//                view = View.inflate(getContext(),R.layout.iten_listview_friend_fragment,null);
+//            }else{
+//                view = convertView;
+//            }
+//            itemIndicator = (List_Item_FriendFragment_indicatorView) view.findViewById(R.id.item_friend_fragment_lv);
+//            Friend friend = friends.get(position);
+//            itemIndicator.setTv_name(friend.getFriendName());
+//            itemIndicator.setTv_account(friend.getFriendAccount());
+//
+//            return view;
+//        }
+//    }
+
+    private void deleteConversation(final String friendAccount){
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/DeleteConversation.php?owner="+UserInfoSotrage.Account+"&targetaccount="+friendAccount;
+                    URL url = new URL(path);
+//                    Log.d("delete", "run: "+path);
+                    final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000);
+                    int code = conn.getResponseCode();
+                    if(200==code){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ShowInfoUtil.showInfo(getContext(),"删除好友");
+                                try {
+                                    InputStream inputStream = conn.getInputStream();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }catch (Exception e){}
+            }
+        }.start();
+    }
+
+    private void deleteFriend(final String friendAccount){
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/DeleteFriend.php?owner="+UserInfoSotrage.Account+"&targetaccount="+friendAccount;
+                    URL url = new URL(path);
+//                    Log.d("delete", "run: "+path);
+                    final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000);
+                    int code = conn.getResponseCode();
+                    if(200==code){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                ShowInfoUtil.showInfo(getContext(),"删除好友");
+                                try {
+                                    InputStream inputStream = conn.getInputStream();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }catch (Exception e){}
+            }
+        }.start();
+    }
+
+    private void deleteInvitation(final String friendAccount){
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/DeleteInvitation.php?owner="+UserInfoSotrage.Account+"&targetaccount="+friendAccount;
+                    URL url = new URL(path);
+//                    Log.d("delete", "run: "+path);
+                    final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000);
+                    int code = conn.getResponseCode();
+                    if(200==code){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                ShowInfoUtil.showInfo(getContext(),"删除好友");
+                                try {
+                                    InputStream inputStream = conn.getInputStream();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }catch (Exception e){}
+            }
+        }.start();
+    }
+
+    //滑动适配器  美化
+    class MyAdapterSwipeVertion extends BaseSwipeAdapter{
+
+        Context context;
+
+        public MyAdapterSwipeVertion(Context context){
+            this.context = context;
+        }
+
+        @Override
+        public int getSwipeLayoutResourceId(int position) {
+            return R.id.swipe_item_friends_fragment;
+        }
+
+        @Override
+        public View generateView(int position, ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(R.layout.iten_listview_friend_fragment,null);
+        }
+
+        @Override
+        public void fillValues(final int position, View convertView) {
+            itemIndicator = (List_Item_FriendFragment_indicatorView) convertView.findViewById(R.id.item_friend_fragment_lv);
+            ImageButton ib = (ImageButton) convertView.findViewById(R.id.btn_iten_delete_friend);
+            ib.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //美化  使用了开源框架的sweetAlertDialog
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("确定删除好友?")
+                            .setContentText("删除后无法恢复！")
+                            .setConfirmText("删除!")
+                            .setCancelText("取消")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog
+                                            .setTitleText("Deleted!")
+                                            .setContentText("好友已删除!")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    deleteConversation(friends.get(position).getFriendAccount());
+                                    deleteFriend(friends.get(position).getFriendAccount());
+                                    deleteInvitation(friends.get(position).getFriendAccount());
+                                }
+                            })
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+            });
+
+            Friend friend = friends.get(position);
+            itemIndicator.setTv_name(friend.getFriendName());
+            itemIndicator.setTv_account(friend.getFriendAccount());
+        }
 
         @Override
         public int getCount() {
+            friendCounts =friends.size();
             return friends.size();
         }
 
@@ -178,23 +376,7 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
 
         @Override
         public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final View view;
-            if(convertView==null){
-                view = View.inflate(getContext(),R.layout.iten_listview_friend_fragment,null);
-            }else{
-                view = convertView;
-            }
-            itemIndicator = (List_Item_FriendFragment_indicatorView) view.findViewById(R.id.item_friend_fragment_lv);
-            Friend friend = friends.get(position);
-            itemIndicator.setTv_name(friend.getFriendName());
-            itemIndicator.setTv_account(friend.getFriendAccount());
-
-            return view;
+            return position;
         }
     }
 
