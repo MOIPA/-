@@ -1,5 +1,6 @@
 package com.example.tr.instantcool2.Activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.TabHost;
 
 import com.example.tr.instantcool2.Fragment.ChatFragment;
@@ -158,6 +160,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
         fragments.add(Fragment.instantiate(this, fragment.getClass().getName()));
     }
+
 
     //设置tabhost选中事件
     @Override

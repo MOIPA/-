@@ -67,7 +67,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
         public void handleMessage(Message msg) {
 
             if(msg.what==0){
-                Log.d("tmptest", "handleMessage: in************************************");
+
                 if(conversationListCountsAft==0||conversationListCountsPre==0){
                     Log.d("tmptest", "handleMessage: "+conversationList.size());
                     adapter = new MyAdapter();
@@ -425,6 +425,12 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
             public void run() {
                 Instrumentation inst = new Instrumentation();
                 inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+
+                        //发送广播 让底层的SignInUpAcrtivity结束
+                        Intent intent = new Intent();
+                        intent.setAction("ExitApp");
+                        getContext().sendBroadcast(intent);
+
             }
         }.start();
     }

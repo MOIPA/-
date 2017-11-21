@@ -90,7 +90,7 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
                                         //TODO
                                         //跳转到成功界面
 //                                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new SignUpFragment()).commit();
-                                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new FillInfoMationFragment()).commit();
+//                                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new FillInfoMationFragment()).commit();
                                     }else if(stream.equals("存在用户")){
                                         System.out.println("存在用户");
                                         sendMsg2Activity("failed","用户已存在");

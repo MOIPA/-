@@ -18,6 +18,10 @@ import com.example.tr.instantcool2.Fragment.SignUpFragment;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 
+
+/**
+ * 老版本初始界面 现在已废弃
+ */
 public class StartActivity extends AppCompatActivity {
 
     private FirstSinghtFragment firstFragment ;

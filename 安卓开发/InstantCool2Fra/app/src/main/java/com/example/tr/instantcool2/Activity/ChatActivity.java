@@ -152,8 +152,6 @@ public class ChatActivity extends AppCompatActivity {
             public void run() {
                 initMessageList();
 
-
-
             }
         };
         timerMessage = new Timer();

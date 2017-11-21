@@ -17,7 +17,7 @@ import com.maning.mndialoglibrary.MToastConfig;
 public class ShowInfoUtil {
 
     //系统的太丑 以后修改
-    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void showInfo(Context context, String content){
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
 //

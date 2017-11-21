@@ -6,6 +6,8 @@
     tools:context="com.example.tr.instantcool2.Fragment.FunctionFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <!--开源的日历控件-->
     <!--<com.necer.ncalendar.calendar.NCalendar-->
         <!--android:id="@+id/ncalendar"-->
         <!--android:layout_width="match_parent"-->
@@ -21,5 +23,6 @@
             <!--android:background="@android:color/white"/>-->
 
     <!--</com.necer.ncalendar.calendar.NCalendar>-->
+
 
 </FrameLayout>
