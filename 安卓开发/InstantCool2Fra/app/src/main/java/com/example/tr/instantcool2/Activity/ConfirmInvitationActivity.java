@@ -68,22 +68,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
                 ShowInfoUtil.showInfo(getApplication(),"已拒绝");
                 onBackPressed();
 
-                //设置数据库里的这条invitation已读
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            String path = "http://39.108.159.175/phpworkplace/androidLogin/updateInvitation.php?receiver="+URLEncoder.encode(targetaccount,"utf-8");
-                            URL url = new URL(path);
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("GET");
-                            connection.setConnectTimeout(5000);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+                updateInvitation(targetaccount);
             }
         });
 
@@ -92,23 +77,8 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                ShowInfoUtil.showInfo(getApplication(),"已同意");
                 agreeInvitation();
+                updateInvitation(targetaccount);
 
-                //设置数据库里的这条invitation已读
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            String path = "http://39.108.159.175/phpworkplace/androidLogin/updateInvitation.php?receiver="+URLEncoder.encode(targetaccount,"utf-8");
-                            URL url = new URL(path);
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("GET");
-                            connection.setConnectTimeout(5000);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
                 onBackPressed();
             }
 
@@ -116,6 +86,30 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
         });
 
     }
+
+    private void updateInvitation(final String targetaccount){
+        //设置数据库里的这条invitation已读
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/updateInvitation.php?receiver="+URLEncoder.encode(targetaccount,"utf-8");
+                    URL url = new URL(path);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(5000);
+                    int code = connection.getResponseCode();
+                    if(200==code){
+                        connection.getInputStream();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
     //同意请求逻辑
     private void agreeInvitation() {
         new Thread(){

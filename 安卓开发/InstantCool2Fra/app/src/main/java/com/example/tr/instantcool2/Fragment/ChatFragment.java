@@ -57,29 +57,38 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     private Timer timerRefreshUnread;
     private TimerTask taskRefreshData;
     private Timer timerRefreshData;
-    private int conversationListCountsPre = 0;
+    private int conversationListCountsPre = -1;
     private int conversationListCountsAft = 0;
     private List<String> invitaitonList;
     private List<Conversation> conversationList;
+    private String preUnreadCount = "0";
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-
+//TODO
             if(msg.what==0){
 
-                if(conversationListCountsAft==0||conversationListCountsPre==0){
-                    Log.d("tmptest", "handleMessage: "+conversationList.size());
+//                if(conversationListCountsAft==0||conversationListCountsPre==0){
+//                    Log.d("tmptest", "handleMessage: "+conversationList.size()+"aft:"+conversationListCountsAft+":pre"+conversationListCountsPre);
+//                    adapter = new MyAdapter();
+//                    lv_conversation.setAdapter(adapter);
+//
+//                }
+                if(conversationListCountsPre!=conversationListCountsAft) {
+                    Log.d("tmptest", "msg " + msg.what + ":" + conversationList.size() + "aft:" + conversationListCountsAft + ":pre" + conversationListCountsPre);
                     adapter = new MyAdapter();
                     lv_conversation.setAdapter(adapter);
-                    conversationListCountsAft = conversationListCountsPre;
+                    conversationListCountsPre = conversationListCountsAft;
                 }
-                if(conversationListCountsAft!=conversationListCountsPre) {
-                    Log.d("tmptest", "handleMessage: "+conversationList.size());
-                    adapter = new MyAdapter();
-                    lv_conversation.setAdapter(adapter);
-                    conversationListCountsAft = conversationListCountsPre;
-                }
+            }
+            else if(msg.what==2){
+                Bundle data = msg.getData();
+                int position = data.getInt("position");
+                String unreadcount = data.getString("unreadcount");
+                View child = lv_conversation.getChildAt(position);
+                List_Item_ChatFragment_IndicatorView indicatorV = (List_Item_ChatFragment_IndicatorView) child.findViewById(R.id.indicator_list_view_user);
+                indicatorV.setIv_unreadCount(Integer.parseInt(unreadcount));
             }
         }
     };
@@ -232,8 +241,8 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 //                            Log.d("ChatFragmentInvitation", "No Inviter");
                     //没人邀请
                     Message msg = new Message();
-                    Log.d("tmptest", "handleMessage: start send:"+conversationList.size());
-                    msg.what=0;
+//                    Log.d("tmptest", "handleMessage: start send:"+conversationList.size());
+//                    msg.what=0;
                     handler.sendMessage(msg);
                 }else{
                     //有人邀请
@@ -254,11 +263,15 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                         conversation.setTargetname(invitaitonList.get(i));
                         //添加到conversationList
                         conversationList.add(conversation);
-                        //征询主线程
-                        conversationListCountsAft =conversationList.size();
+                    }
+                    //征询主线程
+                    conversationListCountsAft =conversationList.size();
+                    //如果变化发送给主线程
+                    if(conversationListCountsAft!=conversationListCountsPre) {
+                        conversationListCountsPre = conversationListCountsAft;
                         Message msg = new Message();
-                        Log.d("tmptest", "handleMessage: start send:"+conversationList.size());
-                        msg.what=0;
+                        Log.d("uirefresh", "handleMessage: start send: pre:" + conversationListCountsPre+":aft:"+conversationListCountsAft);
+                        msg.what = 0;
                         handler.sendMessage(msg);
                     }
                 }
@@ -386,16 +399,22 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                     if (!account.equals("有新的好友请求！")) {
                         String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCountSingle.php?owner=" + UserInfoSotrage.Account + "&receiver=" + account;
                         String unreadCount = NetWorkUtil.DetechUnreadCount(path);
+                        Log.d("chatUnread", "run: " + unreadCount);
+                        //如果未读数改变通知主线程修改
+                        if (!unreadCount.equals(preUnreadCount)) {
 
-                        //通知主线程修改
-                        Message msg = new Message();
-                        Bundle data = new Bundle();
-                        data.putInt("position", i);
-                        data.putString("unreadcount", unreadCount);
-                        msg.what = 2;
-                        msg.setData(data);
-                        handler.sendMessage(msg);
+                            Log.d("uirefresh", "请求刷新未读数pre:"+preUnreadCount+":aft:"+unreadCount);
+                            preUnreadCount = unreadCount;
+                            Message msg = new Message();
+                            Bundle data = new Bundle();
+                            data.putInt("position", i);
+                            data.putString("unreadcount", unreadCount);
+                            msg.what = 2;
+                            msg.setData(data);
+                            handler.sendMessage(msg);
 //                            indicatorV.setIv_unreadCount(Integer.parseInt(unreadCount));
+
+                        }
                     }
                 }
             }

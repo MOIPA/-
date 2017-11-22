@@ -20,7 +20,7 @@ public class ShowInfoUtil {
 //    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void showInfo(Context context, String content){
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
-//
+
 //        MToastConfig config = new MToastConfig.Builder()
 //                //设置显示的位置
 //                .setGravity(MToastConfig.MToastGravity.CENTRE)

@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tr.instantcool2.R;
+import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 
 /**
  * Created by TR on 2017/10/22.
@@ -34,11 +35,27 @@ public class List_Item_ChatFragment_IndicatorView extends RelativeLayout {
     }
 
     public void setIv_unreadCount(int count){
+
+        //设置未读数
+//        public void setTabUnreadCount(int unreadCount){
+//            if(unreadCount<=0){
+//                tvTabUnread.setVisibility(View.GONE);
+//            }else if(unreadCount<=99){
+//                tvTabUnread.setVisibility(View.VISIBLE);
+//                tvTabUnread.setText(unreadCount+"");
+//            }else{
+//                tvTabUnread.setVisibility(View.VISIBLE);
+//                tvTabUnread.setText("99+");
+//            }
+//        }
+//        ShowInfoUtil.showInfo(getContext(),"count is:"+count);
         if(count<=0){
             iv_unreadCount.setVisibility(View.GONE);
         }else if(count<=99){
+            iv_unreadCount.setVisibility(View.VISIBLE);
             iv_unreadCount.setText(count+"");
         }else if(count>=100){
+            iv_unreadCount.setVisibility(View.VISIBLE);
             iv_unreadCount.setText("99+");
         }
     }

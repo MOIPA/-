@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -46,16 +47,19 @@ public class ChatActivity extends AppCompatActivity {
     private List<MyMessage> lists;
     private Timer timerMessage;
     private TimerTask taskMessage;
+    boolean isInCurrentActivity=true;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==ADDADAPTER){
+            if(msg.what==ADDADAPTER&&isInCurrentActivity){
                 //如果没有消息变动就没必要刷新
                 if(lists==null)return;
                 if(messageCounts==lists.size())return;
 
                 //有数据更新 跳转到底部
+                //TODO
+//                并且设置好友发的消息已读
                 lvMessage.setAdapter(new MyAdapter());
                 lvMessage.setSelection(ListView.FOCUS_DOWN);
 
@@ -67,7 +71,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        //在当前activity
+        isInCurrentActivity=true;
         Intent intent = getIntent();
         friendaccount = intent.getStringExtra("friendaccount");
         friendname = intent.getStringExtra("friendname");
@@ -101,6 +106,35 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUnread2Read();
+    }
+
+    private void setUnread2Read(){
+//        friendaccount;
+//        UserInfoSotrage.Account;
+
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    String path = "http://39.108.159.175/phpworkplace/androidLogin/UpdateTheMessageUnreadCount.php?owner="+ UserInfoSotrage.Account+"&receiver="+friendaccount;
+                    URL url = new URL(path);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setRequestMethod("GET");
+                    int code = conn.getResponseCode();
+                    if(200==code){
+                        conn.getInputStream();
+                    }
+                }catch (Exception e){}
+            }
+        }.start();
 
     }
 
@@ -160,6 +194,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        isInCurrentActivity=false;
         super.onDestroy();
         timerMessage.cancel();
     }
