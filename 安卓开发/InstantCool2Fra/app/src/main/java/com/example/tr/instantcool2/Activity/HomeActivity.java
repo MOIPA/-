@@ -2,6 +2,7 @@ package com.example.tr.instantcool2.Activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
@@ -10,22 +11,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.widget.TabHost;
 
 import com.example.tr.instantcool2.Fragment.ChatFragment;
-import com.example.tr.instantcool2.Fragment.FunctionFragment;
 import com.example.tr.instantcool2.Fragment.FriendsFragment;
-import com.example.tr.instantcool2.Fragment.MeFragment;
+import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
-import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
+import com.lilei.springactionmenu.ActionMenu;
+import com.lilei.springactionmenu.OnActionItemClickListener;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -41,11 +40,11 @@ import java.util.TimerTask;
 public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener,ViewPager.OnPageChangeListener {
     private final static String TAG_CHAT = "chat";
     private final static String TAG_Friends = "friends";
-    private final static String TAG_Functions = "functions";
-    private final static String TAG_MY = "my";
+//    private final static String TAG_Functions = "functions";
+//    private final static String TAG_MY = "my";
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
-    private static final String[] IDS = {"chat", "friends", "functions", "my"};
+    private static final String[] IDS = {"chat", "friends"};
     private List<String> ids = Arrays.asList(IDS);
     List<Fragment> fragments = new ArrayList<Fragment>(IDS.length);
     private TimerTask task;
@@ -56,6 +55,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     TabindicatorView meIndicator;
     private final int REFRESH_CHAT_INDICATOR = 1;
     private final int CLEAR_CHAT_INDICATOR= 2;
+    //开源果冻菜单
+    ActionMenu actionMenu;
 
     private Handler handler = new Handler(){
         @Override
@@ -79,19 +80,49 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //初始化果冻菜单
+        actionMenu = (ActionMenu) findViewById(R.id.actionMenu);
+        actionMenu.addView(R.mipmap.ic_launcher_round);
+        actionMenu.addView(R.mipmap.ic_launcher_round);
+            //add listener
+        actionMenu.setItemClickListener(new OnActionItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                //加号为0  第一个是1 第二个是2
+//                ShowInfoUtil.showInfo(getApplicationContext(),"id+:"+i);
+                //TODO 完善果冻弹出页面
+                switch (i){
+                    case 1:
+                        //启动自我设置页面
+                        break;
+                    case 2:
+                        //启动日历界面
+                        Intent intent = new Intent(HomeActivity.this,CalendarActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
+                        //启动其它功能
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(boolean b) {
+
+            }
+        });
 
         //初始化tabhost
         tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.main_viewpager);
         chatIndicator = new TabindicatorView(this);
         findIndicator = new TabindicatorView(this);
-        connecotrIndicator = new TabindicatorView(this);
-        meIndicator = new TabindicatorView(this);
+//        connecotrIndicator = new TabindicatorView(this);
+//        meIndicator = new TabindicatorView(this);
 
         init("消息", TAG_CHAT, chatIndicator,new ChatFragment());
         init("好友", TAG_Friends, findIndicator,new FriendsFragment());
-        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
-        init("我", TAG_MY, meIndicator,new MeFragment());
+//        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
+//        init("我", TAG_MY, meIndicator,new MeFragment());
 
         //初始化viewpager
         viewPager = (ViewPager) findViewById(R.id.main_viewpager);
@@ -167,23 +198,23 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     public void onTabChanged(String tabId) {
         //要让某个选中得先全部不选中
         chatIndicator.setTabSelected(false);
-        meIndicator.setTabSelected(false);
-        connecotrIndicator.setTabSelected(false);
+//        meIndicator.setTabSelected(false);
+//        connecotrIndicator.setTabSelected(false);
         findIndicator.setTabSelected(false);
 
         switch (tabId) {
             case TAG_CHAT:
                 chatIndicator.setTabSelected(true);
                 break;
-            case TAG_Functions:
-                connecotrIndicator.setTabSelected(true);
-                break;
+//            case TAG_Functions:
+//                connecotrIndicator.setTabSelected(true);
+//                break;
             case TAG_Friends:
                 findIndicator.setTabSelected(true);
                 break;
-            case TAG_MY:
-                meIndicator.setTabSelected(true);
-                break;
+//            case TAG_MY:
+//                meIndicator.setTabSelected(true);
+//                break;
         }
 
         viewPager.setCurrentItem(ids.indexOf(tabId));

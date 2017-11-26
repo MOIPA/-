@@ -390,6 +390,9 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
                     public void run() {
                         Instrumentation inst = new Instrumentation();
                         inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                        Intent intent = new Intent();
+                        intent.setAction("ExitApp");
+                        getContext().sendBroadcast(intent);
                     }
                 }.start();
             }

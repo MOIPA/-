@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".Activity.SignInUpActivity"
+        <activity
+            android:name=".Activity.SignInUpActivity"
             android:launchMode="singleTask">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +34,8 @@
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.ConfirmInvitationActivity" />
         <activity android:name=".Activity.StartActivity" />
-        <activity android:name=".Activity.FillInfoActivity"></activity>
+        <activity android:name=".Activity.FillInfoActivity" />
+        <activity android:name=".Activity.CalendarActivity"></activity>
     </application>
 
 </manifest>

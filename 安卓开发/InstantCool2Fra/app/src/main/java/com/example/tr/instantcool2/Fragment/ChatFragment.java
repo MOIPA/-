@@ -426,6 +426,8 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
     public void onDestroy() {
         super.onDestroy();
         taskUnread.cancel();
+        taskRefreshData.cancel();
+//        taskRefreshUnread.cancel();
 //        timer.cancel();
 //        taskRefreshUnread.cancel();
 //        timerRefreshUnread.cancel();

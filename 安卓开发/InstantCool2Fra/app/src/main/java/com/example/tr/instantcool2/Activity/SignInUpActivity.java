@@ -126,6 +126,7 @@ public class SignInUpActivity extends AppCompatActivity {
         });
 
         params.weight = (float) 0.75;
+        params.weight = (float) 0.75;
         params2.weight = (float) 4.25;
 
         mainLinear.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

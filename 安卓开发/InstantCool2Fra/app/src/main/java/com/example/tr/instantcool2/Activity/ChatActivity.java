@@ -204,7 +204,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageASU.php?owner="+ UserInfoSotrage.Account;
+                String path = "http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageASU.php?owner="+ UserInfoSotrage.Account+"&receiver="+friendaccount;
                 try {
                     URL url = new URL(path);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
