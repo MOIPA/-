@@ -480,6 +480,32 @@ public class SignInUpActivity extends AppCompatActivity {
                                                                 }
                                                             }
                                                         }.start();
+                                                        new Thread(){
+                                                            @Override
+                                                            public void run() {
+                                                                try {
+                                                                    final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetIcon.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
+                                                                    URL url = new URL(infoPath);
+                                                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                                                    conn.setRequestMethod("GET");
+                                                                    conn.setConnectTimeout(5000);
+                                                                    int code1 = conn.getResponseCode();
+                                                                    if(200==code1){
+                                                                        final String icon = StreamUtil.readStream(conn.getInputStream()).trim();
+                                                                        UserInfoSotrage.icon =icon;
+                                                                    }else{
+                                                                        runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }.start();
                                                         //修改用户服务器登陆信息
                                                         new Thread(){
                                                             @Override

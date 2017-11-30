@@ -37,6 +37,12 @@
             android:paddingRight="10dp"
             android:singleLine="true" />
 
+        <EditText
+            android:id="@+id/et_fill_information_icon"
+            android:hint="您的iconid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/btn_fill_information"
             android:layout_width="match_parent"

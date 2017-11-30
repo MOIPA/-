@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tr.instantcool2.JavaBean.Friend;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
+import com.example.tr.instantcool2.Utils.ot;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,6 +31,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
     private Button btn_agree;
     private Button btn_refuse;
     private Friend friend;
+    private ImageView ivFriend;
 
     private Handler hander = new Handler(){
         @Override
@@ -40,6 +44,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
 //            Log.d("confirmInvitation", "onCreate: "+friendAccount+":"+friendName);
                     et_account.setText(friendAccount);
                     et_name.setText(friendName);
+                    ivFriend.setImageResource(ot.getImageId(friend.getFriendIcon()));
                 }
             }
 
@@ -59,6 +64,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
         //init
         et_account = (TextView) findViewById(R.id.tv_friend_confirm_account);
         et_name = (TextView) findViewById(R.id.tv_friend_confirm_name);
+        ivFriend = (ImageView) findViewById(R.id.iv_friend_image_confirm_activity);
         btn_agree = (Button) findViewById(R.id.btn_friend_confirm_confirm);
         btn_refuse = (Button) findViewById(R.id.btn_friend_confirm_refuse);
 
@@ -117,7 +123,9 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String path = "http://39.108.159.175/phpworkplace/androidLogin/SetFriend.php?owner="
-                            +URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&friendaccount="+URLEncoder.encode(friend.getFriendAccount(),"utf-8")+"&friendname="+URLEncoder.encode(friend.getFriendName(),"utf-8");
+                            +URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&friendaccount="
+                            +URLEncoder.encode(friend.getFriendAccount(),"utf-8")+"&friendname="+URLEncoder.encode(friend.getFriendName(),"utf-8")
+                            +"&icon="+friend.getFriendIcon();
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
@@ -147,7 +155,8 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
 //                URLEncoder.encode(,"utf-8")
                 try {
                     String path = "http://39.108.159.175/phpworkplace/androidLogin/SetFriend.php?owner="+URLEncoder.encode(friend.getFriendAccount(),"utf-8")
-                            +"&friendaccount="+URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&friendname="+URLEncoder.encode(UserInfoSotrage.Name,"utf-8");
+                            +"&friendaccount="+URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&friendname="+URLEncoder.encode(UserInfoSotrage.Name,"utf-8")
+                            +"&icon="+UserInfoSotrage.icon;
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");

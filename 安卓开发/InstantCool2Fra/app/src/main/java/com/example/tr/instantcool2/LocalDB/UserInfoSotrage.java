@@ -15,6 +15,8 @@ public class UserInfoSotrage {
 
     public static  String pwd;
 
+    public static String icon;
+
     public static List<String> inviters = new ArrayList<String>();
 
 }

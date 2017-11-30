@@ -6,6 +6,8 @@ package com.example.tr.instantcool2.JavaBean;
 
 public class Conversation {
 
+    private int icon=0;
+
     private int unreadCount=0;
 
     public int getUnreadCount() {
@@ -19,6 +21,14 @@ public class Conversation {
     private String targetaccount;
 
     private String targetname;
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
 
     public String getTargetaccount() {
         return targetaccount;

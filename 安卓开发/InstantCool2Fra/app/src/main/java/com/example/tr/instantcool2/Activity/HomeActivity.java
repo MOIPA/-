@@ -1,6 +1,7 @@
 package com.example.tr.instantcool2.Activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.TabHost;
 import com.example.tr.instantcool2.Fragment.ChatFragment;
 import com.example.tr.instantcool2.Fragment.FriendsFragment;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
+import com.example.tr.instantcool2.LocalDB.MySqlite;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
@@ -102,6 +104,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                         break;
                     case 3:
                         //启动其它功能
+
                 }
             }
 
@@ -133,6 +136,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
         //开启自动检测消息线程
         detectUnreadMessageCount();
+
+
     }
 
 

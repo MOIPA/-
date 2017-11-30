@@ -7,7 +7,15 @@ package com.example.tr.instantcool2.JavaBean;
 public class Friend {
     String FriendName;
     String FriendAccount;
+    int FriendIcon;
 
+    public int getFriendIcon() {
+        return FriendIcon;
+    }
+
+    public void setFriendIcon(int friendIcon) {
+        FriendIcon = friendIcon;
+    }
 
     public String getFriendName() {
         return FriendName;

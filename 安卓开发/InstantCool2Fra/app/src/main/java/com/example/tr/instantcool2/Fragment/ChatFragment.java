@@ -27,6 +27,7 @@ import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
+import com.example.tr.instantcool2.Utils.ot;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -69,18 +70,20 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 //TODO
             if(msg.what==0){
 
+                Log.d("uirefresh", "handleMessage process");
+
 //                if(conversationListCountsAft==0||conversationListCountsPre==0){
 //                    Log.d("tmptest", "handleMessage: "+conversationList.size()+"aft:"+conversationListCountsAft+":pre"+conversationListCountsPre);
 //                    adapter = new MyAdapter();
 //                    lv_conversation.setAdapter(adapter);
 //
 //                }
-                if(conversationListCountsPre!=conversationListCountsAft) {
+//                if(conversationListCountsPre!=conversationListCountsAft) {
                     Log.d("tmptest", "msg " + msg.what + ":" + conversationList.size() + "aft:" + conversationListCountsAft + ":pre" + conversationListCountsPre);
                     adapter = new MyAdapter();
                     lv_conversation.setAdapter(adapter);
                     conversationListCountsPre = conversationListCountsAft;
-                }
+//                }
             }
             else if(msg.what==2){
                 Bundle data = msg.getData();
@@ -261,6 +264,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                         conversation.setUnreadCount(0);
                         conversation.setTargetaccount("有新的好友请求！");
                         conversation.setTargetname(invitaitonList.get(i));
+                        conversation.setIcon(0);
                         //添加到conversationList
                         conversationList.add(conversation);
                     }
@@ -268,9 +272,10 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
                     conversationListCountsAft =conversationList.size();
                     //如果变化发送给主线程
                     if(conversationListCountsAft!=conversationListCountsPre) {
+                        Log.d("uirefresh", "handleMessage b: start send: pre:" + conversationListCountsPre+":aft:"+conversationListCountsAft);
                         conversationListCountsPre = conversationListCountsAft;
                         Message msg = new Message();
-                        Log.d("uirefresh", "handleMessage: start send: pre:" + conversationListCountsPre+":aft:"+conversationListCountsAft);
+                        Log.d("uirefresh", "handleMessage a: start send: pre:" + conversationListCountsPre+":aft:"+conversationListCountsAft);
                         msg.what = 0;
                         handler.sendMessage(msg);
                     }
@@ -492,6 +497,20 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
             Conversation conversation = conversationList.get(position);
             listItemChatFragmentIndicatorView.setTv_account(conversation.getTargetaccount());
             listItemChatFragmentIndicatorView.setTv_name(conversation.getTargetname());
+            //设置用户头像
+//            switch (conversation.getIcon()){
+//                case 0:
+//                    listItemChatFragmentIndicatorView.setIv_userImage(R.mipmap.uicon1);
+//                    break;
+//                case 1:
+//                    listItemChatFragmentIndicatorView.setIv_userImage(R.mipmap.uicon2);
+//                    break;
+//                case 2:
+//                    listItemChatFragmentIndicatorView.setIv_userImage(R.mipmap.uicon3);
+//                    break;
+//
+//            }
+            listItemChatFragmentIndicatorView.setIv_userImage(ot.getImageId(conversation.getIcon()));
 //            listItemChatFragmentIndicatorView.setIv_unreadCount(99);
 
             return view;

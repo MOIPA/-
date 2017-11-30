@@ -24,6 +24,7 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
     private TopBarIndicatorView topBarIndicatorView;
     private EditText et_name;
     private Button btn_submit;
+    private EditText etIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
 
         btn_submit = (Button) findViewById(R.id.btn_fill_information);
         et_name = (EditText) findViewById(R.id.et_fill_information);
+        etIcon = (EditText) findViewById(R.id.et_fill_information_icon);
 
         topBarIndicatorView = (TopBarIndicatorView) findViewById(R.id.top_bar_container_fill_information);
         initTopbar();
@@ -58,6 +60,31 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
                                 }
                             }else{
                                         ShowInfoUtil.showInfo(getApplication(),"链接服务器失败！");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+                //上传icon
+                new Thread(){
+                    @Override
+                    public void run() {
+                        URL url = null;
+                        try {
+                            String path ="http://39.108.159.175/phpworkplace/androidLogin/SetUserIcon.php?name="
+                                    + URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&icon="+URLEncoder.encode(etIcon.getText().toString().trim(),"utf-8");
+                            url = new URL(path);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(5000);
+                            int code = connection.getResponseCode();
+                            if(200==code){
+                                if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
+                                    ShowInfoUtil.showInfo(getApplication(),"信息已完善");
+                                }
+                            }else{
+                                ShowInfoUtil.showInfo(getApplication(),"链接服务器失败！");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

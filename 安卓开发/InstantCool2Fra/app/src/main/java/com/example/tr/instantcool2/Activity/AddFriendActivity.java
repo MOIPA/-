@@ -158,6 +158,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
 
 
+
             return view;
         }
     }

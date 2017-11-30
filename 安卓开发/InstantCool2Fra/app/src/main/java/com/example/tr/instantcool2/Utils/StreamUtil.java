@@ -68,6 +68,8 @@ public class StreamUtil {
                         conversation.setTargetaccount(parser.nextText());
                     }else if(parser.getName().equals("targetname")){
                         conversation.setTargetname(parser.nextText());
+                    }else if(parser.getName().equals("targeticon")){
+                        conversation.setTargetname(parser.nextText());
                     }
                     break;
                 case XmlPullParser.END_TAG:
@@ -100,7 +102,10 @@ public class StreamUtil {
                         friend.setFriendAccount(parser.nextText());
                     }else if(parser.getName().equals("friendname")){
                         friend.setFriendName(parser.nextText());
+                    }else if(parser.getName().equals("friendicon")){
+                        friend.setFriendIcon(Integer.parseInt(parser.nextText()));
                     }
+
                     break;
                 case XmlPullParser.END_TAG:
                     if(parser.getName().equals("Friends")){

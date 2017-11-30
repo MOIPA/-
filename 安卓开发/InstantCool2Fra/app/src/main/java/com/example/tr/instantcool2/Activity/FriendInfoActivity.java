@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
+import com.example.tr.instantcool2.Utils.ot;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,11 +22,13 @@ public class FriendInfoActivity extends Activity {
 
     private TextView tv_friendName;
     private TextView tv_friendAccount;
+    private ImageView iv_friendIcon;
     private String willAddFriend;
     private Button btnSend;
     private Button btnAdd;
     private String friendname;
     private String friendaccount;
+    private String friendIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,16 @@ public class FriendInfoActivity extends Activity {
         friendname = intent.getStringExtra("friendname");
         friendaccount = intent.getStringExtra("friendaccount");
         willAddFriend = intent.getStringExtra("willAddFriend");
+        friendIcon = intent.getStringExtra("friendicon");
 
         tv_friendAccount = (TextView) findViewById(R.id.tv_friend_info_account);
         tv_friendName = (TextView) findViewById(R.id.tv_friend_info_name);
+        iv_friendIcon = (ImageView) findViewById(R.id.iv_friend_image_friend_info);
         btnAdd = (Button) findViewById(R.id.btn_friend_info_add_friend);
         tv_friendAccount.setText(friendaccount);
         tv_friendName.setText(friendname);
+        iv_friendIcon.setImageResource(ot.getImageId(Integer.parseInt(friendIcon)));
+
         btnSend = (Button) findViewById(R.id.btn_friend_info_send_message);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +60,7 @@ public class FriendInfoActivity extends Activity {
                 Intent intent = new Intent(FriendInfoActivity.this,ChatActivity.class);
                 intent.putExtra("friendaccount",friendaccount);
                 intent.putExtra("friendname",friendname);
-
+                intent.putExtra("friendicon",friendIcon);
 
                 startActivity(intent);
 
@@ -100,7 +108,6 @@ public class FriendInfoActivity extends Activity {
                                             e.printStackTrace();
                                         }
 
-
                                     }
                                 }.start();
                                 runOnUiThread(new Runnable() {
@@ -129,7 +136,8 @@ public class FriendInfoActivity extends Activity {
                     String path="http://39.108.159.175/phpworkplace/androidLogin/InsertConversation.php?" +
                             "owner="+
                             URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&targetaccount="
-                            +URLEncoder.encode(friendaccount,"utf-8")+"&targetname="+URLEncoder.encode(friendname,"utf-8");
+                            +URLEncoder.encode(friendaccount,"utf-8")+"&targetname="+URLEncoder.encode(friendname,"utf-8")
+                            +"&icon="+friendIcon;
 
 //                    Log.d("FriendInfo", path);
                     URL url = new URL(path);

@@ -94,6 +94,7 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
                 Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
                 intent.putExtra("friendname",friend.getFriendName());
                 intent.putExtra("friendaccount",friend.getFriendAccount());
+                intent.putExtra("friendicon",friend.getFriendIcon());
                 startActivity(intent);
             }
         });
@@ -361,6 +362,19 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
             Friend friend = friends.get(position);
             itemIndicator.setTv_name(friend.getFriendName());
             itemIndicator.setTv_account(friend.getFriendAccount());
+            //好友头像
+//            switch (friend.getFriendIcon()){
+//                case 0:
+//                    itemIndicator.setIv_friend(R.mipmap.uicon1);
+//                    break;
+//                case 1:
+//                    itemIndicator.setIv_friend(R.mipmap.uicon2);
+//                    break;
+//                case 2:
+//                    itemIndicator.setIv_friend(R.mipmap.uicon3);
+//                    break;
+//            }
+            itemIndicator.setIv_friend(friend.getFriendIcon());
         }
 
         @Override
