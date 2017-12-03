@@ -157,6 +157,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
                     String path = "http://39.108.159.175/phpworkplace/androidLogin/SetFriend.php?owner="+URLEncoder.encode(friend.getFriendAccount(),"utf-8")
                             +"&friendaccount="+URLEncoder.encode(UserInfoSotrage.Account,"utf-8")+"&friendname="+URLEncoder.encode(UserInfoSotrage.Name,"utf-8")
                             +"&icon="+UserInfoSotrage.icon;
+                    Log.d("ConfirmInvitation", "run: "+path);
                     URL url = new URL(path);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");

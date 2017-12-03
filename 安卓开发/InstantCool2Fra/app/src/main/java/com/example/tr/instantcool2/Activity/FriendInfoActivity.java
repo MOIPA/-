@@ -47,6 +47,7 @@ public class FriendInfoActivity extends Activity {
         btnAdd = (Button) findViewById(R.id.btn_friend_info_add_friend);
         tv_friendAccount.setText(friendaccount);
         tv_friendName.setText(friendname);
+        Log.d("icon", "onCreate: "+friendIcon);
         iv_friendIcon.setImageResource(ot.getImageId(Integer.parseInt(friendIcon)));
 
         btnSend = (Button) findViewById(R.id.btn_friend_info_send_message);

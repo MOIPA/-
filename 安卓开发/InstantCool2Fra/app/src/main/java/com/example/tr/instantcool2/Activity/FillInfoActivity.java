@@ -2,6 +2,7 @@ package com.example.tr.instantcool2.Activity;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -57,6 +58,7 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
                             if(200==code){
                                 if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
                                             ShowInfoUtil.showInfo(getApplication(),"信息已完善");
+
                                 }
                             }else{
                                         ShowInfoUtil.showInfo(getApplication(),"链接服务器失败！");
@@ -82,6 +84,13 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
                             if(200==code){
                                 if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
                                     ShowInfoUtil.showInfo(getApplication(),"信息已完善");
+                                    UserInfoSotrage.icon = etIcon.getText().toString().trim();
+                                    SharedPreferences sp = getSharedPreferences("userInfo",MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sp.edit();
+                                    editor.putString("name",UserInfoSotrage.Name);
+                                    editor.putString("icon",UserInfoSotrage.icon);
+                                    editor.putBoolean("isLogin",true);
+                                    editor.apply();
                                 }
                             }else{
                                 ShowInfoUtil.showInfo(getApplication(),"链接服务器失败！");

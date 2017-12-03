@@ -15,8 +15,10 @@ public class MySqlite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table ICON(" +
-                "id integer" +
+        db.execSQL("create table UserInfo(" +
+                "name varchar(20)" +
+                ",pwd varchar(20)"+
+                ",isFirstLogin integer"+
                 ")");
         db.execSQL("insert into table ICON(id)values(1,2,3,4,5)");
     }

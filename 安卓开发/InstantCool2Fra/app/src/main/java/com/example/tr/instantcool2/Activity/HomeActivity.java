@@ -1,7 +1,8 @@
 package com.example.tr.instantcool2.Activity;
 
+import android.app.Instrumentation;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,19 +15,29 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.example.tr.instantcool2.Fragment.ChatFragment;
 import com.example.tr.instantcool2.Fragment.FriendsFragment;
 import com.example.tr.instantcool2.IndicatorView.TabindicatorView;
-import com.example.tr.instantcool2.LocalDB.MySqlite;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
+import com.jpeng.jpspringmenu.SpringMenu;
 import com.lilei.springactionmenu.ActionMenu;
 import com.lilei.springactionmenu.OnActionItemClickListener;
+
+import org.w3c.dom.Text;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,28 +48,78 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//最后还是决定由HomeActivity实现OnTabChangeListener
-// 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
+/**
+ * 1:最后还是决定由HomeActivity实现OnTabChangeListener
+ * 因为选中时需要把所有人都不选中 内部类无法获取外部的TabindicatorView
+ * 2:使用回弹菜单
+ * 3:决定退出登录方式使用数据库和侧滑栏联合实现
+ * 4:使用fragmenttabhost联合view Page Adapter实现滑动
+ * 5:实现消息接收提醒 显示在indicator上 登陆时存入数据库个人登陆信息
+ */
 public class HomeActivity extends FragmentActivity implements TabHost.OnTabChangeListener,ViewPager.OnPageChangeListener {
     private final static String TAG_CHAT = "chat";
     private final static String TAG_Friends = "friends";
-//    private final static String TAG_Functions = "functions";
-//    private final static String TAG_MY = "my";
+    private final static String[] IDS = {"chat", "friends"};
+    private final static int REFRESH_CHAT_INDICATOR = 1;
+
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
-    private static final String[] IDS = {"chat", "friends"};
     private List<String> ids = Arrays.asList(IDS);
-    List<Fragment> fragments = new ArrayList<Fragment>(IDS.length);
+    private List<Fragment> fragments = new ArrayList<Fragment>(IDS.length);
     private TimerTask task;
     private Timer timer;
-    TabindicatorView chatIndicator;
-    TabindicatorView findIndicator;
-    TabindicatorView connecotrIndicator;
-    TabindicatorView meIndicator;
-    private final int REFRESH_CHAT_INDICATOR = 1;
-    private final int CLEAR_CHAT_INDICATOR= 2;
-    //开源果冻菜单
-    ActionMenu actionMenu;
+    private TabindicatorView chatIndicator;
+    private TabindicatorView findIndicator;
+    private ActionMenu actionMenu;//开源果冻菜单
+    private SpringMenu spMenu;//开源回弹侧滑菜单
+//    private final int CLEAR_CHAT_INDICATOR= 2;
+//    private final static String TAG_Functions = "functions";
+//    private final static String TAG_MY = "my";
+//    TabindicatorView connecotrIndicator;
+//    TabindicatorView meIndicator;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return spMenu.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        //初始化果冻菜单
+        actionMenu = (ActionMenu) findViewById(R.id.actionMenu);
+        actionMenu.addView(R.mipmap.ic_launcher_round);
+        actionMenu.addView(R.mipmap.ic_launcher_round);
+        initActionMenu();//add listener
+
+        //初始化回弹侧滑菜单
+        spMenu = new SpringMenu(this,R.layout.menu_view);
+        spMenu.setMenuSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(1,3));
+        spMenu.setChildSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(1,5));
+        initSpMenuItem();//初始化item的动作
+
+        //初始化tabhost
+        tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        tabHost.setup(this, getSupportFragmentManager(), R.id.main_viewpager);
+        chatIndicator = new TabindicatorView(this);
+        findIndicator = new TabindicatorView(this);
+//        connecotrIndicator = new TabindicatorView(this);
+//        meIndicator = new TabindicatorView(this);
+        init("消息", TAG_CHAT, chatIndicator,new ChatFragment());
+        init("好友", TAG_Friends, findIndicator,new FriendsFragment());
+//        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
+//        init("我", TAG_MY, meIndicator,new MeFragment());
+
+        //初始化viewpager
+        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        viewPager.setAdapter(new TabsFragmentPagerAdapter(getSupportFragmentManager(), fragments));
+        viewPager.setOnPageChangeListener(this);
+        //开启自动检测消息线程
+        detectUnreadMessageCount();
+
+    }
 
     private Handler handler = new Handler(){
         @Override
@@ -76,17 +137,41 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    //TODO 将退出登录改写为用户自己选择logout
+    private void initSpMenuItem() {
+        View menuView = spMenu.getMenuView();
+        TextView tv_show = (TextView) menuView.findViewById(R.id.tv_user_icon_menu_view);
+        tv_show.setText("this is my first try:"+UserInfoSotrage.icon+":");
+        Button btn_logout = (Button) findViewById(R.id.btn_logout_menu_view);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = getSharedPreferences("userInfo",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isLogin",false);
+                editor.apply();
+                ShowInfoUtil.showInfo(getApplicationContext(),"拜拜！");
+                ChangeUserLoginStatus();
+                //发送退出广播
+                sendExitBroadcast();
+            }
+        });
+    }
+    public void sendExitBroadcast() {
+        new Thread(){
+            @Override
+            public void run() {
+                Instrumentation inst = new Instrumentation();
+                inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                //发送广播 让底层的SignInUpAcrtivity结束
+                Intent intent = new Intent();
+                intent.setAction("ExitApp");
+                sendBroadcast(intent);
+            }
+        }.start();
+    }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        //初始化果冻菜单
-        actionMenu = (ActionMenu) findViewById(R.id.actionMenu);
-        actionMenu.addView(R.mipmap.ic_launcher_round);
-        actionMenu.addView(R.mipmap.ic_launcher_round);
-            //add listener
+    private void initActionMenu() {
         actionMenu.setItemClickListener(new OnActionItemClickListener() {
             @Override
             public void onItemClick(int i) {
@@ -104,41 +189,15 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                         break;
                     case 3:
                         //启动其它功能
-
                 }
             }
-
             @Override
             public void onAnimationEnd(boolean b) {
 
             }
         });
-
-        //初始化tabhost
-        tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), R.id.main_viewpager);
-        chatIndicator = new TabindicatorView(this);
-        findIndicator = new TabindicatorView(this);
-//        connecotrIndicator = new TabindicatorView(this);
-//        meIndicator = new TabindicatorView(this);
-
-        init("消息", TAG_CHAT, chatIndicator,new ChatFragment());
-        init("好友", TAG_Friends, findIndicator,new FriendsFragment());
-//        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
-//        init("我", TAG_MY, meIndicator,new MeFragment());
-
-        //初始化viewpager
-        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-        viewPager.setAdapter(new TabsFragmentPagerAdapter(getSupportFragmentManager(), fragments));
-        viewPager.setOnPageChangeListener(this);
-
-        //初始化topbar
-
-        //开启自动检测消息线程
-        detectUnreadMessageCount();
-
-
     }
+
 
 
     private void detectUnreadMessageCount(){
@@ -175,6 +234,13 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         };
     }
 
+    /**
+     *
+     * @param title
+     * @param TAG fragment的tag
+     * @param indicator 自定義控件
+     * @param fragment 添加的fragment
+     */
     private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment) {
         //新建tabspec
         TabHost.TabSpec spec = tabHost.newTabSpec(TAG);
@@ -196,7 +262,6 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
         fragments.add(Fragment.instantiate(this, fragment.getClass().getName()));
     }
-
 
     //设置tabhost选中事件
     @Override
@@ -231,41 +296,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 //        if(task!=null)
         //结束时取消线程
         task.cancel();
-        ChangeUserLoginStatus();
+//        ChangeUserLoginStatus();
     }
-
-    /**
-     * 在honmeactivity  pause时或者stop时结束task节省资源
-     * 恢复时重新初始化task
-     */
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        if(task==null){
-//            detectUnreadMessageCount();
-//        }
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if(task!=null)task.cancel();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if(task!=null)task.cancel();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(task==null){
-//            detectUnreadMessageCount();
-//        }
-//    }
 
     private void ChangeUserLoginStatus(){
         //改变用户登陆状态为未登陆
@@ -297,8 +329,6 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             }
         }.start();
     }
-
-
 
     //重写viewpager方法
     @Override
@@ -343,3 +373,35 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 }
 
 
+/**
+ * 在honmeactivity  pause时或者stop时结束task节省资源
+ * 恢复时重新初始化task
+ */
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        if(task==null){
+//            detectUnreadMessageCount();
+//        }
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if(task!=null)task.cancel();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if(task!=null)task.cancel();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(task==null){
+//            detectUnreadMessageCount();
+//        }
+//    }

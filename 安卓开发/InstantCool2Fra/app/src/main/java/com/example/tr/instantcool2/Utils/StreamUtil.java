@@ -69,7 +69,7 @@ public class StreamUtil {
                     }else if(parser.getName().equals("targetname")){
                         conversation.setTargetname(parser.nextText());
                     }else if(parser.getName().equals("targeticon")){
-                        conversation.setTargetname(parser.nextText());
+                        conversation.setIcon(Integer.parseInt(parser.nextText()));
                     }
                     break;
                 case XmlPullParser.END_TAG:

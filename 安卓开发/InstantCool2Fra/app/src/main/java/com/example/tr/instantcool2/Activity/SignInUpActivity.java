@@ -52,20 +52,21 @@ import java.util.Map;
 
 public class SignInUpActivity extends AppCompatActivity {
 
-    private Boolean isLogin =false;
-
+    private Boolean isLogin = false;
     private CheckBox cb;
     private EditText email, pass, email2, pass2, confirmPass;
     private RelativeLayout relativeLayout, relativeLayout2;
-    private LinearLayout mainLinear,img;
-    private TextView signUp,login,forgetPass;
-    private ImageView logo,back;
+    private LinearLayout mainLinear, img;
+    private TextView signUp, login;
+    private ImageView logo, back;
     private LinearLayout.LayoutParams params, params2;
     private FrameLayout.LayoutParams params3;
     private FrameLayout mainFrame;
     private ObjectAnimator animator2, animator1;
     private boolean isOnLoginPage = true;
+    private SharedPreferences sp;
 
+    //接受广播后结束应用
     protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -81,6 +82,7 @@ public class SignInUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        sp = getSharedPreferences("userInfo", MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_in_up);
 
@@ -88,6 +90,38 @@ public class SignInUpActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("ExitApp");
         this.registerReceiver(this.broadcastReceiver, filter);
+
+        //TODO 用户登陆信息
+        //判断用户信息 如果sp有登陆信息则直接跳转
+
+        String account = sp.getString("account", "");
+        String pwd = sp.getString("pwd", "");
+        String icon = sp.getString("icon", "");
+        String name = sp.getString("name", "");
+        Boolean isLogin = sp.getBoolean("isLogin", false);
+        Boolean isFirstLogin = sp.getBoolean("isFirstLogin", true);
+        if (isFirstLogin) {
+//            ShowInfoUtil.showInfo(getApplicationContext(),"firstTime");
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putBoolean("isFirstLogin", false);
+            edit.apply();
+        }//若是第一次开启 启动动画界面
+        else {
+            //判断是否已经登出 登出需要重新登陆 未登出需要赋值account
+            if (isLogin) {
+//                ShowInfoUtil.showInfo(getApplicationContext(),"islogin");
+                UserInfoSotrage.Account = account;
+                UserInfoSotrage.pwd = pwd;
+                UserInfoSotrage.icon = icon;
+                UserInfoSotrage.Name = name;
+                Intent intent = new Intent(SignInUpActivity.this, HomeActivity.class);
+                startActivity(intent);
+            } else {
+//                ShowInfoUtil.showInfo(getApplicationContext(),"isNotlogin");
+            }
+        }
+
+
 
         params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         params2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -174,18 +208,18 @@ public class SignInUpActivity extends AppCompatActivity {
         });
 
         //记住登陆逻辑
-        SharedPreferences sp = getSharedPreferences("login",getApplicationContext().MODE_PRIVATE);
-        cb.setChecked(sp.getBoolean("cb",false));
-        email.setText(sp.getString("account",""));
-        pass.setText(sp.getString("pwd",""));
+        SharedPreferences sp = getSharedPreferences("login", getApplicationContext().MODE_PRIVATE);
+        cb.setChecked(sp.getBoolean("cb", false));
+        email.setText(sp.getString("account", ""));
+        pass.setText(sp.getString("pwd", ""));
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getApplicationContext(),"signup"+email2.getText()+"**"+pass2.getText(),Toast.LENGTH_LONG).show();
                 //TODO
-                if(!isOnLoginPage)
-                signUpFunction(email2,pass2,confirmPass);
+                if (!isOnLoginPage)
+                    signUpFunction(email2, pass2, confirmPass);
 
                 isOnLoginPage = false;
 
@@ -281,8 +315,8 @@ public class SignInUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(isOnLoginPage)
-                    signInFunction(email.getText().toString().trim(),pass.getText().toString().trim());
+                if (isOnLoginPage)
+                    signInFunction(email.getText().toString().trim(), pass.getText().toString().trim());
 
                 isOnLoginPage = true;
 
@@ -330,12 +364,12 @@ public class SignInUpActivity extends AppCompatActivity {
 
                         ObjectAnimator animator16 = ObjectAnimator.ofFloat(signUp, "scaleX", 1);
                         ObjectAnimator animator17 = ObjectAnimator.ofFloat(signUp, "scaleY", 1);
-                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX()+relativeLayout2.getWidth());
+                        ObjectAnimator animator18 = ObjectAnimator.ofFloat(logo, "x", logo.getX() + relativeLayout2.getWidth());
 
 
                         AnimatorSet set = new AnimatorSet();
-                        set.playTogether(animator1, animator2, animator3, animator4, animator5,  animator7,
-                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17,animator18);
+                        set.playTogether(animator1, animator2, animator3, animator4, animator5, animator7,
+                                animator8, animator9, animator10, animator11, animator12, animator13, animator14, animator15, animator16, animator17, animator18);
                         set.setDuration(1500).start();
 
                     }
@@ -387,169 +421,179 @@ public class SignInUpActivity extends AppCompatActivity {
         return px;
     }
 
-    private void signInFunction(final String account, final String pwd){
+    private void signInFunction(final String account, final String pwd) {
         //登陆逻辑
+        //TODO 点击登陆后的逻辑 从此就不需要再次开启动画
 //        Log.d("Login",account+":"+pwd);
+        final SharedPreferences.Editor edit = sp.edit();
+        edit.putBoolean("isFirstLogin", false);
+        edit.apply();
 
         //判断是否可以登录
-        if(account.equals("")||pwd.equals("")){
-            ShowInfoUtil.showInfo(getApplicationContext(),"need password and username!");
+        if (account.equals("") || pwd.equals("")) {
+            ShowInfoUtil.showInfo(getApplicationContext(), "need password and username!");
         }
         //判断是否已经被登陆
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
-                    String checkPath = "http://39.108.159.175/phpworkplace/androidLogin/CheckLoginStatus.php?name="+ URLEncoder.encode(account,"utf-8");
-                    Log.d("Login", "Check path is:"+checkPath);
+                    String checkPath = "http://39.108.159.175/phpworkplace/androidLogin/CheckLoginStatus.php?name=" + URLEncoder.encode(account, "utf-8");
+                    Log.d("Login", "Check path is:" + checkPath);
                     URL url = new URL(checkPath);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(5000);
                     int code1 = conn.getResponseCode();
-                    if(200==code1){
+                    if (200 == code1) {
                         final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
-                        Log.d("Login", "Login Status is:"+satus+":"+ UserInfoSotrage.Account);
+                        Log.d("Login", "Login Status is:" + satus + ":" + UserInfoSotrage.Account);
 
-                        if(satus.equals("1")){
+                        if (satus.equals("1")) {
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ShowInfoUtil.showInfo(getApplicationContext(),"该账户已经登陆！");
+                                    ShowInfoUtil.showInfo(getApplicationContext(), "该账户已经登陆！");
                                 }
                             });
-                                    isLogin = true;
-                                    Log.d("Login", "Unalbe to Login "+isLogin);
-                                    return;
-                        }else{
+                            isLogin = true;
+                            Log.d("Login", "Unalbe to Login " + isLogin);
+                            return;
+                        } else {
                             //未登录 可以执行登陆
-                            isLogin=false;
-                            Log.d("Login", "OK to Login :"+satus);
-                            new Thread(){
+                            isLogin = false;
+                            Log.d("Login", "OK to Login :" + satus);
+                            new Thread() {
                                 @Override
                                 public void run() {
                                     //登陆业务
 
                                     try {
-                                        final String path  = "http://39.108.159.175/phpworkplace/androidLogin/Login.php?name="+URLEncoder.encode(account,"utf-8")+"&password="+URLEncoder.encode(pwd,"utf-8");
+                                        final String path = "http://39.108.159.175/phpworkplace/androidLogin/Login.php?name=" + URLEncoder.encode(account, "utf-8") + "&password=" + URLEncoder.encode(pwd, "utf-8");
                                         URL url = new URL(path);
                                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                                         connection.setConnectTimeout(5000);
                                         connection.setRequestMethod("GET");
                                         int code = connection.getResponseCode();
-                                        if(200==code){
+                                        if (200 == code) {
                                             InputStream inputStream = connection.getInputStream();
                                             final String result = StreamUtil.readStream(inputStream).trim();
 //                                        ShowInfoUtil.showInfo(getContext(),result);
-                                                    if (result.trim().equals("success")){
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                ShowInfoUtil.showInfo(getApplicationContext(),"登陆成功");
-                                                            }
-                                                        });
-                                                        //存储登陆用户昵称信息
-                                                        UserInfoSotrage.Account =account;
-                                                        UserInfoSotrage.pwd=pwd;
-
-                                                        new Thread(){
-                                                            @Override
-                                                            public void run() {
-                                                                try {
-                                                                    final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
-                                                                    URL url = new URL(infoPath);
-                                                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                                                    conn.setRequestMethod("GET");
-                                                                    conn.setConnectTimeout(5000);
-                                                                    int code1 = conn.getResponseCode();
-                                                                    if(200==code1){
-                                                                        final String nickname = StreamUtil.readStream(conn.getInputStream()).trim();
-                                                                        UserInfoSotrage.Name =nickname;
-                                                                        Log.d("Login", "run: "+ UserInfoSotrage.Name +":"+ UserInfoSotrage.Account +":"+ UserInfoSotrage.pwd);
-                                                                    }else{
-                                                                        runOnUiThread(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
-                                                                        }
-                                                                    });
-                                                                    }
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        }.start();
-                                                        new Thread(){
-                                                            @Override
-                                                            public void run() {
-                                                                try {
-                                                                    final String infoPath ="http://39.108.159.175/phpworkplace/androidLogin/GetIcon.php?name="+ URLEncoder.encode(UserInfoSotrage.Account,"utf-8");
-                                                                    URL url = new URL(infoPath);
-                                                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                                                    conn.setRequestMethod("GET");
-                                                                    conn.setConnectTimeout(5000);
-                                                                    int code1 = conn.getResponseCode();
-                                                                    if(200==code1){
-                                                                        final String icon = StreamUtil.readStream(conn.getInputStream()).trim();
-                                                                        UserInfoSotrage.icon =icon;
-                                                                    }else{
-                                                                        runOnUiThread(new Runnable() {
-                                                                            @Override
-                                                                            public void run() {
-                                                                                ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        }.start();
-                                                        //修改用户服务器登陆信息
-                                                        new Thread(){
-                                                            @Override
-                                                            public void run() {
-                                                                try {
-                                                                    String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name="+URLEncoder.encode(account,"utf-8")+"&status="+1;
-                                                                    URL url = new URL(statusPath);
-                                                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                                                    conn.setRequestMethod("GET");
-                                                                    conn.setConnectTimeout(5000);
-                                                                    int code1 = conn.getResponseCode();
-                                                                    if(200==code1){
-                                                                        final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
-                                                                        Log.d("Login", "status is: "+satus);
-                                                                    }else{
-                                                                        runOnUiThread(new Runnable() {
-                                                                            @Override
-                                                                            public void run() {
-                                                                                ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        }.start();
-                                                        //先沉睡2秒确定获取登陆状态启动homeactivity
-                                                        if(!isLogin){
-                                                            Log.d("Login", "islogin:"+isLogin);
-                                                            Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                                                            startActivity(homeIntent);
-                                                        }
-
-                                                    }else{
-//                                                        ShowInfoUtil.showInfo(getApplicationContext(),"登陆失败");
-                                                        //TODO
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                ShowInfoUtil.showInfo(getApplicationContext(),"登陆失败");
-                                                            }
-                                                        });
+                                            if (result.trim().equals("success")) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ShowInfoUtil.showInfo(getApplicationContext(), "登陆成功");
                                                     }
+                                                });
+                                                //存储登陆用户昵称信息
+                                                UserInfoSotrage.Account = account;
+                                                UserInfoSotrage.pwd = pwd;
+
+                                                new Thread() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            final String infoPath = "http://39.108.159.175/phpworkplace/androidLogin/GetNickName.php?name=" + URLEncoder.encode(UserInfoSotrage.Account, "utf-8");
+                                                            URL url = new URL(infoPath);
+                                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                                            conn.setRequestMethod("GET");
+                                                            conn.setConnectTimeout(5000);
+                                                            int code1 = conn.getResponseCode();
+                                                            if (200 == code1) {
+                                                                final String nickname = StreamUtil.readStream(conn.getInputStream()).trim();
+                                                                UserInfoSotrage.Name = nickname;
+                                                                edit.putString("name", nickname);
+                                                                Log.d("Login", "run: " + UserInfoSotrage.Name + ":" + UserInfoSotrage.Account + ":" + UserInfoSotrage.pwd);
+                                                            } else {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        ShowInfoUtil.showInfo(getApplicationContext(), "链接服务器失败");
+                                                                    }
+                                                                });
+                                                            }
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }.start();
+                                                new Thread() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            final String infoPath = "http://39.108.159.175/phpworkplace/androidLogin/GetIcon.php?name=" + URLEncoder.encode(UserInfoSotrage.Account, "utf-8");
+                                                            URL url = new URL(infoPath);
+                                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                                            conn.setRequestMethod("GET");
+                                                            conn.setConnectTimeout(5000);
+                                                            int code1 = conn.getResponseCode();
+                                                            if (200 == code1) {
+                                                                final String icon = StreamUtil.readStream(conn.getInputStream()).trim();
+                                                                UserInfoSotrage.icon = icon;
+                                                                edit.putString("account", account);
+                                                                edit.putString("pwd", pwd);
+                                                                edit.putString("icon", icon);
+                                                            } else {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        ShowInfoUtil.showInfo(getApplicationContext(), "链接服务器失败");
+                                                                    }
+                                                                });
+                                                            }
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }.start();
+                                                //修改用户服务器登陆信息
+                                                new Thread() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            String statusPath = "http://39.108.159.175/phpworkplace/androidLogin/SetUserStatus.php?name=" + URLEncoder.encode(account, "utf-8") + "&status=" + 1;
+                                                            URL url = new URL(statusPath);
+                                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                                            conn.setRequestMethod("GET");
+                                                            conn.setConnectTimeout(5000);
+                                                            int code1 = conn.getResponseCode();
+                                                            if (200 == code1) {
+                                                                final String satus = StreamUtil.readStream(conn.getInputStream()).trim();
+                                                                Log.d("Login", "status is: " + satus);
+                                                                edit.putBoolean("isLogin", true);
+                                                                edit.apply();
+                                                            } else {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        ShowInfoUtil.showInfo(getApplicationContext(), "链接服务器失败");
+                                                                    }
+                                                                });
+                                                            }
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }.start();
+                                                //先沉睡2秒确定获取登陆状态启动homeactivity
+                                                if (!isLogin) {
+                                                    Log.d("Login", "islogin:" + isLogin);
+                                                    Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                                    startActivity(homeIntent);
+                                                }
+
+                                            } else {
+//                                                        ShowInfoUtil.showInfo(getApplicationContext(),"登陆失败");
+                                                //TODO
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ShowInfoUtil.showInfo(getApplicationContext(), "登陆失败");
+                                                    }
+                                                });
+                                            }
                                         }
 
                                     } catch (Exception e) {
@@ -559,11 +603,11 @@ public class SignInUpActivity extends AppCompatActivity {
                             }.start();
                         }
 
-                    }else{
+                    } else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ShowInfoUtil.showInfo(getApplicationContext(),"链接服务器失败");
+                                ShowInfoUtil.showInfo(getApplicationContext(), "链接服务器失败");
                             }
                         });
                     }
@@ -573,50 +617,53 @@ public class SignInUpActivity extends AppCompatActivity {
             }
         }.start();
         //保存记住登陆逻辑
-        if(cb.isChecked()){
+        if (cb.isChecked()) {
             SharedPreferences preferences = getSharedPreferences("login", 1);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("cb",true);
-            editor.putString("account",account);
-            editor.putString("pwd",pwd);
+            editor.putBoolean("cb", true);
+            editor.putString("account", account);
+            editor.putString("pwd", pwd);
             editor.commit();
         }
 
     }
 
-    private void signUpFunction(final  EditText etAccount,final EditText etPwd,final EditText confirmPwd){
+    private void signUpFunction(final EditText etAccount, final EditText etPwd, final EditText confirmPwd) {
 
         final String account_name = etAccount.getText().toString().trim();
         final String account_pwd = etPwd.getText().toString().trim();
         final String account_confirm_pwd = confirmPwd.getText().toString().trim();
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putBoolean("isFirstLogin", false);
+        edit.apply();
         //由于访问网络 创建新线程
-        new Thread(){
+        new Thread() {
 
             @Override
             public void run() {
-                if(account_name.equals("")||account_pwd.equals("")){
+                if (account_name.equals("") || account_pwd.equals("")) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ShowInfoUtil.showInfo(getApplicationContext(),"欢迎注册 请输入用户名和密码"+account_name+"*"+account_pwd);
+                            ShowInfoUtil.showInfo(getApplicationContext(), "欢迎注册 请输入用户名和密码" + account_name + "*" + account_pwd);
                         }
                     });
                     //无法更新ui
 //                                Toast.makeText(getContext(),"请输入用户名和密码",Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(!account_confirm_pwd.equals(account_pwd)){
+                if (!account_confirm_pwd.equals(account_pwd)) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ShowInfoUtil.showInfo(getApplicationContext(),"密码不一致"+account_name+"*"+account_pwd);
+                            ShowInfoUtil.showInfo(getApplicationContext(), "密码不一致" + account_name + "*" + account_pwd);
                         }
                     });
                     return;
                 }
                 try {
                     //开始注册代码
-                    String tempName= URLEncoder.encode(account_name,"utf-8");
+                    String tempName = URLEncoder.encode(account_name, "utf-8");
                     //设置路径
 //                                System.out.println("tempName:"+tempName+"account_name:"+account_name);
                     String path = "http://39.108.159.175/phpworkplace/androidLogin/Register.php"
@@ -631,40 +678,44 @@ public class SignInUpActivity extends AppCompatActivity {
                     URL url = new URL(path);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     int code = conn.getResponseCode();
-                    if(code==200){
+                    if (code == 200) {
                         //连接成功获得传递的流信息
                         InputStream in = conn.getInputStream();
                         String stream = StreamUtil.readStream(in).trim();
-                        if(stream.equals("注册成功")){
+                        if (stream.equals("注册成功")) {
                             System.out.println("注册成功");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ShowInfoUtil.showInfo(getApplicationContext(),"注册成功");
+                                    ShowInfoUtil.showInfo(getApplicationContext(), "注册成功");
                                 }
                             });
                             UserInfoSotrage.Account = account_name;
-                            UserInfoSotrage.pwd=account_pwd;
+                            UserInfoSotrage.pwd = account_pwd;
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("account", account_name);
+                            editor.putString("pwd", account_pwd);
+                            editor.apply();
 //                                        getActivity().runOnUiThread();也可以 不过用handler看起来更加分离UI
 //                                        Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                             //TODO
                             //跳转到成功界面
 //                                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new SignUpFragment()).commit();
 //                            getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new FillInfoMationFragment()).commit();
-                            Intent intent = new Intent(SignInUpActivity.this,FillInfoActivity.class);
+                            Intent intent = new Intent(SignInUpActivity.this, FillInfoActivity.class);
                             startActivity(intent);
 
-                        }else if(stream.equals("存在用户")){
+                        } else if (stream.equals("存在用户")) {
                             System.out.println("存在用户");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ShowInfoUtil.showInfo(getApplicationContext(),"用户已存在");
+                                    ShowInfoUtil.showInfo(getApplicationContext(), "用户已存在");
                                 }
                             });
 //                                        Toast.makeText(getContext(), "用户已存在", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
+                    } else {
                         System.out.println("连接服务器失败");
                     }
 

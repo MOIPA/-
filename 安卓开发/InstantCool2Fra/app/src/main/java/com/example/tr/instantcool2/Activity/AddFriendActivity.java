@@ -107,6 +107,8 @@ public class AddFriendActivity extends AppCompatActivity {
                 Friend friend = lists.get(position);
                 Intent intent = new Intent(AddFriendActivity.this,FriendInfoActivity.class);
                 intent.putExtra("friendname",friend.getFriendName());
+                Log.d("icon", "onItemClick: "+friend.getFriendIcon());
+                intent.putExtra("friendicon",friend.getFriendIcon()+"");
                 intent.putExtra("friendaccount",friend.getFriendAccount());
                 intent.putExtra("willAddFriend","yes");
                 startActivity(intent);
