@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
+import com.example.tr.instantcool2.Utils.ot;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.jpeng.jpspringmenu.SpringMenu;
@@ -90,8 +92,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
 
         //初始化果冻菜单
         actionMenu = (ActionMenu) findViewById(R.id.actionMenu);
-        actionMenu.addView(R.mipmap.ic_launcher_round);
-        actionMenu.addView(R.mipmap.ic_launcher_round);
+        actionMenu.addView(R.mipmap.lights);
+        actionMenu.addView(R.mipmap.calendar);
         initActionMenu();//add listener
 
         //初始化回弹侧滑菜单
@@ -107,8 +109,8 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         findIndicator = new TabindicatorView(this);
 //        connecotrIndicator = new TabindicatorView(this);
 //        meIndicator = new TabindicatorView(this);
-        init("消息", TAG_CHAT, chatIndicator,new ChatFragment());
-        init("好友", TAG_Friends, findIndicator,new FriendsFragment());
+        init("消息", TAG_CHAT, chatIndicator,new ChatFragment(),0);
+        init("好友", TAG_Friends, findIndicator,new FriendsFragment(),1);
 //        init("功能", TAG_Functions, connecotrIndicator,new FunctionFragment());
 //        init("我", TAG_MY, meIndicator,new MeFragment());
 
@@ -140,9 +142,29 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     //TODO 将退出登录改写为用户自己选择logout
     private void initSpMenuItem() {
         View menuView = spMenu.getMenuView();
-        TextView tv_show = (TextView) menuView.findViewById(R.id.tv_user_icon_menu_view);
-        tv_show.setText("this is my first try:"+UserInfoSotrage.icon+":");
-        Button btn_logout = (Button) findViewById(R.id.btn_logout_menu_view);
+        //初始化子控件
+        TextView tvUserName = (TextView) menuView.findViewById(R.id.tv_user_name_menu_view);
+        TextView tvUserAccount = (TextView) menuView.findViewById(R.id.tv_user_account_menu_view);
+        ImageView ivUserIcon = (ImageView) menuView.findViewById(R.id.iv_user_icon_menu_view);
+        Button btn_logout = (Button) menuView.findViewById(R.id.btn_logout_menu_view);
+        Button btn_chname = (Button) menuView.findViewById(R.id.btn_chname_menu_view);
+        Button btn_chpwd = (Button) menuView.findViewById(R.id.btn_chpwd_menu_view);
+        Button btn_chicon = (Button) menuView.findViewById(R.id.btn_chicon_menu_view);
+        //初始化基本信息
+        initMenuInfo(tvUserName,tvUserAccount,ivUserIcon);
+
+        //退出逻辑
+        setLogoutBtnListener(btn_logout);
+        //修改逻辑
+        setChName(btn_chname);
+        setChPwd(btn_chpwd);
+        setChIcon(btn_chicon);
+    }
+    //TODO 实现每个方法
+    private void setChName(Button btn){}
+    private void setChPwd(Button btn){}
+    private void setChIcon(Button btn){}
+    private void setLogoutBtnListener(Button btn_logout){
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +179,15 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             }
         });
     }
+    private void initMenuInfo(TextView tvUserName,TextView tvUserAccount,ImageView ivUserIcon){
+        tvUserName.setText(UserInfoSotrage.Name);
+        tvUserAccount.setText(UserInfoSotrage.Account);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
+        ivUserIcon.setImageResource(ot.getImageId(Integer.parseInt(UserInfoSotrage.icon)));
+    }
+
     public void sendExitBroadcast() {
         new Thread(){
             @Override
@@ -180,7 +211,9 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
                 //TODO 完善果冻弹出页面
                 switch (i){
                     case 1:
-                        //启动自我设置页面
+                        //启动画图
+                        Intent intentDraw = new Intent(HomeActivity.this,DrawerActivity.class);
+                        startActivity(intentDraw);
                         break;
                     case 2:
                         //启动日历界面
@@ -197,7 +230,6 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             }
         });
     }
-
 
 
     private void detectUnreadMessageCount(){
@@ -241,13 +273,17 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
      * @param indicator 自定義控件
      * @param fragment 添加的fragment
      */
-    private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment) {
+    private void init(String title, String TAG, TabindicatorView indicator, Fragment fragment,int icon) {
         //新建tabspec
         TabHost.TabSpec spec = tabHost.newTabSpec(TAG);
 //        TabindicatorView indicator = new TabindicatorView(this);
         indicator.setTabUnreadCount(0);
         indicator.setTableTitle(title);
-        indicator.setTableIcon(R.mipmap.ic_launcher, R.mipmap.ic_launcher_round);
+        //0:xiaoxi 1:haoyou
+        if(icon==0)
+        indicator.setTableIcon(R.mipmap.comments, R.mipmap.commentsclicked);
+        if(icon==1)
+            indicator.setTableIcon(R.mipmap.bussinessman, R.mipmap.bussinessmanclick);
         spec.setIndicator(indicator);
 //        spec.setIndicator(view)
         //添加tabspec
@@ -369,6 +405,12 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         public int getCount() {
             return mfragments.size();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initSpMenuItem();
     }
 }
 

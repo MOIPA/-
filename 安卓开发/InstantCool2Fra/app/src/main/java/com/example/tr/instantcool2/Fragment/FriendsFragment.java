@@ -340,7 +340,7 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     sweetAlertDialog
-                                            .setTitleText("Deleted!")
+                                            .setTitleText("已删除!")
                                             .setContentText("好友已删除!")
                                             .setConfirmText("OK")
                                             .setConfirmClickListener(null)

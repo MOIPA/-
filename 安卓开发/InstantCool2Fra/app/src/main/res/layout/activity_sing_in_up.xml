@@ -11,7 +11,7 @@
         android:adjustViewBounds="false"
         android:scaleX="3"
         android:scaleY="3"
-        android:src="@drawable/pp" />
+        android:src="@drawable/timg" />
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mainLinear"
@@ -51,7 +51,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
                 android:hint="Password"
-                android:inputType="textCapSentences"
+                android:inputType="numberPassword"
                 android:padding="20dp"
                 android:visibility="gone" />
 
@@ -64,7 +64,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
                 android:hint="Confirm Pass"
-                android:inputType="textCapSentences"
+                android:inputType="numberPassword"
                 android:padding="20dp"
                 android:visibility="gone" />
 
@@ -111,7 +111,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"
                 android:hint="Password"
-                android:inputType="textCapSentences"
+                android:inputType="numberPassword"
                 android:padding="20dp" />
 
 

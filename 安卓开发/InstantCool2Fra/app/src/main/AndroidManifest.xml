@@ -35,7 +35,8 @@
         <activity android:name=".Activity.ConfirmInvitationActivity" />
         <activity android:name=".Activity.StartActivity" />
         <activity android:name=".Activity.FillInfoActivity" />
-        <activity android:name=".Activity.CalendarActivity"></activity>
+        <activity android:name=".Activity.CalendarActivity" />
+        <activity android:name=".Activity.DrawerActivity"></activity>
     </application>
 
 </manifest>

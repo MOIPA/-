@@ -57,7 +57,6 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
                             int code = connection.getResponseCode();
                             if(200==code){
                                 if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
-                                            ShowInfoUtil.showInfo(getApplication(),"信息已完善");
 
                                 }
                             }else{
@@ -83,7 +82,12 @@ public class FillInfoActivity extends AppCompatActivity implements TopBarIndicat
                             int code = connection.getResponseCode();
                             if(200==code){
                                 if(StreamUtil.readStream(connection.getInputStream()).trim().equals("success")){
-                                    ShowInfoUtil.showInfo(getApplication(),"信息已完善");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ShowInfoUtil.showInfo(getApplication(),"信息已完善");
+                                        }
+                                    });
                                     UserInfoSotrage.icon = etIcon.getText().toString().trim();
                                     SharedPreferences sp = getSharedPreferences("userInfo",MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sp.edit();

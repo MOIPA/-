@@ -22,13 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:layout_alignParentRight="true"
+            android:textColor="#000000"
             android:id="@+id/btn_send_chat_activity"
             android:text="发送"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
         <EditText
-            android:background="@mipmap/ic_launcher"
+            android:height="42dp"
+            android:background="#d0d0d0"
             android:layout_alignBottom="@id/btn_send_chat_activity"
             android:layout_toLeftOf="@id/btn_send_chat_activity"
             android:id="@+id/et_message_chat_activity"
@@ -37,7 +40,6 @@
     </RelativeLayout>
 
     <ListView
-
         android:id="@+id/lv_show_message_chat_activity"
         android:layout_above="@id/rl_bottom"
         android:layout_below="@id/tv_friend_name_chat_activity"
