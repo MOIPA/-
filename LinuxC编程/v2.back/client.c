@@ -35,8 +35,8 @@ int main(void){
                 //receiver from server and echo
                 if(recv(server_sock,buffer,1024,0)==-1)printf("can't receive message from server!\n");
                 else{
-                        printf("%s",buffer);
-                        if(strcmp(buffer,"server>not right user name or password\n")==0){
+                        printf("%s\n",buffer);
+                        if(strcmp(buffer,"not right user name or password\n")==0){
                                 //close(server_sock);
                                 //server_sock = socket(AF_INET,SOCK_STREAM,0);
                                 //printf("reconnect...\n");
@@ -44,12 +44,16 @@ int main(void){
                                 break;
                         }                                                                               //exit the client or reopen connect
                 }
+                //scanf("%s",buffer);//scan from user input
+                //fflush(stdin);
+                //rewind(stdin);
                 printf("server>");
-                scanf("%s",buffer);//scan from user input
+                scanf(" %[^\n]",buffer);
+                //fflush(stdout);
+                //printf("send:%s******\n",buffer);
 
                 //response to server
                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
-
                 //if user want to exit
                 if(strcmp("quit",buffer)==0){
                         if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
