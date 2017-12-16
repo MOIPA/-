@@ -13,26 +13,27 @@ void doMkDir(int client_sock,char *content);
 void doRmDir(int client_sock,char *content);
 void doLs(int client_sock,char *path);
 void doCd(int client_sock,char *current_dir,char *content);
-void doPut();
-void doMPut();
-void doGet();
-void doMGet();
 void *handClientRequest(void *arg);
 void *handServerRequest(void *arg);
 int doSplit(char split,const char *s,char* command,char *content);
 
+struct UserThreadAndName{
+        char thread_name[20];
+        //pthread_t thread;
+};
 
 int total_users=0,current_users=0,quitSingal=0,isBinary=1;//shared resources   quitSingal 0:not quit 1:need quit
-
+char users_lists[20][20];
 
 struct User{
         char name[30];
         char pwd[30];
-        int kind;//1:root user 0:common user
+        int kind;//1:root user 0:common user -1:visitor
 };
 struct MyArg{
         int client_sock;
         int user_kind;
+        //        struct UserThreadAndName *lists;
 };
 
 //create user
@@ -49,8 +50,20 @@ struct User *do_createUsr(int *user_accounts){
         users[1]=com_user;
         *user_accounts=2;
         return users;
-
 }
+
+struct UserThreadAndName *do_createUsrInfo(int *thread_counts){
+        struct UserThreadAndName *lists;
+        struct UserThreadAndName userinfo_1;
+        strcpy(userinfo_1.thread_name,"empty");
+        lists[0]=userinfo_1;
+
+        *thread_counts=1;
+        //    struct User user1;          //**********************************the program will breakdown without this sentence?????????
+
+        return lists;
+}
+
 int judgeUser(char *name,char *pwd,struct User* users,int user_accounts){
         int i,user_kind=-1;
         for(i=0;i<user_accounts;i++)
@@ -66,11 +79,20 @@ int main(int arg,char* argv[]){
         struct sockaddr_in server_sockaddr;
         struct User login_user;
         struct User *users;
-        int user_accounts,user_kind;
+        struct UserThreadAndName userInfo;
+        struct UserThreadAndName *lists;
+        int user_accounts,user_kind,thread_counts;
         struct MyArg client_arg; 
         char buffer[1024];
         pthread_t process_client;
         pthread_t process_server;
+        //init users which put thread and name
+        //do_createUsrInfo(&thread_counts);      //**********************************BUG:segmentation fault
+        //init user_lists
+        int j;
+        for(j=0;j<20;j++){
+                strcpy(users_lists[j],"empty");
+        }
         //init user
         users = do_createUsr(&user_accounts);
         //init server address 
@@ -128,6 +150,7 @@ int main(int arg,char* argv[]){
                 //else if(user_kind!=-1){                                                             //login succeed
                 client_arg.client_sock=client_sock;
                 client_arg.user_kind=user_kind;
+                //client_arg.lists = lists;
                 strcat(buffer,"welcome your are the  ");
                 //strcat(buffer,current_users+49);
                 char tmp[10];
@@ -138,7 +161,9 @@ int main(int arg,char* argv[]){
                 if(quitSingal==1)break;                                                             //quit judge
                 send(client_sock,buffer,140,0);
                 if(quitSingal==1)break;                                                             //quit judge
-                if(pthread_create(&process_client,NULL,handClientRequest,&client_arg)!=0)current_users--;
+                if(pthread_create(&process_client,NULL,handClientRequest,&client_arg)!=0){
+                        current_users--;
+                }
                 //}
                 if(quitSingal==1)break;                                                             //quit judge
 
@@ -148,27 +173,56 @@ int main(int arg,char* argv[]){
 
         return 0;
 }
-void doGet(){
+void doGet(int client_sock,const char *file_name){
+        printf("enter do get\n");
+        char content_buffer[1025];
+        memset(content_buffer,0,1025);
+        FILE *file;
+        int i=0;
+        if(isBinary==0){
+                file=fopen(file_name,"rt+");
+                if(file==NULL)strcpy(content_buffer,"error");
+                else{		//file can be open
+                        while(fread(&content_buffer[i++],sizeof(char),1,file)!=0);
+                }
+        }
+        if(isBinary==1){
+                file=fopen(file_name,"rb+");
+                if(file==NULL)strcpy(content_buffer,"error");
+                else{
+                        while(fread(&content_buffer[i++],8,1,file)!=0);
+                }
+        }
+        send(client_sock,content_buffer,1024,0);
+        //	printf("buffer send %s\n",content_buffer);
+        fclose(file);
 
 }
-void doPut(int client_sock,char *file_name,char *file_content ){
-    char buffer[1024];
-    if(isBinary==1){
-        //put file to local
-    }
-    if(isBinary==0){
+void doPut(int client_sock,const char *file_name,const char *file_content ){
+        char buffer[1024];
+        FILE *file; 
+        if(isBinary==1){
+                //put file to local
+                file = fopen(file_name,"wb+");
+                fwrite(file_content,8,1024,file);
+        }
+        if(isBinary==0){
+                file = fopen(file_name,"wt+");
+                fwrite(file_content,sizeof(char),1024,file);
+        }
 
-    }
-
-    memset(buffer,0,1024);
-    strcpy(buffer,"file translated");
-    send(client_sock,buffer,100,1);
-    printf("received file is:\n%s\n",file_content);
+        memset(buffer,0,1024);
+        strcpy(buffer,"file translated");
+        send(client_sock,buffer,100,1);
+        //    printf("received file is:\n%s\n",file_content);
+        fclose(file);
 }
 
 void *handClientRequest(void *arg){
         total_users++;
+        char name[50];
         struct MyArg client_arg = *(struct MyArg*)arg;
+        //struct UserThreadAndName *lists = client_arg.lists;
         char  buffer[2048]={0}; 
         char command[1024]={0};
         char content[1024]={0};
@@ -178,6 +232,23 @@ void *handClientRequest(void *arg){
         int client_sock=client_arg.client_sock;
         int user_kind = client_arg.user_kind;
         int isSplit;
+
+        //start set users_lists erogdic lists if not empty set that value
+        int  k=0;
+        for(;k<20;k++){
+                if(strcmp(users_lists[k],"empty")==0)break; 
+        }
+        if(user_kind==1)sprintf(name,"admin user:%d",current_users);
+        else sprintf(name,"visitor :%d",total_users);
+        strcpy(users_lists[k],name);
+        memset(name,0,50); 
+        //end 
+
+        //if(user_kind==1) sprintf(name,"admin user %d",current_users);
+        //else sprintf(name,"visitor %d",current_users);
+        //strcpy(lists[current_users-1].name,name);                //means new thread has created set user thread and name
+        //lists[current_users-1].thread=pthread_self(); 
+
         strcpy(default_dir,"/home/tr/server");
         strcpy(current_dir,default_dir);
         chdir(default_dir);              //user default directory
@@ -192,13 +263,13 @@ void *handClientRequest(void *arg){
                 isSplit = doSplit(' ',buffer,command,content);     //split command and content if split failed then command=buffer
 
                 //execute user command
-                if(strcmp(command,"lcd")==0){//lcd
-                        if(user_kind==1)
-                                strcpy(buffer,"do lcd command!");
-                        else strcpy(buffer,"do lcd command!");
-                        send(client_sock,buffer,30,0);
-                }
-                else if(strcmp(command,"ls")==0){//ls
+                //if(strcmp(command,"lcd")==0){//lcd
+                //        if(user_kind==1)
+                //                strcpy(buffer,"do lcd command!");
+                //        else strcpy(buffer,"do lcd command!");
+                //        send(client_sock,buffer,30,0);
+                //}
+                if(strcmp(command,"ls")==0){//ls
                         doLs(client_sock,current_dir);
                 }
                 else if(strcmp(command,"pwd")==0){//pwd
@@ -216,21 +287,22 @@ void *handClientRequest(void *arg){
                         send(client_sock,buffer,40,0); 
                 }
                 else if(strcmp(command,"mkdir")==0){ //mkdir
-                        if(isSplit==-1){
-                                strcpy(buffer,"please enter your content");       //may needs content judge isSplited
+                        if(isSplit==-1||user_kind==-1){
+                                strcpy(buffer,"unable to operate");       //may needs content judge isSplited
                                 send(client_sock,buffer,100,0); 
                         }
                         else doMkDir(client_sock,content);
                 }
                 else if(strcmp(command,"rmdir")==0){//rmdir
-                        if(isSplit==-1){
+                        if(isSplit==-1||user_kind==-1){
+                                strcpy(buffer,"unable to operate");       //may needs content judge isSplited
                                 send(client_sock,buffer,100,0);
                         }
                         else doRmDir(client_sock,content);
                 }
                 else if(strcmp(command,"cd")==0){ //cd
-                        if(isSplit==-1){
-                                strcpy(buffer,"please enter your content");       //cd may needs content judge isSplited
+                        if(isSplit==-1||user_kind==-1){
+                                strcpy(buffer,"unable to operate");       //may needs content judge isSplited
                                 send(client_sock,buffer,100,0); 
                         }
                         else {
@@ -239,13 +311,13 @@ void *handClientRequest(void *arg){
                         }                    
                 }
                 else if(strcmp(command,"get")==0){ //get
-                        if(isSplit==-1){
-                                strcpy(buffer,"please enter your content");       //may needs content judge isSplited
+                        if(isSplit==-1||user_kind==-1){
+                                strcpy(buffer,"error");       //may needs content judge isSplited
                                 send(client_sock,buffer,100,0); 
                         }
                         else {
-                                if(strcmp(content,"")!=0&&strcmp(content,"\n")!=0)
-                                        doGet(client_sock,content);
+                                //printf("buffer is:%s\n,content(file name)is:%s\n",buffer,content); *****************OUTPUT TEST
+                                doGet(client_sock,content);
                         }
                 }
                 else if(strcmp(command,"put")==0){ //put                          //upload files to server  content is file name
@@ -254,13 +326,23 @@ void *handClientRequest(void *arg){
                                 send(client_sock,buffer,100,0); 
                         }
                         else {
-                                if(strcmp(content,"")!=0&&strcmp(content,"\n")!=0)
-                                        strcpy(buffer,"filecontent");
-                                        send(client_sock,buffer,100,0);         //need file content request
-                                        recv(client_sock,buffer,1024,0);        //recv again to get file content
-                                        if(strcmp("error",buffer)==0);          //open failed do nothig
-                                        else doPut(client_sock,content,buffer);      //content: is file name buffer: is file content 
+                                memset(buffer,0,1024);
+                                strcpy(buffer,"filecontent");
+                                send(client_sock,buffer,100,0);         //need file content request
+                                recv(client_sock,buffer,100,0);        //recv again to get file content
+                                if(strcmp("error",buffer)==0)send(client_sock,buffer,100,0);          //open failed do nothig
+                                else doPut(client_sock,content,buffer);      //content: is file name buffer: is file content 
                         }
+                }
+                else if(strcmp(command,"get")==0){//get
+                        if(isSplit==-1){			//if no input send error
+                                strcpy(buffer,"error");
+                                send(client_sock,buffer,100,0);	
+                        }
+                        else{
+                                memset(buffer,0,1024);
+                                doGet(client_sock,content);
+                        } 
                 }
 
                 //exit command
@@ -282,6 +364,8 @@ void *handClientRequest(void *arg){
 
 
 void *handServerRequest(void *arg){
+        //struct UserThreadAndName *lists;
+        //lists = (struct UserThreadAndName*)arg;
         pthread_detach(pthread_self());
         char buffer[1024];
         printf("server handler waiting\n");
@@ -298,6 +382,26 @@ void *handServerRequest(void *arg){
                         quitSingal=1;
                         break;    
                 }
+                if(strcmp(buffer,"lists")==0){
+                        printf("enter lists\n");
+                        int k=0;
+                        printf("k is %d",k);
+                        for(k=0;k<20;k++){
+                                printf("k is %d",k);
+                                if(strcmp(users_lists[k],"empty")!=0)printf("%s\n",users_lists[k]);
+                        }
+                        printf("k is %d",k);
+                        break;    
+                }
+                //if(strcmp(buffer,"list")==0){
+                //    int i=0;
+                //    for(;i<50;i++){
+                //        if(strcmp(lists[i].name,"empty")!=0){
+                //            printf("%s\n",lists[i].name);
+                //            printf("%lu\n",lists[i].thread);
+                //        }
+                //    }
+                //}
         }
         return;
         pthread_exit(NULL);

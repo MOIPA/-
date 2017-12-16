@@ -71,27 +71,51 @@ int doSplit(char split,const char *s,char* command,char *content){
         return isSplited;                       
 }
 void doGetFileContent(char *buffer,char* file_name){
-    FILE *file;
-    printf("the file name is:%s\n",file_name);
-    if(isBinary==0)file = fopen(file_name,"rt");
-    if(isBinary==1)file = fopen(file_name,"rb");
-    if(file==NULL){
-        strcpy(buffer,"error");
-        printf("can't open %s file",file_name);         //open file failed
-        return;
-    }
-    //xun huan duqu
-    int i=0;
-    memset(buffer,0,1024);
-    if(isBinary==0)while(fread(&buffer[i++],sizeof(char),1,file)!=0);
-    if(isBinary==1)while(fread(&buffer[i++],1,8,file)!=0);
-    //strcpy(buffer,"the file content");//***********************************TEST
-    printf("client send file is: %s:end\n",buffer);
+        FILE *file;
+        printf("the file name is:%s\n",file_name);
+        if(isBinary==0)file = fopen(file_name,"rt");
+        if(isBinary==1)file = fopen(file_name,"rb");
+        if(file==NULL){
+                strcpy(buffer,"error");
+                printf("can't open %s file",file_name);         //open file failed
+                return;
+        }
+        //xun huan duqu
+        int i=0;
+        memset(buffer,0,1024);
+        if(isBinary==0)while(fread(&buffer[i++],sizeof(char),1,file)!=0);
+        if(isBinary==1)while(fread(&buffer[i++],8,1,file)!=0);
+        //strcpy(buffer,"the file content");//***********************************TEST
+        //printf("client send file is: %s:end\n",buffer);
+}
+void doRestoreFile(char *file_name,char * file_content){
+        //printf("do restore file\n");//*****************************************TEST
+        FILE *file;
+        int i=0;
+        if(isBinary==1){
+                file = fopen(file_name,"wb+");
+                if(file!=NULL){
+                        while(file_content[i]!=0)
+                                fwrite(&file_content[i++],8,1,file);
+                        //fwrite(file_content,8,1024,file);	
+                }
+        }
+        if(isBinary==0){
+                file = fopen(file_name,"wt+");
+                if(file!=NULL){
+                        while(file_content[i]!=0)
+                                fwrite(&file_content[i++],sizeof(char),1,file);
+
+                }
+        }
+        //printf("i is %d\n",i);//*****************************************TEST
+        fclose(file);
+
 }
 
 int main(void){
 
-        char buffer[100]={0};
+        char buffer[1024]={0};
         char command[200]={0};
         char content[200]={0};
         int server_sock,isSplited;
@@ -175,18 +199,31 @@ int main(void){
                                 break;
                         }
                         else if(strcmp("put",command)==0){
-                        //start if user want to put file
+                                //start if user want to put file
                                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
                                 recv(server_sock,buffer,100,0);                 //first: send command and file name to server and get result from server
                                 if(strcmp("filecontent",buffer)==0){            //means client should send file to server
-                                doGetFileContent(buffer,content);               //second:get file content
-                                //send(server_sock,buffer,sizeof(buffer),0);      //last: send file content  //直接break 交给下面的else里的send做  directly let download send which in else to do the send
-                                //continue;
-                                break;
+                                        doGetFileContent(buffer,content);               //second:get file content
+                                        //send(server_sock,buffer,sizeof(buffer),0);      //last: send file content  //直接break 交给下面的else里的send做  directly let download send which in else to do the send
+                                        //continue;
+                                        break;
                                 }else{
-                                   // printf("%s\n",buffer);
-                                    continue;
+                                        printf("no input!\n");
+                                        continue;
                                 }
+                        }
+                        else if(strcmp("get",command)==0){
+                                send(server_sock,buffer,100,0);//send get file command
+                                recv(server_sock,buffer,1024,0);//get file content
+                                if(strcmp(buffer,"error")==0){		//failed send to server fail info
+                                        printf("get file failed\n");
+                                        continue;
+                                }else{				//get file succeed
+                                        doRestoreFile(content,buffer);
+                                        printf("get file succeed\n");
+                                        continue;
+                                }	
+
                         }
                         else break; //not local command break
                 }
