@@ -28,7 +28,7 @@ import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
-import com.example.tr.instantcool2.Utils.ot;
+import com.example.tr.instantcool2.Utils.ChosePicByIconId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -376,8 +376,8 @@ public class FriendsFragment extends Fragment implements TopBarIndicatorFriendsV
 //                    itemIndicator.setIv_friend(R.mipmap.uicon3);
 //                    break;
 //            }
-            Log.d("icon", "fillValues: friendsFraggment_adapter:"+ot.getImageId(friend.getFriendIcon()));
-            itemIndicator.setIv_friend(ot.getImageId(friend.getFriendIcon()));
+            Log.d("icon", "fillValues: friendsFraggment_adapter:"+ ChosePicByIconId.getImageId(friend.getFriendIcon()));
+            itemIndicator.setIv_friend(ChosePicByIconId.getImageId(friend.getFriendIcon()));
         }
 
         @Override

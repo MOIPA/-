@@ -23,6 +23,7 @@
         tools:layout_editor_absoluteX="8dp">
 
         <EditText
+            android:background="@color/white"
             android:layout_gravity="center_horizontal"
             android:id="@+id/et_fill_information"
             android:layout_width="300dp"
@@ -36,12 +37,299 @@
             android:paddingRight="10dp"
             android:singleLine="true" />
 
-        <EditText
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/et_fill_information_icon"
-            android:hint="您的iconid"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon1"
+                        android:src="@mipmap/user_r_icon1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select1"
+                        android:layout_toRightOf="@id/iv_user_r_icon1"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon2"
+                        android:src="@mipmap/user_r_icon2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select2"
+                        android:layout_toRightOf="@id/iv_user_r_icon2"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon3"
+                        android:src="@mipmap/user_r_icon3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select3"
+                        android:layout_toRightOf="@id/iv_user_r_icon3"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon4"
+                        android:src="@mipmap/user_r_icon4"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select4"
+                        android:layout_toRightOf="@id/iv_user_r_icon4"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon5"
+                        android:src="@mipmap/user_r_icon5"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_user_select5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="21dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon6"
+                        android:src="@mipmap/user_r_icon6"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select6"
+                        android:layout_toRightOf="@id/iv_user_r_icon6"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon7"
+                        android:src="@mipmap/user_r_icon7"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select7"
+                        android:layout_toRightOf="@id/iv_user_r_icon7"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon8"
+                        android:src="@mipmap/user_r_icon8"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select8"
+                        android:layout_toRightOf="@id/iv_user_r_icon8"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_user_r_icon9"
+                        android:src="@mipmap/user_r_icon9"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@+id/iv_user_select9"
+                        android:layout_toRightOf="@id/iv_user_r_icon9"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/un_selected"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="可爱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--<EditText-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:id="@+id/et_fill_information_icon"-->
+            <!--android:hint="您的iconid"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <Button
             android:layout_gravity="center"

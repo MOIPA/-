@@ -19,7 +19,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -32,14 +31,11 @@ import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
-import com.example.tr.instantcool2.Utils.ot;
-import com.facebook.rebound.Spring;
+import com.example.tr.instantcool2.Utils.ChosePicByIconId;
 import com.facebook.rebound.SpringConfig;
 import com.jpeng.jpspringmenu.SpringMenu;
 import com.lilei.springactionmenu.ActionMenu;
 import com.lilei.springactionmenu.OnActionItemClickListener;
-
-import org.w3c.dom.Text;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -74,6 +70,7 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
     private TabindicatorView findIndicator;
     private ActionMenu actionMenu;//开源果冻菜单
     private SpringMenu spMenu;//开源回弹侧滑菜单
+    private String result;
 //    private final int CLEAR_CHAT_INDICATOR= 2;
 //    private final static String TAG_Functions = "functions";
 //    private final static String TAG_MY = "my";
@@ -183,9 +180,9 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         tvUserName.setText(UserInfoSotrage.Name);
         tvUserAccount.setText(UserInfoSotrage.Account);
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {}
-        ivUserIcon.setImageResource(ot.getImageId(Integer.parseInt(UserInfoSotrage.icon)));
+        ivUserIcon.setImageResource(ChosePicByIconId.getImageId(Integer.parseInt(UserInfoSotrage.icon)));
     }
 
     public void sendExitBroadcast() {
@@ -231,7 +228,6 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
         });
     }
 
-
     private void detectUnreadMessageCount(){
         //每隔一秒检测是否有新消息 查询消息未读总数量设置chatIndicator未读数
         new Thread(){
@@ -252,7 +248,9 @@ public class HomeActivity extends FragmentActivity implements TabHost.OnTabChang
             @Override
             public void run() {
                 Bundle bundle = NetWorkUtil.getSingleInfoFromServer("http://39.108.159.175/phpworkplace/androidLogin/GetTheMessageCount.php?receiver=" + UserInfoSotrage.Account);
-                String result = bundle.getString("result");
+                if(bundle!=null){
+                    result = bundle.getString("result");
+                }
                 Log.d("detect", "run: detect thread!"+result+":"+UserInfoSotrage.Account);
 //                        chatIndicator.setTabUnreadCount(1);
                 //通知主线程刷新tab

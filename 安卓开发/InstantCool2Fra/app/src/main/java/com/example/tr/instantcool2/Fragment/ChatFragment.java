@@ -27,7 +27,7 @@ import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.NetWorkUtil;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
-import com.example.tr.instantcool2.Utils.ot;
+import com.example.tr.instantcool2.Utils.ChosePicByIconId;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -510,7 +510,7 @@ public class ChatFragment extends Fragment implements TopBarIndicatorView.TopBar
 //                    break;
 //
 //            }
-            listItemChatFragmentIndicatorView.setIv_userImage(ot.getImageId(conversation.getIcon()));
+            listItemChatFragmentIndicatorView.setIv_userImage(ChosePicByIconId.getImageId(conversation.getIcon()));
 //            listItemChatFragmentIndicatorView.setIv_unreadCount(99);
 
             return view;

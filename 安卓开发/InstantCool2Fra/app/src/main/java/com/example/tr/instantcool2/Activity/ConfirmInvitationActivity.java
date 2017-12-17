@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.tr.instantcool2.IndicatorView.TopBarIndicatorView;
 import com.example.tr.instantcool2.JavaBean.Friend;
 import com.example.tr.instantcool2.LocalDB.UserInfoSotrage;
 import com.example.tr.instantcool2.R;
 import com.example.tr.instantcool2.Utils.ShowInfoUtil;
 import com.example.tr.instantcool2.Utils.StreamUtil;
-import com.example.tr.instantcool2.Utils.ot;
+import com.example.tr.instantcool2.Utils.ChosePicByIconId;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -23,7 +25,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
-public class ConfirmInvitationActivity extends AppCompatActivity {
+public class ConfirmInvitationActivity extends AppCompatActivity implements TopBarIndicatorView.TopBarClickedListener{
 
     private static final int REQUEST_UPDATE = 1;
     private TextView et_name;
@@ -32,6 +34,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
     private Button btn_refuse;
     private Friend friend;
     private ImageView ivFriend;
+    private TopBarIndicatorView topbar;
 
     private Handler hander = new Handler(){
         @Override
@@ -44,7 +47,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
 //            Log.d("confirmInvitation", "onCreate: "+friendAccount+":"+friendName);
                     et_account.setText(friendAccount);
                     et_name.setText(friendName);
-                    ivFriend.setImageResource(ot.getImageId(friend.getFriendIcon()));
+                    ivFriend.setImageResource(ChosePicByIconId.getImageId(friend.getFriendIcon()));
                 }
             }
 
@@ -61,6 +64,9 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
         //检测发送者的详细信息
         getDetailInfoInviter(targetaccount);
 
+        topbar = (TopBarIndicatorView) findViewById(R.id.top_bar_activity_confirm);
+        initTopbar();
+
         //init
         et_account = (TextView) findViewById(R.id.tv_friend_confirm_account);
         et_name = (TextView) findViewById(R.id.tv_friend_confirm_name);
@@ -73,7 +79,6 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ShowInfoUtil.showInfo(getApplication(),"已拒绝");
                 onBackPressed();
-
                 updateInvitation(targetaccount);
             }
         });
@@ -93,8 +98,15 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
 
     }
 
+    private void initTopbar() {
+        topbar.setTitle("邀请者信息");
+        topbar.setTopBarOnClickedListener(this);
+    }
+
     private void updateInvitation(final String targetaccount){
         //设置数据库里的这条invitation已读
+
+        Log.d("updateInvitation", "updateInvitation: execute invitation readed");
         new Thread(){
             @Override
             public void run() {
@@ -107,6 +119,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
                     int code = connection.getResponseCode();
                     if(200==code){
                         connection.getInputStream();
+                        Log.d("updateInvitation", path);
                     }
 
                 } catch (Exception e) {
@@ -181,6 +194,7 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
                 }
             }
         }.start();
+//        updateInvitation(friend.getFriendAccount());
     }
 
     private void getDetailInfoInviter(final String inviter) {
@@ -215,5 +229,10 @@ public class ConfirmInvitationActivity extends AppCompatActivity {
             }
         }
     }.start();
+    }
+
+    @Override
+    public void OnBackClicked() {
+        finish();
     }
 }

@@ -116,6 +116,8 @@ public class SignInUpActivity extends AppCompatActivity {
                 UserInfoSotrage.Name = name;
                 Intent intent = new Intent(SignInUpActivity.this, HomeActivity.class);
                 startActivity(intent);
+                //杀死自己
+                finish();
             } else {
 //                ShowInfoUtil.showInfo(getApplicationContext(),"isNotlogin");
             }
@@ -628,6 +630,7 @@ public class SignInUpActivity extends AppCompatActivity {
 
     }
 
+    //注册逻辑
     private void signUpFunction(final EditText etAccount, final EditText etPwd, final EditText confirmPwd) {
 
         final String account_name = etAccount.getText().toString().trim();
@@ -704,6 +707,8 @@ public class SignInUpActivity extends AppCompatActivity {
 //                            getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.start_frame_container,new FillInfoMationFragment()).commit();
                             Intent intent = new Intent(SignInUpActivity.this, FillInfoActivity.class);
                             startActivity(intent);
+                            //杀死自己
+                            finish();
 
                         } else if (stream.equals("存在用户")) {
                             System.out.println("存在用户");

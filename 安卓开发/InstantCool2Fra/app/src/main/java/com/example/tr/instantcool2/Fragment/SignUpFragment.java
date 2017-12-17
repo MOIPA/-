@@ -149,7 +149,7 @@ public class SignUpFragment extends Fragment implements TopBarIndicatorView.TopB
         Bundle data = new Bundle();
         data.putString(key,content);
         msg.setData(data);
-        StartActivity.handeToast.sendMessage(msg);
+//        StartActivity.handeToast.sendMessage(msg);
     }
 
 }
