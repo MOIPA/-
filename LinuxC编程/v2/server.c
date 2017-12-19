@@ -203,6 +203,126 @@ void doGet(int client_sock,const char *file_name){
 	fclose(file);
 
 }
+void doContinuePutFile(int client_sock,char *file_name){
+	int i=0;
+	//client start send file content
+	char buffer[1024]={0};
+	FILE *file;
+	if(isBinary==1){
+		file = fopen(file_name,"wb+");
+	}
+	if(isBinary==0){
+		file = fopen(file_name,"wt+");
+	}
+	if(file==NULL){
+		memset(buffer,0,1024);
+		strcpy(buffer,"anything");
+		send(client_sock,buffer,100,0);         
+		return;
+	}
+	//file is ok to receive
+	memset(buffer,0,1024);
+	strcpy(buffer,"filecontent");
+	send(client_sock,buffer,100,0);        
+	//client start to send to server ready to receive
+	while(1){
+		memset(buffer,0,1024);
+		recv(client_sock,buffer,1024,0);//receive data from server
+		if(strcmp(buffer,"ERROR")==0){
+			recv(client_sock,buffer,1024,0);//client send failed server recv again to avoid bug
+			close(file);
+			return;
+		}else if(strcmp(buffer,"END")==0){
+			strcpy(buffer,"translated");
+			send(client_sock,buffer,100,0);
+			close(file);
+			return;//translate ended
+		}
+		if(isBinary==0){//under ascall mode
+			//store file
+			//len=sprintf(tmpBuf,"%s",buffer);
+			//while(buffer[i]!=0){
+			//	fwrite(&buffer[i++],sizeof(char),1,file);
+			//}
+			while(buffer[i++]!=0);
+			//FUCK ME****************************************************DO FFLUSH!!!!!!
+			//printf("put:server recv and store:%s,len:%d\n",buffer,i);
+			//printf("1:%c",buffer[0]);
+			fwrite(buffer,sizeof(char),i-1,file);
+			fflush(file);
+			i=0;//reset i
+			//printf("end\n");
+			//write(file,tmpBuf,len);
+		}
+		if(isBinary==1){//under binary mode
+			//TODO
+			int counts = (int)buffer[1023];//blocks i should read
+			fwrite(buffer,sizeof(char),counts,file);	
+            printf("write %d blocks\n",counts);
+			fflush(file);
+		}
+
+	}
+	close(file);
+
+}
+void doContinueGetFile(int client_sock,char *file_name){
+	char buffer[1024];
+	memset(buffer,0,1024);
+	FILE * file;
+	if(isBinary==0){
+		file = fopen(file_name,"rt+");
+		if(file==NULL){
+            printf("refused to send file\n");
+			strcpy(buffer,"no");
+			send(client_sock,buffer,10,0);
+			close(file);
+			return;
+		}
+		//ok to send file
+		strcpy(buffer,"OK");
+		send(client_sock,buffer,1024,0);//inform client to start receive
+		while(1){
+			memset(buffer,0,1024);
+			if(fread(buffer,sizeof(char),1024,file)==0){
+				memset(buffer,0,1024);
+				strcpy(buffer,"ServerEnd");
+				//printf("send :%s",buffer);
+				send(client_sock,buffer,20,0);//translated send ServerEnd
+				//printf("time to end\n");
+				break;
+			}
+			//printf("server send:%s:end\n",buffer);
+			send(client_sock,buffer,1024,0);
+		}
+	}
+	if(isBinary==1){
+		file = fopen(file_name,"rb+");
+		if(file==NULL){
+			strcpy(buffer,"no");
+			send(client_sock,buffer,10,0);
+			close(file);
+			return;
+		}
+		//ok to send file
+		strcpy(buffer,"OK");
+		send(client_sock,buffer,1024,0);//inform client to start receive
+        while(1){
+                memset(buffer,0,1024);
+                buffer[1023]=fread(buffer,sizeof(char),100,file);
+                if((int)buffer[1023]==0){
+                        memset(buffer,0,1024);
+                        strcpy(buffer,"ServerEnd");
+                        send(client_sock,buffer,20,0);//translated send ServerEnd
+                        break;
+                }
+                //translate file
+                send(client_sock,buffer,1024,0);
+        }
+    }		
+	close(file);
+
+}
 void doPut(int client_sock,const char *file_name,const char *file_content ){
 	char buffer[1024];
 	FILE *file; 
@@ -228,7 +348,7 @@ void *handClientRequest(void *arg){
 	char name[50];
 	struct MyArg client_arg = *(struct MyArg*)arg;
 	//struct UserThreadAndName *lists = client_arg.lists;
-	char  buffer[2048]={0}; 
+	char  buffer[1024]={0}; 
 	char command[1024]={0};
 	char content[1024]={0};
 	char default_dir[1024]={0};
@@ -240,14 +360,14 @@ void *handClientRequest(void *arg){
 
 	//start set users_lists erogdic lists if not empty set that value
 	int  k=0;
-//	for(;k<20;k++){
-//		if(strcmp(users_lists[k],"empty")==0)break; 
-//	}
-//	if(user_kind==1)sprintf(name,"admin user:%d",current_users);
-//	else sprintf(name,"visitor :%d",total_users);
-//	strcpy(users_lists[k],name);
-//	memset(name,0,50); 
-//			//another way
+	//	for(;k<20;k++){
+	//		if(strcmp(users_lists[k],"empty")==0)break; 
+	//	}
+	//	if(user_kind==1)sprintf(name,"admin user:%d",current_users);
+	//	else sprintf(name,"visitor :%d",total_users);
+	//	strcpy(users_lists[k],name);
+	//	memset(name,0,50); 
+	//			//another way
 	for(k=0;k<40;k++){
 		if(strcmp(tlists[k].thread_name,"empty")==0)break;  //empty means it is not used
 	}	
@@ -271,8 +391,6 @@ void *handClientRequest(void *arg){
 		//strcpy(buffer,"server>new thread created!\n");
 		//if(send(client_sock,buffer,30,0)==-1)printf("handcliendRequest error\n");
 		// printf("do\n");
-
-		sleep(1);
 		//receive
 		if(recv(client_sock,buffer,1024,0)==-1)break;
 		isSplit = doSplit(' ',buffer,command,content);     //split command and content if split failed then command=buffer
@@ -325,7 +443,7 @@ void *handClientRequest(void *arg){
 					doCd(client_sock,current_dir,content);
 			}                    
 		}
-		else if(strcmp(command,"get")==0){ //get
+		else if(strcmp(command,"testget")==0){ //get
 			if(isSplit==-1||user_kind==-1){
 				strcpy(buffer,"error");       //may needs content judge isSplited
 				send(client_sock,buffer,100,0); 
@@ -335,7 +453,25 @@ void *handClientRequest(void *arg){
 				doGet(client_sock,content);
 			}
 		}
-		else if(strcmp(command,"put")==0){ //put                          //upload files to server  content is file name
+		else if(strcmp(command,"put")==0){//rput
+			if(isSplit==-1){
+				strcpy(buffer,"anything");       //if splited filed anything to send because client only do when recv is filecontent
+				send(client_sock,buffer,100,0); 
+			}
+			else {
+				doContinuePutFile(client_sock,content);
+			}
+		}
+		else if(strcmp(command,"get")==0){//rget
+			if(isSplit==-1){
+				strcpy(buffer,"anything");       //if splited filed anything to send because client only do when recv is filecontent
+				send(client_sock,buffer,100,0); 
+			}
+			else {
+				doContinueGetFile(client_sock,content);
+			}
+		}
+		else if(strcmp(command,"testput")==0){ //put                          //upload files to server  content is file name
 			if(isSplit==-1){
 				strcpy(buffer,"nocontent");       //may needs content judge isSplited
 				send(client_sock,buffer,100,0); 
@@ -349,7 +485,7 @@ void *handClientRequest(void *arg){
 				else doPut(client_sock,content,buffer);      //content: is file name buffer: is file content 
 			}
 		}
-		else if(strcmp(command,"get")==0){//get
+		else if(strcmp(command,"testget")==0){//get
 			if(isSplit==-1){			//if no input send error
 				strcpy(buffer,"error");
 				send(client_sock,buffer,100,0);	
@@ -376,7 +512,6 @@ void *handClientRequest(void *arg){
 	// close(client_sock);
 	// pthread_exit(NULL);
 }
-
 
 
 void *handServerRequest(void *arg){

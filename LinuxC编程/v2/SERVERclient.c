@@ -71,79 +71,27 @@ int doSplit(char split,const char *s,char* command,char *content){
         return isSplited;                       
 }
 void doContinuePutFile(int server_sock,char * file_name){//include a while to continue send file content
-        FILE *file;
-        char buffer[1024]={0};
+	FILE *file;
+	char buffer[1024]={0};
         printf("the file name is:%s\n",file_name);
         if(isBinary==0)file = fopen(file_name,"rt");
         if(isBinary==1)file = fopen(file_name,"rb");
         if(file==NULL){
                 strcpy(buffer,"ERROR");
-                send(server_sock,buffer,100,0);
+		send(server_sock,buffer,100,0);
                 printf("can't open %s file",file_name);         //open file failed
                 return;
         }
-                //printf("start send1\n");
-        if(isBinary==0){
-                while(1){
-                        memset(buffer,0,1024);
-                        if(fread(buffer,sizeof(char),1024,file)==0)break;
-                        //readed
-                        //printf("put:client do one send: %s\n",buffer);
-                        send(server_sock,buffer,1024,0);		
-                }
-        }
-                //printf("start send2\n");
-        if(isBinary==1){
-            while(1){
-                //printf("start send3\n");
-                memset(buffer,0,1024);
-                buffer[1023]=fread(buffer,sizeof(char),100,file);//the last  to put read blocks
-                //read 100 B one time or buffer[1023]will be -1
-                if((int)buffer[1023]<=0)break;
-                send(server_sock,buffer,1024,0);
-                printf("send %d blocks\n",(int)buffer[1023]);
-            }
+	int i=0;
+        while(1){
+		memset(buffer,0,1024);
+        	if(fread(buffer,sizeof(char),1024,file)==0)break;
+		//readed
+		printf("put:client do one send: %s\n",buffer);
+		send(server_sock,buffer,1024,0);		
+	}
+	
 
-        }
-    close(file);
-}
-
-void doContinueGetFile(int server_sock,char *file_name){//include a while to continue get file content
-        //start receiving file
-        FILE *file;
-        int i=0;
-        char buffer[1024];
-        memset(buffer,0,1024);
-        if(isBinary==0){
-                file=fopen(file_name,"wt+");
-                while(1){
-                        recv(server_sock,buffer,1024,0);
-                        if(strcmp(buffer,"ServerEnd")==0){
-                                close(file);
-                                return;
-                        }	
-                        //store file to local
-                        printf("store:%s\n",buffer);
-                        while(buffer[i++]!=0);
-                        fwrite(buffer,sizeof(char),i-1,file);
-                        fflush(file);
-                        i=0;
-                }
-        }
-        if(isBinary==1){
-                file=fopen(file_name,"wb+");
-                while(1){
-                        recv(server_sock,buffer,1024,0);
-                        if(strcmp(buffer,"ServerEnd")==0){
-                                close(file);
-                                return;
-                        }	
-                        //store file to local
-                        fwrite(buffer,sizeof(char),(int)buffer[1023],file);
-                        fflush(file);
-                }
-        }
-        close(file);
 }
 
 
@@ -275,42 +223,26 @@ int main(void){
                                 isBinary=0;
                                 break;
                         }
-                        else if(strcmp("put",command)==0){
+			else if(strcmp("rput",command)==0){
                                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");//send put file to server
-                                recv(server_sock,buffer,100,0);//confirm if user can do put
-                                if(strcmp("filecontent",buffer)==0){
-                                        doContinuePutFile(server_sock,content);//include a while to continue send file content
-                                        memset(buffer,0,100);
-                                        strcpy(buffer,"END");
-                                        break;
-                                }else{
+				recv(server_sock,buffer,100,0);//confirm if user can do put
+				if(strcmp("filecontent",buffer)==0){
+					doContinuePutFile(server_sock,content);//include a while to continue send file content
+					memset(buffer,0,100);
+					strcpy(buffer,"END");
+					break;
+				}else{
                                         printf("no input!\n");
                                         continue;
                                 }
-                        }
-                        else if(strcmp("get",command)==0){
-                                if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");//send get file to server
-                                recv(server_sock,buffer,1024,0);//confirm if user can do get
-                                printf("get :%s\n",buffer);
-                                if(strcmp("OK",buffer)==0){
-                                        doContinueGetFile(server_sock,content);//include a while to continue get file content
-                                        memset(buffer,0,1024);
-                                        strcpy(buffer,"END");
-                                        break;
-                                }else{
-                                        printf("no input!\n");
-                                        continue;
-                                }
-
-
-                        }
-                        else if(strcmp("testput",command)==0){
+			}
+                        else if(strcmp("put",command)==0){
                                 //start if user want to put file
                                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
                                 recv(server_sock,buffer,100,0);                 //first: send command and file name to server and get result from server
                                 if(strcmp("filecontent",buffer)==0){            //means client should send file to server
                                         doGetFileContent(buffer,content);               //second:get file content
-                                        //send(server_sock,buffer,sizeof(buffer),0);      //last: send file content  // directly let download send which in else to do the send
+                                        //send(server_sock,buffer,sizeof(buffer),0);      //last: send file content  //直接break 交给下面的else里的send做  directly let download send which in else to do the send
                                         //continue;
                                         break;
                                 }else{
@@ -318,7 +250,7 @@ int main(void){
                                         continue;
                                 }
                         }
-                        else if(strcmp("testget",command)==0){
+                        else if(strcmp("get",command)==0){
                                 send(server_sock,buffer,100,0);//send get file command
                                 recv(server_sock,buffer,1024,0);//get file content
                                 if(strcmp(buffer,"error")==0){		//failed send to server fail info
