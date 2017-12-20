@@ -22,6 +22,7 @@ void *handServerRequest(void *arg);
 int doSplit(char split,const char *s,char* command,char *content);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 typedef struct{
 	char thread_name[20];
 	pthread_t thread;
@@ -43,6 +44,10 @@ struct MyArg{
 =======
 
 int total_users=0,current_users=0,quitSingal=0,isBinary=1;//shared resources   quitSingal 0:not quit 1:need quit
+=======
+
+int total_users=0,current_users=0,quitSingal=0,isBinary=1;//shared resources   quitSingal 0:not quit 1:need quit
+>>>>>>> parent of bc37075... 最终版
 
 
 struct User{
@@ -53,6 +58,9 @@ struct User{
 struct MyArg{
         int client_sock;
         int user_kind;
+<<<<<<< HEAD
+>>>>>>> parent of bc37075... 最终版
+=======
 >>>>>>> parent of bc37075... 最终版
 };
 
@@ -100,6 +108,9 @@ struct User *do_createUsr(int *user_accounts){
         return users;
 
 }
+<<<<<<< HEAD
+>>>>>>> parent of bc37075... 最终版
+=======
 >>>>>>> parent of bc37075... 最终版
 int judgeUser(char *name,char *pwd,struct User* users,int user_accounts){
 	int i,user_kind=-1;
@@ -386,6 +397,7 @@ void doContinuePutFile(int client_sock,char *file_name){
 
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 void doContinueGetFile(int client_sock,char *file_name){
 	char buffer[1024];
 	memset(buffer,0,1024);
@@ -635,6 +647,11 @@ void *handClientRequest(void *arg){
 void doGet(){
 
 }
+=======
+void doGet(){
+
+}
+>>>>>>> parent of bc37075... 最终版
 void doPut(int client_sock,char *file_name,char *file_content ){
     char buffer[1024];
     if(isBinary==1){
@@ -767,6 +784,7 @@ void *handClientRequest(void *arg){
 
 void *handServerRequest(void *arg){
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//struct UserThreadAndName *lists;
 	//lists = (struct UserThreadAndName*)arg;
 	pthread_detach(pthread_self());
@@ -828,6 +846,8 @@ void *handServerRequest(void *arg){
 	return;
 	pthread_exit(NULL);
 =======
+=======
+>>>>>>> parent of bc37075... 最终版
         pthread_detach(pthread_self());
         char buffer[1024];
         printf("server handler waiting\n");

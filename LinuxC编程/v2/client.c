@@ -70,6 +70,7 @@ int doSplit(char split,const char *s,char* command,char *content){
         strcpy(content,str[1]);
         return isSplited;                       
 }
+<<<<<<< HEAD
 void doContinuePutFile(int server_sock,char * file_name){//include a while to continue send file content
         FILE *file;
         char buffer[1024]={0};
@@ -147,6 +148,8 @@ void doContinueGetFile(int server_sock,char *file_name){//include a while to con
 }
 
 
+=======
+>>>>>>> parent of bc37075... 最终版
 void doGetFileContent(char *buffer,char* file_name){
     FILE *file;
     printf("the file name is:%s\n",file_name);
@@ -253,6 +256,7 @@ int main(void){
                         }
                         else if(strcmp("put",command)==0){
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");//send put file to server
                                 recv(server_sock,buffer,100,0);//confirm if user can do put
                                 if(strcmp("filecontent",buffer)==0){
@@ -295,16 +299,26 @@ int main(void){
                                 if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
                                 recv(server_sock,buffer,100,0);                 //first: send command and file name to server and get result from server
                                 if(strcmp("filecontent",buffer)==0){            //means client should send file to server
+=======
+                        //start if user want to put file
+                                if(send(server_sock,buffer,sizeof(buffer),0)==-1)printf("client : send error\n");
+                                recv(server_sock,buffer,100,0);                 //first: send command and file name to server and get result from server
+                                if(strcmp("filecontent",buffer)==0){            //means client should send file to server
+>>>>>>> parent of bc37075... 最终版
                                 doGetFileContent(buffer,content);               //second:get file content
                                 //send(server_sock,buffer,sizeof(buffer),0);      //last: send file content  //直接break 交给下面的else里的send做  directly let download send which in else to do the send
                                 //continue;
                                 break;
+<<<<<<< HEAD
+>>>>>>> parent of bc37075... 最终版
+=======
 >>>>>>> parent of bc37075... 最终版
                                 }else{
                                    // printf("%s\n",buffer);
                                     continue;
                                 }
                         }
+<<<<<<< HEAD
 <<<<<<< HEAD
                         else if(strcmp("testget",command)==0){
                                 send(server_sock,buffer,100,0);//send get file command
@@ -319,6 +333,8 @@ int main(void){
                                 }	
 
                         }
+=======
+>>>>>>> parent of bc37075... 最终版
 =======
 >>>>>>> parent of bc37075... 最终版
                         else break; //not local command break
