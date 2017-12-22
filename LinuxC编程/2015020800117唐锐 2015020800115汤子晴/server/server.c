@@ -181,8 +181,11 @@ ACCOUNT Login(int client_sock) {
         ACCOUNT login_user;
         char buf[1024];
         strcpy(buf, "请输入名字:");
-        if (send(client_sock, buf, 1024, 0) == -1)printf("server send error\n");              
-        if (recv(client_sock, buf, 1024, 0) == -1)printf("server receive error in while\n"); 
+		if (send(client_sock, buf, 1024, 0) == -1){
+				printf("server send error\n");              
+				return;
+		}
+		if (recv(client_sock, buf, 1024, 0) == -1)printf("server receive error in while\n"); 
         strcpy(login_user.account_name, buf);
 
         strcpy(buf, "请输入密码:");
