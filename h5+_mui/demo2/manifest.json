@@ -387,7 +387,8 @@
 					"js/util.js"
 				],
 				"refer": [
-					"html/tab-webview-subpage-community.html"
+					"html/tab-webview-subpage-community.html",
+					"html/order/detail-order.html"
 				],
 				"priority": 0
 			},
@@ -449,7 +450,14 @@
 				],
 				"refer": [
 					"html/my_buy/my-post.html",
-					"html/my_buy/manage_receive_addr.html"
+					"html/my_buy/manage_receive_addr.html",
+					"html/my_buy/my-order.html",
+					"html/my_buy/my-favourite.html",
+					"html/my_buy/manage-receive-addr.html",
+					"html/my_buy/contact-chat.html",
+					"html/my_buy/join-us.html",
+					"html/my_buy/feed-back.html",
+					"html/my_buy/change-info.html"
 				],
 				"priority": 0
 			},

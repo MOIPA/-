@@ -16,7 +16,8 @@
 			"html/tab-webview-subpage-about.html",
 			"html/new-webview.html",
 			"html/tab-webview-subpage-community.html",
-			"html/tab-webview-subpage-me.html"
+			"html/tab-webview-subpage-me.html",
+			"html/order/detail-order.html"
 		]
 	},
 	"launch.html": {
@@ -75,7 +76,14 @@
 	"html/tab-webview-subpage-me.html": {
 		"refer": [
 			"html/my_buy/my-post.html",
-			"html/my_buy/manage_receive_addr.html"
+			"html/my_buy/manage_receive_addr.html",
+			"html/my_buy/my-order.html",
+			"html/my_buy/my-favourite.html",
+			"html/my_buy/manage-receive-addr.html",
+			"html/my_buy/contact-chat.html",
+			"html/my_buy/join-us.html",
+			"html/my_buy/feed-back.html",
+			"html/my_buy/change-info.html"
 		]
 	},
 	"html/my_buy/manage_receive_addr.html": {

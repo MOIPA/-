@@ -80,7 +80,7 @@
 			</div>
 			<!--end pic show-->
 
-			<div class="mui-card" style="border-radius: 10px;">
+			<!--<div class="mui-card" style="border-radius: 10px;">
 				<div class="mui-card-header mui-card-media">
 					<img src="../images/logo.png" />
 					<div class="mui-media-body">
@@ -94,53 +94,37 @@
 				</div>
 				<div class="mui-card-footer">
 					<a class="mui-card-link">收藏订单</a>
-					<!--<a class="mui-card-link">Comment</a>-->
-					<a class="mui-card-link">点击跟单</a>
-				</div>
-			</div>
+					<!--<a class="mui-card-link">Comment</a>
+			<a class="mui-card-link click-order" id="1">点击跟单</a>
+		</div>
+		</div>-->
 
-			<div class="mui-card" style="border-radius: 10px;">
+		<div id="list">
+			<div class="mui-card" style="border-radius: 10px;" v-for="item in items">
 				<div class="mui-card-header mui-card-media">
 					<img src="../images/logo.png" />
 					<div class="mui-media-body">
-						商家
-						<p>时效截至 2018-02-26 11:30</p>
+						商家:{{item.promulgatorid}}
+						<p>时效截至 {{item.ordertime}}</p>
 					</div>
 				</div>
 				<div class="mui-card-content">
 					<img src="../images/s.jpg" alt="订单食品图片" width="100%" />
-					<p class="mui-text-center">订单详细描述模块</p>
+					<p class="mui-text-center">订单详情{{item.ordercontent}}</p>
 				</div>
 				<div class="mui-card-footer">
 					<a class="mui-card-link">收藏订单</a>
 					<!--<a class="mui-card-link">Comment</a>-->
-					<a class="mui-card-link">点击跟单</a>
+					<a class="mui-card-link click-order" id="1">点击跟单</a>
 				</div>
 			</div>
 
-			<div class="mui-card" style="border-radius: 10px;">
-				<div class="mui-card-header mui-card-media">
-					<img src="../images/logo.png" />
-					<div class="mui-media-body">
-						商家
-						<p>时效截至 2018-02-26 11:30</p>
-					</div>
-				</div>
-				<div class="mui-card-content">
-					<img src="../images/s.jpg" alt="订单食品图片" width="100%" />
-					<p class="mui-text-center">订单详细描述模块</p>
-				</div>
-				<div class="mui-card-footer">
-					<a class="mui-card-link">收藏订单</a>
-					<!--<a class="mui-card-link">Comment</a>-->
-					<a class="mui-card-link">点击跟单</a>
-				</div>
-			</div>
+		</div>
 
-			<!--end card-->
+		<!--end card-->
 
-			<!--锚点用于popover显示-->
-			<div id="openBottomPopover" style="bottom: 65px;left:48%;position: fixed;"></div>
+		<!--锚点用于popover显示-->
+		<div id="openBottomPopover" style="bottom: 65px;left:48%;position: fixed;"></div>
 		</div>
 
 		<!--底部弹出菜单-->
@@ -226,12 +210,98 @@
 
 		</div>
 
+		<script type="text/javascript">
+			//用户点击订单详细界面 启动detail-order界面 传递order的id
+			var detailPage = null;
+			mui(".mui-content").on("tap", '.click-order', function() {
+				//获取用户点击的单子的id
+				var orderId = this.getAttribute("id");
+				//			alert(orderId+";");
+				//获取详细界面 首先传输值 再打开
+				if(!detailPage) {
+					detailPage = plus.webview.getWebviewById("html/order/detail-order.html");
+				}
+				//				alert(detailPage);
+				//传输值
+				mui.fire(detailPage, "order-id", {
+					id: orderId
+				});
+
+				mui.openWindow({
+					url: "html/order/detail-order.html",
+					id: "html/order/detail-order.html"
+				});
+			});
+		</script>
+		<script src="js/vue.min.js"></script>
 		<script src="js/util.js"></script>
 		<script type="text/javascript">
+			var lastId = '';
 			(function() {
 				mui.init({
+					//为了效率初始化加载 预加载
+					preloadPages: [{
+						id: 'html/order/detail-order.html',
+						url: 'html/order/detail-order.html'
+					}],
 					swipeBack: true //启用右滑关闭功能
+						,
+					pullRefresh: {
+						container: '#list',
+						down: {
+							style: 'circle',
+							offset: '0px',
+							auto: true,
+							callback: function() {
+								if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+									plus.nativeUI.toast('似乎已断开与互联网的连接', {
+										verticalAlign: 'top'
+									});
+									return;
+								}
+
+								var data = {
+									column: 'orderid,promulgatorid,ordertime,ordercontent'
+								}
+								if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
+									data.lastId = lastId;
+									data.time = new Date().getTime() + "";
+								}
+								//请求列表信息流
+								mui.getJSON("http://39.108.159.175/phpworkplace/mui/order/getorder.php", data, function(rsp) {
+									mui('#list').pullRefresh().endPulldown();
+									if(rsp && rsp.length > 0) {
+										lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
+										list.items = list.items.concat(convert(rsp));
+//										alert("data"+rsp[0].ordercontent);
+//										list.items={
+//											ordertime:'aadsfas'
+//										}
+									}
+								});
+								var list = new Vue({
+									el:'#list',
+									data:{
+										items:[]
+									}
+								});
+
+							}
+						}
+					}
 				});
+				function convert(items){
+					var newItems=[];
+					items.forEach(function(item){
+						newItems.push({
+							orderid:item.orderid,
+							promulgatorid:item.promulgatorid,
+							ordertime:item.ordertime,
+							ordercontent:item.ordercontent
+						});
+					});
+					return newItems;
+				}
 
 				mui('.mui-scroll-wrapper').scroll();
 				mui('body').on('shown', '.mui-popover', function(e) {
@@ -242,11 +312,29 @@
 				});
 
 				mui.plusReady(function() {
-					
-//					document.getElementById("body").addEventListener("tap",function(){
-//						console.log("taped");
-//					});
-					
+
+					mui.ajax('http://39.108.159.175/phpworkplace/mui/order/getorder.php', {
+						data: {
+							name: 123,
+							password: 123
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'POST', //HTTP请求类型
+						timeout: 5000, //超时时间设置为5秒；
+						//						headers: {
+						//							'Content-Type': 'application/json'
+						//						},
+						success: function(data) {
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+//														alert("服务器响应：succeed");
+//														alert("data:"+data[0].ordercontent);
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							alert("服务器繁忙");
+						}
+					});
+
 					var self = plus.webview.currentWebview(),
 						leftPos = Math.ceil((window.innerWidth - 60) / 2); // 设置凸起大图标为水平居中
 
@@ -331,10 +419,10 @@
 					drawNativeIcon.addEventListener('click', function(e) {
 						//						mui.alert('以后增加的功能接口');
 						backToIndex();
-						mui('#bottomPopover').popover('toggle',document.getElementById("openBottomPopover"));
-//						alert("funn");
-//						var mask = mui.createMask();
-//						mask.show();
+						mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));
+						//						alert("funn");
+						//						var mask = mui.createMask();
+						//						mask.show();
 						// 重绘字体颜色
 						if(active_color == '#fff') {
 							drawNativeIcon.drawText('\uea0a', {}, {
@@ -355,10 +443,11 @@
 						}
 
 					});
+
 					function backToIndex() {
-						
+
 						// 匹配对应tab窗口	
-							targetPage = plus.webview.currentWebview();
+						targetPage = plus.webview.currentWebview();
 
 						if(targetPage == activePage) {
 							return;
@@ -407,7 +496,7 @@
 						if(targetPage == activePage) {
 							return;
 						}
-//						console.log(targetPage.id+":"+activePage.id);
+						//						console.log(targetPage.id+":"+activePage.id);
 						//						if(currIndex !== 3) {
 						//底部选项卡切换
 						util.toggleNview(currIndex);

@@ -10,7 +10,7 @@
 	</head>
 
 	<body style="background-color: #FFFFFF;">
-		<header class="mui-bar mui-bar-nav mui-bar-transparent">
+		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">我的buy</h1>
 			<p class="mui-pull-right" style="margin-right: 10px;margin-top: 13px;">
@@ -26,7 +26,7 @@
 		<div class="mui-content" style="background-color: #FFFFFF;">
 
 			
-			<p style="margin-top: 220px; z-index: 1;">
+			<p style="margin-top: 180px; z-index: 1;">
 				<ul class="mui-table-view" style="padding-top: 20px;">
 					<li class="mui-table-view-cell">
 						<a class="mui-navigate-right mypost">
@@ -39,7 +39,7 @@
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right myorder">
 							我的订单
 						</a>
 					</li>
@@ -49,31 +49,30 @@
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right myfavourite">
 							我的收藏
 						</a>
 					</li>
-
 				</ul>
 
 				<ul class="mui-table-view" style="margin-top: 20px;">
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right contact">
 							联系客服
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right feedbackus">
 							意见反馈
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right changeinfo">
 							修改账户信息
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a class="mui-navigate-right joinus">
 							加入我们
 						</a>
 					</li>
@@ -97,14 +96,55 @@
 			});
 			document.getElementsByClassName("manageaddr")[0].addEventListener("tap",function(){
 				mui.openWindow({
-					url:"my_buy/manage_receive_addr.html",
-					id:"my_buy/manage_receive_addr.html",
+					url:"my_buy/manage-receive-addr.html",
+					id:"my_buy/manage-receive-addr.html",
 					extras:{
 						name:"1"
 					}
 				});
 			});
-			
+			document.getElementsByClassName("myorder")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/my-order.html",
+					id:"my_buy/my-order.html",
+					extras:{
+						name:"1"
+					}
+				});
+			});
+			document.getElementsByClassName("myfavourite")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/my-favourite.html",
+					id:"my_buy/my-favourite.html",
+					extras:{
+						name:"1"
+					}
+				});
+			});
+			document.getElementsByClassName("contact")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/contact-chat.html",
+					id:"my_buy/contact-chat.html"
+				});
+			});
+			document.getElementsByClassName("joinus")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/join-us.html",
+					id:"my_buy/join-us.html"
+				});
+			});
+			document.getElementsByClassName("feedbackus")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/feed-back.html",
+					id:"my_buy/feed-back.html"
+				}); 
+			});
+			document.getElementsByClassName("changeinfo")[0].addEventListener("tap",function(){
+				mui.openWindow({
+					url:"my_buy/change-info.html",
+					id:"my_buy/change-info.html"
+				});
+			});
 			
 		</script>
 	</body>
