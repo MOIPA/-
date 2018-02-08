@@ -16,6 +16,8 @@ var util = {
 	 * 初始化首个tab窗口 和 创建子webview窗口 
 	 */
 	initSubpage: function(aniShow) {
+
+				
 		var subpage_style = {
 				top: 0,
 				bottom: 51
@@ -23,6 +25,7 @@ var util = {
 			subpages = util.options.subpages,
 			self = plus.webview.currentWebview(),
 			temp = {};
+			
 			
 		//兼容安卓上添加titleNView 和 设置沉浸式模式会遮盖子webview内容
 		if(mui.os.android) {

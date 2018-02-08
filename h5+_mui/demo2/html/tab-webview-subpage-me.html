@@ -14,7 +14,7 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">我的buy</h1>
 			<p class="mui-pull-right" style="margin-right: 10px;margin-top: 13px;">
-				<a>设置</a>
+				<a id="login">登陆</a>
 			</p>
 		</header>
 		<div style="position: fixed;height: 200px;width: 100%; z-index: 3;">
@@ -143,6 +143,12 @@
 				mui.openWindow({
 					url:"my_buy/change-info.html",
 					id:"my_buy/change-info.html"
+				});
+			});
+			document.getElementById("login").addEventListener("tap",function(){
+				mui.openWindow({
+					url:"login/login.html",
+					id:"login/login.html"
 				});
 			});
 			

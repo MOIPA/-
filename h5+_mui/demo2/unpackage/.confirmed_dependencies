@@ -17,7 +17,8 @@
 			"html/new-webview.html",
 			"html/tab-webview-subpage-community.html",
 			"html/tab-webview-subpage-me.html",
-			"html/order/detail-order.html"
+			"html/order/detail-order.html",
+			"html/order/post-order.html"
 		]
 	},
 	"launch.html": {
@@ -83,12 +84,58 @@
 			"html/my_buy/contact-chat.html",
 			"html/my_buy/join-us.html",
 			"html/my_buy/feed-back.html",
-			"html/my_buy/change-info.html"
-		]
+			"html/my_buy/change-info.html",
+			"html/login/login.html"
+		],
+		"resources": []
 	},
 	"html/my_buy/manage_receive_addr.html": {
 		"refer": [
 			"html/my_buy/edit-addr.html"
+		],
+		"resources": []
+	},
+	"login.html": {
+		"refer": [
+			"main.html",
+			"reg.html",
+			"forget_password.html"
+		],
+		"resources": []
+	},
+	"reg.html": {
+		"refer": [
+			"login.html"
+		],
+		"resources": []
+	},
+	"main.html": {
+		"refer": [
+			"html/order/detail-order.html",
+			"html/order/post-order.html",
+			"html/tab-webview-subpage-community.html",
+			"html/tab-webview-subpage-me.html",
+			"html/tab-webview-subpage-chat.html"
+		],
+		"resources": [
+			"html/tab-webview-subpage-chat.html"
+		]
+	},
+	"html/login/login.html": {
+		"refer": [
+			"main.html",
+			"html/login/reg.html"
+		],
+		"resources": []
+	},
+	"test/a.html": {
+		"refer": [
+			"test/b.html"
+		]
+	},
+	"html/login/reg.html": {
+		"refer": [
+			"html/login/login.html"
 		]
 	}
 }
