@@ -4,7 +4,7 @@ Creation-Date: 2018-02-16T17:04:25+08:00
 
 ====== servlet ======
 Created 星期五 16 二月 2018
-
+[[j2ee|home]]
 **Servlet ==> server applet**
 
 servlet是我们学习的第一个动态资源
