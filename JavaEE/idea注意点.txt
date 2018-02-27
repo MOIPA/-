@@ -1,0 +1,14 @@
+idea的application context
+　　eclipse大家应该都用过，eclipse访问项目的路径一般是localhost:8080/projectName, 
+当把IDE换成idea以后，访问路径一般情况下就变成了localhost:8080,路径没有了后面的项目名。
+tomcat在发布项目的时候不考虑用虚拟路径的话，一般都是把项目放在webapps里面，
+这个时候具体放置的位置就会影响访问路径了。如果是直接放在webapps目录下，
+那么访问路径就是和eclipse相同的访问路径了，但是这时候如果把项目放在tomcat的webapps里的root文件夹下，
+那么这个时候这个项目就成为了tomcat的默认项目，直接用localhost:8080就可以访问，
+安装tomcat时检查tomcat是否正常安装出现的项目其实就是root。 
+　　localhost:8080/projectName或者是localhost:8080就是我们平常所说的应用上下文，
+项目中的路径名都是相对于这个应用上下文来说的。在idea下开发的时候，
+有时候我们可能需要让访问路径带上项目名，但是idea默认是为每个项目单独配置tomcat的，
+eclipse是把项目统一放到某个配置好的tomcat中，所以默认配置的访问路径就出现了差别。
+如何将idea的应用上下文路径也带上项目名呢？ 
+http://blog.csdn.net/qq_36666651/article/details/78509393
