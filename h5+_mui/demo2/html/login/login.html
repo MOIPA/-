@@ -140,7 +140,19 @@
 		<script src="../../js/mui.enterfocus.js"></script>
 		<script src="app.js"></script>
 		<script>
+			//			查是否已经登陆
+			var user = JSON.parse(localStorage.getItem('user'));
+
+			
+			//			alert(user);
+
 			(function($, doc) {
+				var loginButton = doc.getElementById('login');
+			var accountBox = doc.getElementById('account');
+			var passwordBox = doc.getElementById('password');
+			var autoLoginButton = doc.getElementById("autoLogin");
+			var regButton = doc.getElementById('reg');
+			var forgetButton = doc.getElementById('forgetPassword');
 				mui.init({
 					statusBarBackground: '#f7f7f7'
 				});
@@ -148,10 +160,10 @@
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
 					var state = app.getState();
-//					var mainPage = $.preload({
-//						"id": 'main',
-//						"url": '../../main.html'
-//					});
+					//					var mainPage = $.preload({
+					//						"id": 'main',
+					//						"url": '../../main.html'
+					//					});
 					var toMain = function() {
 						//						mui.openWindow({
 						//							id:'../../main.html',
@@ -170,16 +182,21 @@
 						//							});
 						//						}, 0);
 						//					mui.back();
-						
+
 						var old_back = mui.back;
 						mui.back = function() {
 							var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
 							wobj.beginPullToRefresh();
-//							wobj.reload(true);
+							//							wobj.reload(true);
 							old_back()
 						}
+						var laobj = plus.webview.getWebviewById("html/tab-webview-subpage-me.html");
+						laobj.reload(true);
+//						alert(laobj);
 						mui.back();
 					};
+
+					//自动保存密码
 					//检查 "登录状态/锁屏状态" 开始
 					if(settings.autoLogin && state.token && settings.gestures) {
 						$.openWindow({
@@ -196,7 +213,11 @@
 						//						toMain();
 						//***********************************************************************************
 						//记住我的逻辑代码
-
+//						alert("rem");
+							if(user!=null&&user[0].account!=null&&user[0].password!=null){
+								accountBox.value = user[0].account;
+								passwordBox.value = user[0].password;
+							}
 						//*******************************************************************************
 					} else {
 						app.setState(null);
@@ -253,12 +274,7 @@
 						plus.navigator.closeSplashscreen();
 					}, 600);
 					//检查 "登录状态/锁屏状态" 结束
-					var loginButton = doc.getElementById('login');
-					var accountBox = doc.getElementById('account');
-					var passwordBox = doc.getElementById('password');
-					var autoLoginButton = doc.getElementById("autoLogin");
-					var regButton = doc.getElementById('reg');
-					var forgetButton = doc.getElementById('forgetPassword');
+
 					loginButton.addEventListener('tap', function(event) {
 						var loginInfo = {
 							account: accountBox.value,

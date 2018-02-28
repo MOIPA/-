@@ -97,7 +97,8 @@
 							return;
 						}
 						app.reg(regInfo, function(err) {
-							if (err) {
+							if (typeof(err)!="object") {
+//								alert(typeof err);
 								plus.nativeUI.toast(err);
 								return;
 							}
@@ -109,6 +110,13 @@
 //									aniShow: 'pop-in'
 //								}
 //							});
+							mui.openWindow({
+								url:"/html/login/set_uicon.html",
+								id:"/html/login/set_uicon.html",
+								extras:{
+									aid:err
+								}
+							});
 							mui.back();
 						});
 					});

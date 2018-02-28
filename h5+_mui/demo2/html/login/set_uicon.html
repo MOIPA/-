@@ -7,15 +7,16 @@
 		<meta name="misapplication-tap-highlight" content="no" />
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="MobileOptimized" content="320" />
-		<title>HTML5 Plus 拍照或者相册选择图片上传 重复图片上传无效</title>
+		<title></title>
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/feedback-page.css" />
 		<link rel="stylesheet" href="../../css/font-awesome.min.css">
 		<script src="../../js/jquery.js"></script>
-		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/utitls.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/utitls.js"></script>
 		<style type="text/css">
 			.del {
 				position: absolute;
@@ -118,23 +119,9 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">创建订单</h1>
+			<h1 class="mui-title">设置头像</h1>
 		</header>
 		<div class="mui-content">
-
-			<form id='login-form' class="mui-input-group" style="margin-top: 20px;">
-				<div class="mui-input-row">
-					<label>订单主题</label>
-					<input id='orderthemebox' type="text" class="mui-input-clear mui-input" placeholder="请输入订单主题">
-				</div>
-				<div class="mui-input-row">
-					<label>截至时间</label>
-					<input id='ordertimebox' type="text" class="mui-input-clear mui-input" placeholder="请输入订单截至时间">
-				</div>
-			</form>
-			<!--<form id='login-form' class="mui-input-group">-->
-			<textarea id="maincontentbox" rows="20" placeholder="订单描述" style="height: 130px;margin-top: 10px;"></textarea>
-			<!--</form>-->
 
 			<p>从相册或拍照上传图片（图片重复无用）</p>
 			<input type="hidden" id="ckjl.id" name="ckjl.id" value="429">
@@ -149,25 +136,13 @@
 			</div>
 		</div>
 
-		<script src="../../js/mui.min.js"></script>
 
-		<script type="text/javascript">
-			//			接收消息判断业务类型和是否登陆
-			window.addEventListener("poster", function(data) {
-				//				alert(data.detail.poster);
-
-				var user = JSON.parse(localStorage.getItem('user'));
-				if(user == null) {
-					alert('尚未登陆');
-				} else {
-					//					console.log(users);
-					//						alert(user[0].aid);
-				}
-			});
-		</script>
-
+		
 		<!--//上传照片逻辑-->
 		<script>
+			
+			
+			
 			var user = JSON.parse(localStorage.getItem('user'));
 			var userAid = user[0].aid;
 			var userAccount = user[0].account;
@@ -201,13 +176,15 @@
 			//src：src="file:///storage/emulated/0/Android/data/io.dcloud.HBuilder/.HBuilder/apps/HBuilder/doc/upload/F_ZDDZZ-1467602809090.jpg"  
 			function showImgDetail(imgId, imgkey, id, src) {
 				var html = "";
-				html += '<div  id="Img' + imgId + imgkey + '" class="image-item ">';
+				html += '<div  id="Img' + imgId + imgkey + '" class="image-item">';
 				html += '    <img id="picBig" data-preview-src="" data-preview-group="1" ' + src + '/>';
 				html += '    <span class="del" onclick="delImg(\'' + imgId + '\',\'' + imgkey + '\',' + id + ');">';
 				html += '        <div class="fa fa-times-circle"></div>';
 				html += '    </span>';
 				html += '</div>';
-				$("#" + imgkey + "S").append(html);
+//				$("#" + imgkey + "S").replace(html);
+//				alert($("#" + imgkey + "S"))
+				$("#" + imgkey + "S").replaceWith(html);
 			}
 			//删除图片  
 			//imgId:图片名称：IMG_20160704_112614  
@@ -230,6 +207,18 @@
 								delImgfromint(imgId, imgkey, id, index);
 							} else {
 								delImgFromLocal(itemname, itemvalue, imgId, imgkey, index); //修改，加了一个index参数  
+								//*****************************************************************************************
+								//修改图标为原来
+//								var html="";
+//								html+="<div id=\'user-accounts\' class=\"row image-list\"> ";
+//								html+="<div class=\"image-item \" id=\"user-account\" onclick=\"showActionSheet(this);\"></div> ";
+//								html+="</div>";
+////								html+="<a>123123</a>"
+////								alert(html);
+//								$("#Img"+imgId + imgkey).replaceWith(html);
+								var thisobj = plus.webview.currentWebview();
+								
+								thisobj.reload();
 							}
 
 						} else {
@@ -264,11 +253,13 @@
 				var newitem = left + right;
 				plus.storage.setItem(itemname, newitem);
 				//myAlert("删除成功");  
-				$("#Img" + imgId + imgkey).remove();
+//				$("#Img" + imgId + imgkey).remove();
 				wa.close();
+				
 			}
 			//选取图片的来源，拍照和相册  
 			function showActionSheet(conf) {
+//				alert("click showaction sheet");
 				var divid = conf.id;
 				var actionbuttons = [{
 					title: "拍照"
@@ -372,7 +363,7 @@
 				var itemname = id + "img-" + divid; //429img-F_ZDDZ 
 				//*****************************************
 				imgArray.push(itemname);
-				document.getElementById("ckjl.id").value += 1;
+//				document.getElementById("ckjl.id").value += 1;
 				var itemvalue = plus.storage.getItem(itemname);
 				if(itemvalue == null) {
 					itemvalue = "{" + name + "," + path + "," + url + "}"; //{IMG_20160704_112614,_doc/upload/F_ZDDZZ-IMG_20160704_112614.jpg,file:///storage/emulated/0/Android/data/io.dcloud...../doc/upload/F_ZDDZZ-1467602809090.jpg}  
@@ -428,31 +419,25 @@
 			function uploadimge(agree, back) {
 				//				alert(userAid+":"+userCom);
 				//				alert(getNowFormatDate());
-				//****************judge if any box empty
-				var maincontent = document.getElementById("maincontentbox").value;
-				var ordertime = document.getElementById("ordertimebox").value;
-				var ordertheme = document.getElementById("orderthemebox").value;
-				if(ordertheme == null || ordertheme == "") {
-					plus.nativeUI.toast("订单主题不能为空");
-					return;
-				}
-				if(maincontent == null || maincontent == "") {
-					plus.nativeUI.toast("订单内容不能为空");
-					return;
-				}
-				if(ordertime == null || ordertime == "") {
-					plus.nativeUI.toast("订单时间不能为空");
-					return;
-				}
-				//********end
 				//plus.storage.clear();  
+				//接收传过来的aid  很重要***********
+			var self = plus.webview.currentWebview();
+			var aid = self.aid;
+//			alert(aid);
+//			return;
+				
+				if(imgArray.length<=0){
+					plus.nativeUI.toast("请上传头像");
+					return;
+				}
+				
 				var wa = plus.nativeUI.showWaiting();
 				var DkeyNames = [];
 				var id = document.getElementById("ckjl.id").value;
 				var length = id.toString().length;
 				var idnmae = id.toString();
 				var numKeys = plus.storage.getLength();
-				var task = plus.uploader.createUpload("http://39.108.159.175/phpworkplace/mui/order/restore-pic.php", {
+				var task = plus.uploader.createUpload("http://39.108.159.175/phpworkplace/mui/login/setuicon.php", {
 						method: "POST"
 					},
 					function(t, status) {
@@ -462,20 +447,16 @@
 							//alert('uploaded');
 							console.log("上传成功");
 							console.log(task.responseText);
-							var pathjson = JSON.parse(task.responseText);
-
-							//********then upload info
+							var iconpath = JSON.parse(task.responseText);
+//							alert(iconpath);
+//							wa.close();
+//							********then upload info
 							$.ajax({
 								type: "post",
-								url: "http://39.108.159.175/phpworkplace/mui/order/restore-info.php",
+								url: "http://39.108.159.175/phpworkplace/mui/login/setuicon2account.php",
 								data: {
-									orderpromulgator: userAid,
-									ordercontent: maincontent,
-									ordertime: ordertime,
-									ordertheme:ordertheme,
-									usercom: userCom,
-									posttime: getNowFormatDate(),
-									patharr: pathjson
+									aid:aid,
+									iconpath:iconpath
 								},
 								async: true,
 								dataType: "text",

@@ -518,7 +518,15 @@
 			"html/login/reg.html": {
 				"resources": [],
 				"refer": [
-					"html/login/login.html"
+					"html/login/login.html",
+					"html/login/set_uicon.html"
+				],
+				"priority": 0
+			},
+			"html/my_buy/manage-receive-addr.html": {
+				"resources": [],
+				"refer": [
+					"html/my_buy/edit-addr.html"
 				],
 				"priority": 0
 			}

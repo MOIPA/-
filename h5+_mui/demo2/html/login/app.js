@@ -23,7 +23,7 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 			return callback('密码最短为 6 个字符');
 		}
 		
-		var users = JSON.parse(localStorage.getItem('$user') || '[]');
+		var users = JSON.parse(localStorage.getItem('user') || '[]');
 		
 		mui.ajax(urllogin,{
 			data:{
@@ -39,9 +39,19 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 					return callback('用户名或密码错误');
 				}
 				else {
+					var userinfo = JSON.parse(data.uinfo);
+//					alert(userinfo.aid);
+					loginInfo.aid = userinfo.aid;
 					users = [];
+					loginInfo.loginstatus = 'online';
+					loginInfo.name = userinfo.name;
+					loginInfo.age = userinfo.age;
+					loginInfo.sex = userinfo.sex;
+					loginInfo.com=userinfo.com;
 					users.push(loginInfo);
-					localStorage.setItem('$user', JSON.stringify(users));
+					localStorage.setItem('user', JSON.stringify(users));
+					users = localStorage.getItem('user');
+//					alert(users);
 					return owner.createState(loginInfo.account, callback);
 				}
 			},
@@ -105,9 +115,10 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 				if(data.status != 'success') return callback("注册失败 用户重复");
 				else {
 					users = [];
+					regInfo.aid=data.aid;
 					users.push(regInfo);
 					localStorage.setItem('$user', JSON.stringify(users));
-					return callback();
+					return callback(new Number(data.aid));
 				}
 			},
 			error: function(xhr, type, errThrown) {
