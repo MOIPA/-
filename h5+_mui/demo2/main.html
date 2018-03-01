@@ -89,7 +89,7 @@
 						<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.uiconsrc" />
 						<div class="mui-media-body">
 							商家:{{item.account}}
-							<p>时效截至 {{item.ordertime}} 主题：{{item.ordertheme}}</p>
+							<p>时效截至 {{item.ordertime}} 主题：{{item.ordertheme}} 订单状态：{{item.orderstatus}}</p>
 						</div>
 					</div>
 					<div class="mui-card-content" style="text-align: center;margin: auto auto;">
@@ -111,6 +111,13 @@
 						<a class="mui-card-link click-order" id="1">点击跟单</a>
 						<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
 						<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
+						<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
+						<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
+						<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
+						<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
+						<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
+						<p id="hidden_sellericon" style="display: none;">{{item.orderpicsrc}}</p>
+						
 					</div>
 				</div>
 
@@ -187,8 +194,49 @@
 					plus.nativeUI.toast("请先登陆");
 					return;
 				}
+				
+				//从兄弟节点获取 成功！！！！！！！！！
+//				var nextSib = this.nextSibling;
+//				alert(nextSib);
+//				alert(this.nextSibling.nextSibling.lastChild.nodeValue);
+//				console.log(this.nextSibling.nextSibling.firstChild.nodeValue);
+//				console.log(this.nextSibling.nextSibling.nextSibling.nextSibling.lastChild.nodeValue);
+				
+				//从父节点获取子节点失败
+//				var par = this.parentNode;
+//				var childNodes = par.childNodes;
+//				alert(childNodes);
+//				var childid = childNodes.getElementsByTagName("hidden_orderid").innerHTML;
+//				alert(childid);
 				//获取用户点击的单子的id
-				var orderId = this.getAttribute("id");
+
+//				var orderId = document.getElementById("hidden_orderid").innerHTML;
+//				var orderContent = document.getElementById("hidden_ordercontent").innerHTML;
+//				var orderTheme = document.getElementById("hidden_ordertheme").innerHTML;
+//				var orderStatus = document.getElementById("hidden_orderstatus").innerHTML;
+//				var orderEndtime = document.getElementById("hidden_endtime").innerHTML;
+//				var orderSellerid = document.getElementById("hidden_sellerid").innerHTML;
+//				var orderSellername = document.getElementById("hidden_sellername").innerHTML;
+//				var orderSellericon = document.getElementById("hidden_sellericon").innerHTML;
+				var currentNode = this;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderId = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderContent = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderTheme = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderStatus = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderEndtime = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderSellerid = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderSellername = currentNode.lastChild.nodeValue;
+				currentNode = currentNode.nextSibling.nextSibling;
+				var orderSellericon = currentNode.lastChild.nodeValue;
+//				alert(orderId+"  "+orderContent+"/n"+orderTheme+"/n"+orderStatus+"/n"+orderEndtime+"/n"+orderSellerid+"/n"+orderSellername+"/n"+orderSellericon);return;
+
 				//			alert(orderId+";");
 				//获取详细界面 首先传输值 再打开
 				if(!detailPage) {
@@ -196,8 +244,15 @@
 				}
 				//				alert(detailPage);
 				//传输值
-				mui.fire(detailPage, "order-id", {
-					id: orderId
+				mui.fire(detailPage, "order-detail", {
+					id: orderId,
+					content:orderContent,
+					theme:orderTheme,
+					status:orderStatus,
+					endTime:orderEndtime,
+					sellerId:orderSellerid,
+					sellerName:orderSellername,
+					sellerIcon:orderSellericon
 				});
 
 				mui.openWindow({

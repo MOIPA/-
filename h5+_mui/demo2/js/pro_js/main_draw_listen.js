@@ -28,7 +28,7 @@
 								}
 
 								var data = {
-									column: 'orderid,promulgatorid,ordertime,ordercontent,rorderpicsrc,account,ordertheme,uiconsrc'
+									column: 'orderid,promulgatorid,ordertime,ordercontent,rorderpicsrc,account,ordertheme,uiconsrc,orderstatus'
 								}
 //								if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
 //									data.orderid = lastId;
@@ -62,9 +62,11 @@
 							orderpicsrc:item.rorderpicsrc,
 							account:item.account,
 							ordertheme:item.ordertheme,
-							uiconsrc:item.uiconsrc
+							uiconsrc:item.uiconsrc,
+							orderstatus:item.orderstatus
 						});
 					});
+//					alert(newItems[0].orderid);
 					return newItems;
 				}
 
