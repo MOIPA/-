@@ -6,6 +6,15 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			
+			.mui-control-content {
+				height: 150px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -14,12 +23,79 @@
 			<h1 class="mui-title">订单详情</h1>
 		</header>
 		<div class="mui-content">
-			<table id="pic-table" border="0" cellspacing="" cellpadding="">
+			<div style="padding: 10px 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">订单详情</a>
+					<a class="mui-control-item" href="#item2">跟团信息</a>
+					<a class="mui-control-item" href="#item3">订单图片</a>
+					<!--<a class="mui-control-item" href="#item3">全部公文</a>-->
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-control-content mui-active">
+					<!--<div id="scroll" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">-->
+					<div class="mui-card-header mui-card-media">
+						<img id="icon" />
+						<div class="mui-media-body" id="name">
+							商家
+							<p id="end_time">截至到</p>
+						</div>
+					</div>
+					<div class="mui-content" style="margin-left: 30px;margin-right: 30px;">
+						<br />
+						<h5 id="theme">theme</h5>
+						<br />
+						<h5>订单描述</h5>
+						<textarea id="content" style="background: #E8E8E8;" readonly="readonly" style="border: 0px;">content</textarea>
+					</div>
+					<!--</ul>
+						</div>
+					</div>-->
+				</div>
+				<div id="item2" class="mui-control-content">
+					<!--<ul class="mui-table-view">
+						<li id="follower" style="background-color:#efeff4;" class="mui-table-view-cell">-->
+					<div id="follower">
+						<!--<div id="follower" style="background-color:#efeff4;">-->
+						<p>以下用户已经加入此订单</p>
+						<div v-for="item in items">
+							<div style="height: 30px;width: 30px;border-radius: 30px;margin-left:20px;float: none;background-color: #FFFFFF; background: no-repeat center center;background-size: contain;" v-bind:style="{background:item.bk}"></div>
+							<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.icon" style="margin-left:20px;width: 7%;float: left;border-radius: 250px;" />-->
+							<div style="height: 30px;width: 30px;float: none;margin-left: 60px;margin-top: -23px;">
+								<p style="font-size: 18px;">{{item.name}}</p>
+							</div>
+						</div>
+					</div>
+					<!--</div>-->
+					<!--</li>
+					</ul>-->
+				</div>
+				<div id="item3" class="mui-control-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<ul class="mui-table-view mui-grid-view" id="pic-table">
+								<li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in items">
+									<!--<a href="#">-->
+									<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.src" width="60%" />
+									<!--<div class="mui-media-body">幸福就是可以一起睡觉</div></a>-->
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<button type="button" id="commit" class="mui-btn-outlined mui-btn mui-btn-blue mui-btn-block" style="bottom: 0px; position: absolute;">确定跟单</button>
+
+			<!--<table id="pic-table" border="0" cellspacing="" cellpadding="">
 				<tr v-for="item in items">
 					<!--<td>{{item.src}}</td>-->
-					<td><img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.src" width="20%"/></td>
-				</tr>
-			</table>
+			<!--<td><img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.src" width="60%"/></td>-->
+			<!--</tr>-->
+			<!--</table>-->
+
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/vue.min.js"></script>
@@ -28,51 +104,160 @@
 		</script>
 
 		<script type="text/javascript">
-			//			var list = new Vue({
-			//				el:"#pic-table",
-			//				data:{
-			//					items:[]
-			//				}
-			//			});
-				var list = new Vue({
-						el: "#pic-table",
-						data: {
-							items:[]
+			//解决软键盘挤压页面
+			//获取原始窗口的高度
+			var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+			window.onresize = function() {
+
+				//软键盘弹起与隐藏  都会引起窗口的高度发生变化
+				var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+				if(resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
+
+					plus.webview.currentWebview().setStyle({
+						height: originalHeight
+					});
+
+				}
+			}
+
+			mui.plusReady(function() {
+
+				//顶部滑动选项卡设置
+				(function($) {
+					$('#scroll').scroll({
+						indicators: true //是否显示滚动条
+					});
+					var segmentedControl = document.getElementById('segmentedControl');
+					$('.mui-input-group').on('change', 'input', function() {
+						if(this.checked) {
+							var styleEl = document.querySelector('input[name="style"]:checked');
+							var colorEl = document.querySelector('input[name="color"]:checked');
+							if(styleEl && colorEl) {
+								var style = styleEl.value;
+								var color = colorEl.value;
+								segmentedControl.className = 'mui-segmented-control' + (style ? (' mui-segmented-control-' + style) : '') + ' mui-segmented-control-' + color;
+							}
 						}
 					});
-			window.addEventListener('order-detail', function(event) {
-				var orderId = new Number(event.detail.id);
-				var content = event.detail.content;
-				var theme = event.detail.theme;
-				var status = event.detail.status;
-				var endTime = event.detail.endTime;
-				var sellerId = event.detail.sellerId;
-				var sellerName = event.detail.sellerName;
-				var sellerIcon = event.detail.sellerIcon;
-//				alert(orderId);return;
-				//				alert(orderId+"  "+content+"  "+theme+"  "+status+"  "+endTime+"  "+sellerId+"  "+sellerName+"  "+sellerIcon);
-				//接收完传输过来的数据
-				//				展示在页面
-				//				1.展示商家产品图片列表
-				//				a.根据orderid接收图片路径json
-				mui.post('http://39.108.159.175/phpworkplace/mui/order/getOrderPic.php', {
-					orderid: orderId
-				}, function(data) {
-					//get  json
-					var paths = [];
-					for(var i = 0; i < data.length; i++) {
-						//						paths[i]=data[i].orderpicsrc;
-						paths.push({
-							src: data[i].orderpicsrc
-						});
-						//						list.items.push({src:data[i].orderpicsrc});
+				})(mui);
+				//			var list = new Vue({
+				//				el:"#pic-table",
+				//				data:{
+				//					items:[]
+				//				}
+				//			});
+				var list = new Vue({
+					el: "#pic-table",
+					data: {
+						items: []
 					}
-						console.log("data.length"+data.length);
-						console.log("paths.length"+paths.length);
-					//					list.items.concat(paths);
-					list.items=paths;
-					
-				}, 'json');
+				});
+				var followers = new Vue({
+					el: "#follower",
+					data: {
+						items: []
+					}
+				});
+				window.addEventListener('order-detail', function(event) {
+					var waiting = plus.nativeUI.showWaiting();
+					var orderId = new Number(event.detail.id);
+					var content = event.detail.content;
+					var theme = event.detail.theme;
+					var status = event.detail.status;
+					var endTime = event.detail.endTime;
+					var sellerId = event.detail.sellerId;
+					var sellerName = event.detail.sellerName;
+					var sellerIcon = event.detail.sellerIcon;
+
+					//显示基础数据
+					var time_tab = document.getElementById("end_time");
+					var seller_name = document.getElementById("name");
+					var seller_icon = document.getElementById("icon");
+					var tab_content = document.getElementById("content");
+					var tab_theme = document.getElementById("theme");
+					//				alert(seller_icon.src);
+					seller_icon.src = "http://39.108.159.175/phpworkplace/mui/uiconpic/" + sellerIcon;
+					seller_name.firstChild.nodeValue = "商家：" + sellerName;
+					time_tab.innerHTML = "截止到：" + endTime;
+					tab_content.innerHTML = content;
+					tab_theme.innerHTML = "主题：" + theme;
+					//				alert(orderId);return;
+					//				alert(orderId+"  "+content+"  "+theme+"  "+status+"  "+endTime+"  "+sellerId+"  "+sellerName+"  "+sellerIcon);
+					//接收完传输过来的数据
+					//				展示在页面
+					//				1.展示商家产品图片列表
+					//				a.根据orderid接收图片路径json
+					mui.post('http://39.108.159.175/phpworkplace/mui/order/getOrderPic.php', {
+						orderid: orderId
+					}, function(data) {
+						//get  json
+						var paths = [];
+						for(var i = 0; i < data.length; i++) {
+							//						paths[i]=data[i].orderpicsrc;
+							paths.push({
+								src: data[i].orderpicsrc
+							});
+							//						list.items.push({src:data[i].orderpicsrc});
+						}
+						console.log("data.length" + data.length);
+						console.log("paths.length" + paths.length);
+						//					list.items.concat(paths);
+						list.items = paths;
+
+					}, 'json');
+
+					//					2.显示跟踪订单的用户们
+					mui.post('http://39.108.159.175/phpworkplace/mui/order/getFollower.php', {
+						orderid: orderId
+					}, function(data) {
+						//					alert(orderId+"   "+data);
+						var items = [];
+						if(data != null) {
+							for(var i = 0; i < data.length; i++) {
+								items.push({
+									name: data[i].account,
+									icon: data[i].uiconsrc,
+									bk: "url(\"http://39.108.159.175/phpworkplace/mui/uiconpic/" + data[i].uiconsrc + "\")",
+								});
+								//								alert(data[i].account+" "+data[i].uiconsrc);
+							}
+						}
+						followers.items = items;
+						waiting.close();
+					}, 'json');
+
+					/**
+					 * 点击跟单后的操作
+					 * orderId 用户点击的订单id
+					 * aid 用户id
+					 * e.value 用户输入的remark
+					 */
+					document.getElementById("commit").addEventListener('tap', function(e) {
+						e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+						var btnArray = ['取消', '确定跟单'];
+						mui.prompt('请输入你对商家的留言：', '留言', '尊敬的用户', btnArray, function(e) {
+							if(e.index == 1) {
+								//跟单操作
+								var user = JSON.parse(localStorage.getItem('user'));
+								//orderId aid e.value
+								//							alert(user[0].aid+"  "+e.value);
+								mui.post('http://39.108.159.175/phpworkplace/mui/order/followOrder.php', {
+									orderid: orderId,
+									aid: new Number(user[0].aid),
+									remark: e.value
+								}, function(data) {
+									plus.nativeUI.toast(data.trim());
+									mui.back();
+								}, 'text');
+							} else {
+								//							plus.nativeUI.toast('你点了取消按钮');
+							}
+						})
+					});
+
+				});
 
 			});
 		</script>
