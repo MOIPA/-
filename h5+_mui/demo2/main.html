@@ -36,52 +36,16 @@
 		<div class="mui-content" style="margin-top: -45px;margin-bottom: 60px;">
 
 			<div id="slider" class="mui-slider">
-				<div class="mui-slider-group mui-slider-loop">
-					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-					<!-- 第一张 -->
-					<div class="mui-slider-item">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-					<!-- 第二张 -->
-					<div class="mui-slider-item">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-					<!-- 第三张 -->
-					<div class="mui-slider-item">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-					<!-- 第四张 -->
-					<div class="mui-slider-item">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate">
-						<a href="#">
-							<img src="http://placehold.it/500x300">
-						</a>
-					</div>
-				</div>
-				<div class="mui-slider-indicator">
-					<div class="mui-indicator mui-active"></div>
-					<div class="mui-indicator"></div>
-					<div class="mui-indicator"></div>
-					<div class="mui-indicator"></div>
-				</div>
+
 			</div>
 			<!--end pic show-->
+
+			<!--<div id="castlist">
+				<div v-for="item in items">
+					<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/castpic/'+item.picname" />
+					<p>ceshi</p>
+				</div>
+			</div>-->
 
 			<div id="list">
 				<div class="mui-card" style="border-radius: 10px;" v-for="item in items">
@@ -89,7 +53,7 @@
 						<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.uiconsrc" />
 						<div class="mui-media-body">
 							商家:{{item.account}}
-							<p>时效截至 {{item.ordertime}} 主题：{{item.ordertheme}} 订单状态：{{item.orderstatus}}</p>
+							<p>订单状态：{{item.orderstatus}}</p>
 						</div>
 					</div>
 					<div class="mui-card-content" style="text-align: center;margin: auto auto;">
@@ -101,9 +65,12 @@
 						<div style="height:200px;width:50%;float: none;margin-left: 50%;text-align: center;">
 							<p class="mui-text-center">主题：{{item.ordertheme}}</p>
 						</div>-->
-						<p class="mui-text-center">主题：{{item.ordertheme}}</p>
-						<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.orderpicsrc" style="margin: auto auto;" alt="订单食品图片" width="85%" />
-						
+						<div style="margin:4px auto; width: 90%;height:150px;border-radius: 3px;background: no-repeat center center;background:no-repeat;background-size: contain;" v-bind:style="{background:item.bk}"></div>
+						<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.orderpicsrc" style="margin: auto auto;" alt="订单食品图片" width="85%" />-->
+						<div class="mui-card-content-inner">
+							<p>主题：{{item.ordertheme}}</p>
+							<p style="color: #333;">时效截至：{{item.ordertime}}</p>
+						</div>
 					</div>
 					<div class="mui-card-footer">
 						<a class="mui-card-link">收藏订单</a>
@@ -117,7 +84,7 @@
 						<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
 						<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
 						<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
-						
+
 					</div>
 				</div>
 
@@ -166,58 +133,137 @@
 
 		<script type="text/javascript" src="js/pro_js/main_draw_listen.js"></script>
 		<script type="text/javascript">
-			
+			//获取轮播
+			//获得轮播图片列表
+			mui.post('http://39.108.159.175/phpworkplace/mui/order/getCastPic.php', {}, function(data) {
+				if(data != null) {
+					var middlePicNode = '';
+
+					//首先添加首位和末尾
+					var firstPicNode = "";	//最后一张图片
+					firstPicNode += "<div class=\"mui-slider-group mui-slider-loop\">";
+					firstPicNode += "<div class=\"mui-slider-item mui-slider-item-duplicate\">";
+					firstPicNode += "<a href=\"#\">";
+					firstPicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[data.length-1].picname + "\" />";
+					firstPicNode += "</a>";
+					firstPicNode += "</div>";
+					var lastPicNode = "";	//第一张图片
+					lastPicNode += "<div class=\"mui-slider-item mui-slider-item-duplicate\">";
+					lastPicNode += "<a href=\"#\">";
+					lastPicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[0].picname + "\" />";
+					lastPicNode += "</a>";
+					lastPicNode += "</div>";
+					lastPicNode += "</div>";
+
+					for(var i = 0; i < data.length; i++) {
+						
+						middlePicNode += "<div class=\"mui-slider-item\">";
+						middlePicNode += "<a href=\"#\">";
+						middlePicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[i].picname + "\" />";
+						middlePicNode += "</a>";
+						middlePicNode += "</div>";
+						data[i].picname;
+					}
+
+					var picNodes = firstPicNode + middlePicNode + lastPicNode;
+
+					var bottomCirc = "";
+					bottomCirc += "<div class=\"mui-slider-indicator\" >";
+					bottomCirc += "<div class=\"mui-indicator mui-active\"></div>";
+					for(var i = 1; i < data.length; i++) {
+						bottomCirc += "<div class=\"mui-indicator\" ></div>";
+					}
+					bottomCirc += "</div>";
+					document.getElementById("slider").innerHTML = picNodes + bottomCirc;
+					console.log(document.getElementById("slider").innerHTML);
+					mui("#slider").slider();
+					var gallery = mui('.mui-slider');
+					gallery.slider({
+						interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；  
+					});
+					//							domCode+="</div>";
+				}
+			}, 'json');
+			//					<div class="mui-slider-group mui-slider-loop">
+			//					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+			//					<div class="mui-slider-item mui-slider-item-duplicate">
+			//						<a href="#">
+			//							<!--<img src="http://placehold.it/500x300">-->
+			//						</a>
+			//					</div>
+			//					<!-- 第一张 -->
+			//					<div class="mui-slider-item" v-for="item in items" >
+			//							<a href="#">
+			//								<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/castpic/'+item.picname" />
+			//							</a>
+			//					</div>
+			//					<!-- 第二张 -->
+			//					<div class="mui-slider-item">
+			//						<a href="#">
+			//							<img src="http://placehold.it/500x300">
+			//						</a>
+			//					</div>
+			//					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+			//					<div class="mui-slider-item mui-slider-item-duplicate">
+			//						<a href="#">
+			//							<!--<img src="http://placehold.it/500x300">-->
+			//						</a>
+			//					</div>
+			//				</div>
+			//				<div class="mui-slider-indicator" >
+			//					<div class="mui-indicator mui-active"></div>
+			//					<div class="mui-indicator" v-for="item in items"></div>
+			//				</div>
+
 			//自动登陆模块
 			var settings = app.getSettings();
-			if(settings.autoLogin){
+			if(settings.autoLogin) {
 				//说明开启了自动登陆
 				//登陆的网络操作……**************************
-					//登陆失败需要设置登陆状态offline
+				//登陆失败需要设置登陆状态offline
 				//**************************************
 				var user = JSON.parse(localStorage.getItem('user'));
-				user[0].loginstatus="online";
-				localStorage.setItem('user',JSON.stringify(user));
-			}else{
+				user[0].loginstatus = "online";
+				localStorage.setItem('user', JSON.stringify(user));
+			} else {
 				//未设置自动登陆
 				var user = JSON.parse(localStorage.getItem('user'));
-				user[0].loginstatus="offline";
-				localStorage.setItem('user',JSON.stringify(user));
+				user[0].loginstatus = "offline";
+				localStorage.setItem('user', JSON.stringify(user));
 			}
-			
-			
-			
+
 			//用户点击订单详细界面 启动detail-order界面 传递order的id
 			var detailPage = null;
 			mui(".mui-content").on("tap", '.click-order', function() {
 				var user = JSON.parse(localStorage.getItem('user'));
-				if(user[0].loginstatus=='offline'){
+				if(user[0].loginstatus == 'offline') {
 					plus.nativeUI.toast("请先登陆");
 					return;
 				}
-				
+
 				//从兄弟节点获取 成功！！！！！！！！！
-//				var nextSib = this.nextSibling;
-//				alert(nextSib);
-//				alert(this.nextSibling.nextSibling.lastChild.nodeValue);
-//				console.log(this.nextSibling.nextSibling.firstChild.nodeValue);
-//				console.log(this.nextSibling.nextSibling.nextSibling.nextSibling.lastChild.nodeValue);
-				
+				//				var nextSib = this.nextSibling;
+				//				alert(nextSib);
+				//				alert(this.nextSibling.nextSibling.lastChild.nodeValue);
+				//				console.log(this.nextSibling.nextSibling.firstChild.nodeValue);
+				//				console.log(this.nextSibling.nextSibling.nextSibling.nextSibling.lastChild.nodeValue);
+
 				//从父节点获取子节点失败
-//				var par = this.parentNode;
-//				var childNodes = par.childNodes;
-//				alert(childNodes);
-//				var childid = childNodes.getElementsByTagName("hidden_orderid").innerHTML;
-//				alert(childid);
+				//				var par = this.parentNode;
+				//				var childNodes = par.childNodes;
+				//				alert(childNodes);
+				//				var childid = childNodes.getElementsByTagName("hidden_orderid").innerHTML;
+				//				alert(childid);
 				//获取用户点击的单子的id
 
-//				var orderId = document.getElementById("hidden_orderid").innerHTML;
-//				var orderContent = document.getElementById("hidden_ordercontent").innerHTML;
-//				var orderTheme = document.getElementById("hidden_ordertheme").innerHTML;
-//				var orderStatus = document.getElementById("hidden_orderstatus").innerHTML;
-//				var orderEndtime = document.getElementById("hidden_endtime").innerHTML;
-//				var orderSellerid = document.getElementById("hidden_sellerid").innerHTML;
-//				var orderSellername = document.getElementById("hidden_sellername").innerHTML;
-//				var orderSellericon = document.getElementById("hidden_sellericon").innerHTML;
+				//				var orderId = document.getElementById("hidden_orderid").innerHTML;
+				//				var orderContent = document.getElementById("hidden_ordercontent").innerHTML;
+				//				var orderTheme = document.getElementById("hidden_ordertheme").innerHTML;
+				//				var orderStatus = document.getElementById("hidden_orderstatus").innerHTML;
+				//				var orderEndtime = document.getElementById("hidden_endtime").innerHTML;
+				//				var orderSellerid = document.getElementById("hidden_sellerid").innerHTML;
+				//				var orderSellername = document.getElementById("hidden_sellername").innerHTML;
+				//				var orderSellericon = document.getElementById("hidden_sellericon").innerHTML;
 				var currentNode = this;
 				currentNode = currentNode.nextSibling.nextSibling;
 				var orderId = currentNode.lastChild.nodeValue;
@@ -235,7 +281,7 @@
 				var orderSellername = currentNode.lastChild.nodeValue;
 				currentNode = currentNode.nextSibling.nextSibling;
 				var orderSellericon = currentNode.lastChild.nodeValue;
-//				alert(orderId+"  "+orderContent+"/n"+orderTheme+"/n"+orderStatus+"/n"+orderEndtime+"/n"+orderSellerid+"/n"+orderSellername+"/n"+orderSellericon);return;
+				//				alert(orderId+"  "+orderContent+"/n"+orderTheme+"/n"+orderStatus+"/n"+orderEndtime+"/n"+orderSellerid+"/n"+orderSellername+"/n"+orderSellericon);return;
 
 				//			alert(orderId+";");
 				//获取详细界面 首先传输值 再打开
@@ -246,13 +292,13 @@
 				//传输值
 				mui.fire(detailPage, "order-detail", {
 					id: orderId,
-					content:orderContent,
-					theme:orderTheme,
-					status:orderStatus,
-					endTime:orderEndtime,
-					sellerId:orderSellerid,
-					sellerName:orderSellername,
-					sellerIcon:orderSellericon
+					content: orderContent,
+					theme: orderTheme,
+					status: orderStatus,
+					endTime: orderEndtime,
+					sellerId: orderSellerid,
+					sellerName: orderSellername,
+					sellerIcon: orderSellericon
 				});
 
 				mui.openWindow({
@@ -261,7 +307,6 @@
 				});
 			});
 		</script>
-
 
 	</body>
 
