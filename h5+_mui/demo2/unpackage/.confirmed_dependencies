@@ -85,7 +85,8 @@
       "html/my_buy/join-us.html",
       "html/my_buy/feed-back.html",
       "html/my_buy/change-info.html",
-      "html/login/login.html"
+      "html/login/login.html",
+      "html/my_buy/edit-addr.html"
     ],
     "resources": []
   },
@@ -131,17 +132,20 @@
   "test/a.html": {
     "refer": [
       "test/b.html"
-    ]
+    ],
+    "resources": []
   },
   "html/login/reg.html": {
     "refer": [
       "html/login/login.html",
       "html/login/set_uicon.html"
-    ]
+    ],
+    "resources": []
   },
   "html/my_buy/manage-receive-addr.html": {
     "refer": [
       "html/my_buy/edit-addr.html"
-    ]
+    ],
+    "resources": []
   }
 }

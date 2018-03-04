@@ -26,7 +26,7 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav mui-bar-transparent">
+		<header class="mui-bar mui-bar-nav" style="background: #75B9F4;">
 			<label class="" style="margin-top: 13px; float: left;"><a href="#bottomPopover">天气</a></label>
 			<div class="search">
 				<i style="background-image: url(images/search.png);background-repeat: no-repeat;background-position: 0px 0px;background-size: 20px 20px; width: 30px;height: 30px;top: 12px;left: 60px;position: absolute;"></i>
@@ -35,8 +35,8 @@
 		</header>
 		<div class="mui-content" style="margin-top: -45px;margin-bottom: 60px;">
 
+			<!--图片轮播html代码-->
 			<div id="slider" class="mui-slider">
-
 			</div>
 			<!--end pic show-->
 
@@ -46,6 +46,29 @@
 					<p>ceshi</p>
 				</div>
 			</div>-->
+			<br />
+			<!--导航栏html代码-->
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="background: #FFFFFF; border-radius: 5px;">
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					<a href="#">
+						<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/qihoo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>
+						<!--<table style="background-position:center; background-repeat:no-repeat;" background="images/qq.png" style="background-size: contain;">-->
+						<div class="mui-media-body">社区</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					<a href="#">
+						<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/qq.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>
+						<div class="mui-media-body">我发布的单</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					<a href="#">
+						<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/sinaweibo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>
+						<div class="mui-media-body">我跟的单</div>
+					</a>
+				</li>
+			</ul>
 
 			<div id="list">
 				<div class="mui-card" style="border-radius: 10px;" v-for="item in items">
@@ -65,7 +88,7 @@
 						<div style="height:200px;width:50%;float: none;margin-left: 50%;text-align: center;">
 							<p class="mui-text-center">主题：{{item.ordertheme}}</p>
 						</div>-->
-						<div style="margin:4px auto; width: 90%;height:150px;border-radius: 3px;background: no-repeat center center;background:no-repeat;background-size: contain;" v-bind:style="{background:item.bk}"></div>
+						<div style="margin:4px auto; width: 90%;height:150px;border-radius: 3px;background-repeat: no-repeat;background-position:center; background: no-repeat center center;background:no-repeat;background-size: contain;" v-bind:style="{background:item.bk}"></div>
 						<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.orderpicsrc" style="margin: auto auto;" alt="订单食品图片" width="85%" />-->
 						<div class="mui-card-content-inner">
 							<p>主题：{{item.ordertheme}}</p>
@@ -133,6 +156,23 @@
 
 		<script type="text/javascript" src="js/pro_js/main_draw_listen.js"></script>
 		<script type="text/javascript">
+			//解决软键盘挤压页面
+			//获取原始窗口的高度
+//			var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+//
+//			window.onresize = function() {
+//
+//				//软键盘弹起与隐藏  都会引起窗口的高度发生变化
+//				var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+//
+//				if(resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
+//
+//					plus.webview.currentWebview().setStyle({
+//						height: originalHeight
+//					});
+//
+//				}
+//			}
 			//获取轮播
 			//获得轮播图片列表
 			mui.post('http://39.108.159.175/phpworkplace/mui/order/getCastPic.php', {}, function(data) {
@@ -140,14 +180,14 @@
 					var middlePicNode = '';
 
 					//首先添加首位和末尾
-					var firstPicNode = "";	//最后一张图片
+					var firstPicNode = ""; //最后一张图片
 					firstPicNode += "<div class=\"mui-slider-group mui-slider-loop\">";
 					firstPicNode += "<div class=\"mui-slider-item mui-slider-item-duplicate\">";
 					firstPicNode += "<a href=\"#\">";
-					firstPicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[data.length-1].picname + "\" />";
+					firstPicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[data.length - 1].picname + "\" />";
 					firstPicNode += "</a>";
 					firstPicNode += "</div>";
-					var lastPicNode = "";	//第一张图片
+					var lastPicNode = ""; //第一张图片
 					lastPicNode += "<div class=\"mui-slider-item mui-slider-item-duplicate\">";
 					lastPicNode += "<a href=\"#\">";
 					lastPicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[0].picname + "\" />";
@@ -156,7 +196,7 @@
 					lastPicNode += "</div>";
 
 					for(var i = 0; i < data.length; i++) {
-						
+
 						middlePicNode += "<div class=\"mui-slider-item\">";
 						middlePicNode += "<a href=\"#\">";
 						middlePicNode += "<img src=\"http://39.108.159.175/phpworkplace/mui/castpic/" + data[i].picname + "\" />";
@@ -228,6 +268,13 @@
 			} else {
 				//未设置自动登陆
 				var user = JSON.parse(localStorage.getItem('user'));
+				if(user == null) {
+					var logininfo = {};
+					logininfo.loginstatus = "offline";
+					user = [];
+					user.push(logininfo);
+					localStorage.setItem("user", JSON.stringify(user));
+				}
 				user[0].loginstatus = "offline";
 				localStorage.setItem('user', JSON.stringify(user));
 			}

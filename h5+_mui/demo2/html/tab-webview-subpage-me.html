@@ -83,7 +83,24 @@
 		</div>
 
 		<script>
-			mui.init();
+			mui.init({
+				preloadPages: [{
+					url: "login/login.html",
+					id: "login/login.html"
+				},
+				{
+					url: "my_buy/edit-addr.html",
+					id: "my_buy/edit-addr.html"
+				},
+				{
+					url: "my_buy/contact-chat.html",
+					id: "my_buy/contact-chat.html"
+				},
+				{
+					url: "my_buy/manage-receive-addr.html",
+					id: "my_buy/manage-receive-addr.html"
+				}]
+			});
 
 			//每次检查是否已经登陆
 			var user = JSON.parse(localStorage.getItem('user'));
@@ -93,7 +110,18 @@
 				//logined
 				//				alert("注销");
 				document.getElementById("login").value = '注销';
-			} else alert(user[0].loginstatus);
+			} else {
+				if(user == null) {
+					var logininfo = {};
+					logininfo.loginstatus = "offline";
+					user = [];
+					user.push(logininfo);
+					localStorage.setItem("user", JSON.stringify(user));
+				}
+				mui.plusReady(function() {
+					plus.nativeUI.toast("请登陆");
+				});
+			}
 
 			document.getElementsByClassName("mypost")[0].addEventListener("tap", function() {
 				mui.openWindow({
