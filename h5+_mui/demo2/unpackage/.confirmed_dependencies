@@ -138,7 +138,8 @@
   "html/login/reg.html": {
     "refer": [
       "html/login/login.html",
-      "html/login/set_uicon.html"
+      "html/login/set_uicon.html",
+      "html/login/create_com.html"
     ],
     "resources": []
   },
@@ -147,5 +148,10 @@
       "html/my_buy/edit-addr.html"
     ],
     "resources": []
+  },
+  "html/login/create_com.html": {
+    "refer": [
+      "html/login/set_uicon.html"
+    ]
   }
 }

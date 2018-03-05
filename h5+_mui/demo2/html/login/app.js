@@ -5,6 +5,7 @@
  **/
 
 var urlreg = 'http://39.108.159.175/phpworkplace/mui/login/reg.php';
+var urlregCom = 'http://39.108.159.175/phpworkplace/mui/login/regCom.php';
 var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 
 (function($, owner) {
@@ -56,7 +57,7 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 				}
 			},
 			error: function(xhr, type, errThrown) {
-				alert('something wrong with the server... call 18952448323 tangrui to fix');
+				alert('check your internet');
 			}
 		});
 		
@@ -95,9 +96,6 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 		if(!checkEmail(regInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
-		if(regInfo.com.length<=0){
-			return callback('请输入社区');
-		}
 		var users = JSON.parse(localStorage.getItem('$user') || '[]');
 		//start server connection
 
@@ -106,13 +104,67 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 				account: regInfo.account,
 				password: regInfo.password,
 				email: regInfo.email,
-				com:regInfo.com
+				cid:regInfo.cid,
+				identity:regInfo.identity
 			},
 			dataType: 'json',
 			type: 'post',
 			timeout: 3000,
 			success: function(data) {
 				if(data.status != 'success') return callback("注册失败 用户重复");
+				else {
+					users = [];
+					regInfo.aid=data.aid;
+					users.push(regInfo);
+					localStorage.setItem('$user', JSON.stringify(users));
+					return callback(new Number(data.aid));
+				}
+			},
+			error: function(xhr, type, errThrown) {
+				alert('something wrong with the server...');
+			}
+		});
+
+		//ensure that there is only one account which is the one that user aregistered
+		//		users.clear();
+
+	};
+	
+	//注册社区成为管理员
+	owner.regCom = function(regInfo, callback) {
+		callback = callback || $.noop;
+		regInfo = regInfo || {};
+		regInfo.account = regInfo.account || '';
+		regInfo.password = regInfo.password || '';
+		if(regInfo.account.length < 5) {
+			return callback('用户名最短需要 5 个字符');
+		}
+		if(regInfo.password.length < 6) {
+			return callback('密码最短需要 6 个字符');
+		}
+		if(!checkEmail(regInfo.email)) {
+			return callback('邮箱地址不合法');
+		}
+		if(regInfo.cname.length<1) {
+//			alert(regInfo.identity+"  "+regInfo.cname+"  "+regInfo.cname.length);
+			return callback('请输入完整社区名');
+		}
+		var users = JSON.parse(localStorage.getItem('$user') || '[]');
+		//start server connection
+
+		mui.ajax(urlregCom, {
+			data: {
+				account: regInfo.account,
+				password: regInfo.password,
+				email: regInfo.email,
+				cname:regInfo.cname,
+				identity:regInfo.identity
+			},
+			dataType: 'json',
+			type: 'post',
+			timeout: 3000,
+			success: function(data) {
+				if(data.status != 'success') return callback(data);
 				else {
 					users = [];
 					regInfo.aid=data.aid;
