@@ -437,7 +437,8 @@
 				"resources": [
 					"images/60x60.gif",
 					"js/mui.min.js",
-					"css/mui.min.css"
+					"css/mui.min.css",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -446,7 +447,9 @@
 				"resources": [
 					"css/mui.min.css",
 					"js/mui.min.js",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"images/user_r_icon2.png",
+					"images/user_icon_bg2.png"
 				],
 				"refer": [
 					"html/my_buy/my-post.html",
@@ -488,7 +491,17 @@
 			},
 			"main.html": {
 				"resources": [
-					"html/tab-webview-subpage-chat.html"
+					"html/tab-webview-subpage-chat.html",
+					"js/pro_js/main_draw_listen.js",
+					"js/util.js",
+					"js/mui.min.js",
+					"html/login/app.js",
+					"images/sinaweibo.png",
+					"css/mui.min.css",
+					"images/qihoo.png",
+					"js/vue.min.js",
+					"images/qq.png",
+					"images/search.png"
 				],
 				"refer": [
 					"html/order/detail-order.html",
@@ -499,7 +512,9 @@
 				"priority": 0
 			},
 			"html/login/login.html": {
-				"resources": [],
+				"resources": [
+					"js/mui.enterfocus.js"
+				],
 				"refer": [
 					"main.html",
 					"html/login/reg.html",
@@ -524,7 +539,9 @@
 				"priority": 0
 			},
 			"html/my_buy/manage-receive-addr.html": {
-				"resources": [],
+				"resources": [
+					"images/60x60.gif"
+				],
 				"refer": [
 					"html/my_buy/edit-addr.html"
 				],
@@ -535,6 +552,41 @@
 				"refer": [
 					"html/login/set_uicon.html"
 				],
+				"priority": 0
+			},
+			"html/my_buy/contact-chat.html": {
+				"resources": [
+					"js/mui.imageViewer.js",
+					"css/app.css",
+					"css/mui.imageviewer.css",
+					"js/arttmpl.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/order/detail-order.html": {
+				"resources": [
+					"js/jquery-2.1.0.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/order/post-order.html": {
+				"resources": [
+					"js/common.js",
+					"css/iconfont.css",
+					"css/font-awesome.min.css",
+					"js/utitls.js",
+					"css/feedback-page.css",
+					"js/jquery.js",
+					"images/iconfont-tianjia.png",
+					"fonts/fontawesome-webfont.ttf"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

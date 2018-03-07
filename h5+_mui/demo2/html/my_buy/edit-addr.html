@@ -6,65 +6,165 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
 	</head>
 
 	<body>
-		
+
 		<header class="mui-bar mui-bar-nav">
-		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">编辑收货地址</h1>
-			<label class="mui-pull-right" style="margin-top: 13px;">保存</label>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑收货地址</h1>
+			<button type="button" id="save" class="mui-btn-blue mui-pull-right" style="margin-top: 5px;">保存</button>
+			<!--<label class="mui-pull-right" id="save" style="margin-top: 13px;">保存</label>-->
 		</header>
 		<div class="mui-content">
-		    <p style="margin-left: 10px;margin-top: 10px;">联系人</p>
+			<p style="margin-left: 10px;margin-top: 10px;">联系人</p>
 
 			<div style="width: 100%;height: 130px;background-color: #FFFFFF;">
 				<form class="mui-input-group" style="padding: px;">
-				    <div class="mui-input-row">
-				        <label>姓名</label>
-				        <input type="text" class="mui-input-clear" placeholder="姓名">
-				    </div>
-					<div class="mui-radio mui-left "style="width: 50%;float: left;margin-top: 10px;">
-					    <label style="margin-top: 10px;"><p>先生</p></label>
-					    <input name="sex" type="radio" checked>
-					    
-					<div style="height: 1px;width: 100%; background-color: #929292;"></div>
+					<div class="mui-input-row">
+						<label>姓名</label>
+						<input type="text" class="mui-input-clear" id="nameBox" placeholder="姓名">
 					</div>
-					
+					<div class="mui-radio mui-left " style="width: 50%;float: left;margin-top: 10px;">
+						<label style="margin-top: 10px;"><p>先生</p></label>
+						<input name="sex" type="radio" checked>
+
+						<div style="height: 1px;width: 100%; background-color: #929292;"></div>
+					</div>
+
 					<div class=" mui-radio mui-left " style="width: 50%;float: left;margin-top: 10px;">
-					    <label style="margin-top: 10px;"><p>女士</p></label>
-					    <input name="sex" type="radio" checked>
-					    
-					<div style="height: 1px;width: 100%; background-color: #929292;"></div>
+						<label style="margin-top: 10px;"><p>女士</p></label>
+						<input name="sex" type="radio" checked>
+
+						<div style="height: 1px;width: 100%; background-color: #929292;"></div>
 					</div>
 					<div style="height: 1px;width: 100%; background-color: #929292;"></div>
-					<div class="mui-input-row"style="margin-top: 10px;">
-				        <label>手机</label>
-				        <input type="text" class="mui-input-clear" placeholder="手机">
-				    </div>
+					<div class="mui-input-row" style="margin-top: 10px;">
+						<label>手机</label>
+						<input type="text" class="mui-input-clear" id="phoneBox" placeholder="手机">
+					</div>
 				</form>
 			</div>
 			<p style="margin-left: 10px;margin-top: 10px;">收货地址</p>
 
 			<div style="width: 100%;height: 90px;background-color: #FFFFFF;">
+				<button id='showUserPicker' style="margin-top: -1px;" class="mui-btn mui-btn-block" type='button'>选择社区</button>
 				<form class="mui-input-group" style="padding: px;">
-				    <div class="mui-input-row"style="padding-top: 5;padding-bottom: 10px;">
+					<!--<div class="mui-input-row"style="padding-top: 5;padding-bottom: 10px;">
 				        <label>小区</label>
 				        <input type="text" class="mui-input-clear" placeholder="小区">
-				    </div>
+				    </div>-->
 					<div class="mui-input-row" style="margin-top: 10px;">
-				        <label>楼号</label>
-				        <input type="text" class="mui-input-clear" placeholder="楼号">
-				    </div>
+						<label>详细地址</label>
+						<input type="text" class="mui-input-clear" id="detailBox" placeholder="楼号">
+					</div>
 				</form>
 			</div>
-			
+
 			<!--<button class="mui-btn mui-btn-blue" style="margin-top: 30px;margin-left: 20px;">保存地址</button>-->
 		</div>
-		
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
 		<script type="text/javascript">
-			mui.init()
+//			mui.init();
+//			(function($, doc) {
+
+				mui.init()
+				mui.plusReady(function() {
+
+					//获取数据显示和选择社区
+					mui.post('http://39.108.159.175/phpworkplace/mui/login/getCom.php', {}, function(data) {
+						if(data == null || data.length == 0) {
+							plus.nativeUI.toast("无法连接服务器");
+							return;
+						}
+						//					选择器本地js逻辑
+						var _getParam = function(obj, param) {
+							return obj[param] || '';
+						};
+						//普通示例
+						var userPicker = new mui.PopPicker();
+						var tmpData = [];
+
+						for(var i = 0; i < data.length; i++) {
+							tmpData.push({
+								value: data[i].cid,
+								text: data[i].cname
+							});
+							//						alert(data[i].mid+data[i].cname);
+						}
+						userPicker.setData(tmpData);
+
+						var showUserPickerButton = document.getElementById('showUserPicker');
+						//					var userResult = doc.getElementById('userResult');
+						showUserPickerButton.addEventListener('tap', function(event) {
+							userPicker.show(function(items) {
+								showUserPickerButton.innerText = items[0].text;
+								pickedComId = new Number(items[0].value);
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						}, false);
+
+					}, 'json');
+
+					//添加事件监听 保存数据 容错判断
+					document.getElementById("save").addEventListener('tap',function(){
+						
+						//容错判断
+						//获取单选框的值
+								var rdsObj = document.getElementsByName("sex");
+								var checkCode = 1;
+								var sex;
+								for(i = 0; i < rdsObj.length; i++) {
+									if(rdsObj[i].checked) {
+										checkCode = i;
+									}
+								}
+								if(checkCode == 1) {
+									sex = '女士';
+								} else {
+									sex = '先生';
+								}
+						var name = document.getElementById("nameBox").value;
+						var phone = document.getElementById("phoneBox").value;
+						var detailAddr = document.getElementById("detailBox").value;
+						var com = document.getElementById("showUserPicker").innerText;
+						var aid =new Number(JSON.parse(localStorage.getItem('user'))[0].aid);
+						if(name.length<1){
+							plus.nativeUI.toast('请输入姓名');
+						}else if(phone.length<1){
+							plus.nativeUI.toast('请输入手机号');
+						}else if(detailAddr.length<1){
+							plus.nativeUI.toast('请输入详细地址');
+						}else if(com.length<1||com =='选择社区'){
+							plus.nativeUI.toast('请选择社区');
+						}else{
+							//保存动作
+//							plus.nativeUI.toast(name+" "+phone+" "+detailAddr+" "+com+" "+sex+" "+aid);
+							mui.post('http://39.108.159.175/phpworkplace/mui/order/maddress/setUserAddress.php',{
+								aid:aid,
+								name:name,
+								phone:phone,
+								sex:sex,
+								addr:com+" "+detailAddr
+							},function(data){
+								plus.nativeUI.toast(data.trim());
+								var wbobj = plus.webview.currentWebview().opener();
+								wbobj.reload();
+								mui.back();
+							},'text');
+						}
+						
+						
+					});
+
+
+				});
+//			}(mui, document));
 		</script>
 	</body>
 
