@@ -33,8 +33,7 @@
 				<input type="text" placeholder="搜索" style="padding-left: 30px; margin-left: 10px; margin-top: 7px; border-radius: 30px;width: 65%;height: 30px; background-color: #EEEEEE;" />
 			</div>
 		</header>
-		<div class="mui-content" style="margin-top: -45px;margin-bottom: 60px;">
-
+		<div class="mui-content" style="margin-top: -45px;margin-bottom: 66px;">
 			<!--图片轮播html代码-->
 			<div id="slider" class="mui-slider">
 			</div>
@@ -57,15 +56,15 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="#">
+					<a id="my-posted-order-a" href="#">
 						<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/qq.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>
-						<div class="mui-media-body">我发布的单</div>
+						<div id="my-posted-order-div" class="mui-media-body">我发布的单</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="#">
+					<a id="my-followed-order-a" href="#">
 						<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/sinaweibo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>
-						<div class="mui-media-body">我跟的单</div>
+						<div id="my-followed-order-div" class="mui-media-body">我跟的单</div>
 					</a>
 				</li>
 			</ul>
@@ -88,17 +87,17 @@
 						<div style="height:200px;width:50%;float: none;margin-left: 50%;text-align: center;">
 							<p class="mui-text-center">主题：{{item.ordertheme}}</p>
 						</div>-->
-						<div style="margin:4px auto; width: 90%;height:150px;border-radius: 3px;background-repeat: no-repeat;background-position:center; background: no-repeat center center;background:no-repeat;background-size: contain;" v-bind:style="{background:item.bk}"></div>
+						<div style="margin:4px auto; width: 80%;height:100px;border-radius: 3px;background-position:center; background: no-repeat center center;background-size: contain;background-repeat: no-repeat;" v-bind:style="{background:item.bk}"></div>
 						<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.orderpicsrc" style="margin: auto auto;" alt="订单食品图片" width="85%" />-->
-						<div class="mui-card-content-inner">
-							<p>主题：{{item.ordertheme}}</p>
-							<p style="color: #333;">时效截至：{{item.ordertime}}</p>
-						</div>
+						<!--<div class="mui-card-content-inner">-->
+							<p style="color: #333;">主题：{{item.ordertheme}}</p>
+							<p >时效截至：{{item.ordertime}}</p>
+						<!--</div>-->
 					</div>
 					<div class="mui-card-footer">
 						<a class="mui-card-link">收藏订单</a>
 						<!--<a class="mui-card-link">Comment</a>-->
-						<a class="mui-card-link click-order" id="1">点击跟单</a>
+						<a class="mui-card-link click-order" id="1">订单详情</a>
 						<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
 						<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
 						<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
@@ -110,6 +109,7 @@
 
 					</div>
 				</div>
+				
 
 			</div>
 
@@ -156,23 +156,25 @@
 
 		<script type="text/javascript" src="js/pro_js/main_draw_listen.js"></script>
 		<script type="text/javascript">
+			
+
 			//解决软键盘挤压页面
 			//获取原始窗口的高度
-//			var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
-//
-//			window.onresize = function() {
-//
-//				//软键盘弹起与隐藏  都会引起窗口的高度发生变化
-//				var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
-//
-//				if(resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
-//
-//					plus.webview.currentWebview().setStyle({
-//						height: originalHeight
-//					});
-//
-//				}
-//			}
+			//			var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+			//
+			//			window.onresize = function() {
+			//
+			//				//软键盘弹起与隐藏  都会引起窗口的高度发生变化
+			//				var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+			//
+			//				if(resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
+			//
+			//					plus.webview.currentWebview().setStyle({
+			//						height: originalHeight
+			//					});
+			//
+			//				}
+			//			}
 			//获取轮播
 			//获得轮播图片列表
 			mui.post('http://39.108.159.175/phpworkplace/mui/order/getCastPic.php', {}, function(data) {
@@ -222,6 +224,9 @@
 						interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；  
 					});
 					//							domCode+="</div>";
+					
+					
+					
 				}
 			}, 'json');
 			//					<div class="mui-slider-group mui-slider-loop">
@@ -353,6 +358,9 @@
 					id: "html/order/detail-order.html"
 				});
 			});
+			
+			
+			
 		</script>
 
 	</body>

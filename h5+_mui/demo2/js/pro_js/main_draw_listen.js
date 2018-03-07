@@ -1,6 +1,19 @@
 var lastId = '';
 var order_detail_page = 'html/order/detail-order.html';
 var order_post_page = 'html/order/post-order.html';
+function show_posted_order(){
+	alert("posted");
+	mui.openWindow();
+}
+function show_follower_order(){
+	alert("follower");
+}
+function show_unpassed_order(){
+	alert("unpassed");
+}
+function show_passed_order(){
+	alert("passed");
+}
 (function() {
 
 	mui.init({
@@ -17,6 +30,27 @@ var order_post_page = 'html/order/post-order.html';
 				offset: '0px',
 				auto: true,
 				callback: function() {
+					//管理员登陆模块改变ui
+					var user = JSON.parse(localStorage.getItem('user'));
+					document.getElementById("my-posted-order-a").removeEventListener('tap',show_unpassed_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap',show_passed_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap',show_posted_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap',show_follower_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap',show_unpassed_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap',show_passed_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap',show_posted_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap',show_follower_order);
+					if(user[0].identity == '管理员') {
+						document.getElementById("my-posted-order-a").addEventListener('tap',show_unpassed_order);
+						document.getElementById("my-posted-order-div").innerText = "待审核的订单";
+						document.getElementById("my-followed-order-a").addEventListener('tap',show_passed_order);
+						document.getElementById("my-followed-order-div").innerText = "通过审核的订单";
+					} else {
+						document.getElementById("my-posted-order-a").addEventListener('tap',show_posted_order);
+						document.getElementById("my-posted-order-div").innerText = "我发布的单";
+						document.getElementById("my-followed-order-a").addEventListener('tap',show_follower_order);
+						document.getElementById("my-followed-order-div").innerText = "我跟的单";
+					}
 					//清空数据
 					list.items = [];
 					if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
@@ -34,8 +68,16 @@ var order_post_page = 'html/order/post-order.html';
 					//									data.ordertime = new Date().getTime() + "";
 					//								}
 					//请求订单列表信息流
-
-					mui.getJSON("http://39.108.159.175/phpworkplace/mui/order/getorder.php", data, function(rsp) {
+					//					测试是否获取到用户的身份 以及确定用户是否为已知用户
+					var user = JSON.parse(localStorage.getItem('user'));
+					var orderPath = "http://39.108.159.175/phpworkplace/mui/order/getorder.php";
+					if(user[0].identity == '管理员') {
+						orderPath = "http://39.108.159.175/phpworkplace/mui/order/getAllOrder.php";
+					}
+					//					alert(user[0].com);
+					mui.getJSON(orderPath, {
+						com: user[0].com
+					}, function(rsp) {
 						mui('#list').pullRefresh().endPulldown();
 						if(rsp && rsp.length > 0) {
 							lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
@@ -44,8 +86,6 @@ var order_post_page = 'html/order/post-order.html';
 							console.log("refreshing----converting data data-length:" + list.items.length);
 						}
 					});
-
-					
 
 				}
 			}

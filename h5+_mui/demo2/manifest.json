@@ -502,7 +502,8 @@
 				"resources": [],
 				"refer": [
 					"main.html",
-					"html/login/reg.html"
+					"html/login/reg.html",
+					"html/login/forget_password.html"
 				],
 				"priority": 0
 			},

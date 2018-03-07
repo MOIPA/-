@@ -1,8 +1,3 @@
-/**
- * 演示程序当前的 “注册/登录” 等操作，是基于 “本地存储” 完成的
- * 当您要参考这个演示程序进行相关 app 的开发时，
- * 请注意将相关方法调整成 “基于服务端Service” 的实现。
- **/
 
 var urlreg = 'http://39.108.159.175/phpworkplace/mui/login/reg.php';
 var urlregCom = 'http://39.108.159.175/phpworkplace/mui/login/regCom.php';
@@ -49,10 +44,14 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 					loginInfo.age = userinfo.age;
 					loginInfo.sex = userinfo.sex;
 					loginInfo.com=userinfo.com;
+					loginInfo.identity = userinfo.identity;
+//					alert(loginInfo.identity);
 					users.push(loginInfo);
 					localStorage.setItem('user', JSON.stringify(users));
 					users = localStorage.getItem('user');
 //					alert(users);
+
+
 					return owner.createState(loginInfo.account, callback);
 				}
 			},
@@ -189,6 +188,18 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 	owner.getState = function() {
 		var stateText = localStorage.getItem('$state') || "{}";
 		return JSON.parse(stateText);
+	};
+	owner.getUserState = function() {
+		var stateText =JSON.parse(localStorage.getItem('user'));
+		return stateText[0].loginstatus;
+	};
+	owner.getUserCom = function() {
+		var stateText =JSON.parse(localStorage.getItem('user'));
+		return stateText[0].com;
+	};
+	owner.getUserIden = function() {
+		var stateText =JSON.parse(localStorage.getItem('user'));
+		return stateText[0].identity;
 	};
 
 	/**
