@@ -56,7 +56,9 @@
       "js/mui.min.js",
       "css/mui.min.css"
     ],
-    "refer": []
+    "refer": [
+      "html/news/detail.html"
+    ]
   },
   "html/tab-webview-subpage-contact.html": {
     "resources": [
@@ -122,7 +124,8 @@
       "html/order/post-order.html",
       "html/tab-webview-subpage-community.html",
       "html/tab-webview-subpage-me.html",
-      "html/tab-webview-subpage-chat.html"
+      "html/tab-webview-subpage-chat.html",
+      "html/order/manage-order.html"
     ],
     "resources": [
       "html/tab-webview-subpage-chat.html",
@@ -207,6 +210,9 @@
       "js/jquery.js",
       "images/iconfont-tianjia.png",
       "fonts/fontawesome-webfont.ttf"
+    ],
+    "refer": [
+      "html/order/post-order.html"
     ]
   }
 }

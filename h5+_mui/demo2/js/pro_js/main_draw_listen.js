@@ -2,17 +2,40 @@ var lastId = '';
 var order_detail_page = 'html/order/detail-order.html';
 var order_post_page = 'html/order/post-order.html';
 function show_posted_order(){
-	alert("posted");
-	mui.openWindow();
+	mui.openWindow({
+		url:"html/order/manage-order.html",
+		id:"html/order/manage-order.html",
+		extras:{
+			command:"show_posted_order"
+		}
+	});
 }
 function show_follower_order(){
-	alert("follower");
+	mui.openWindow({
+		url:"html/order/manage-order.html",
+		id:"html/order/manage-order.html",
+		extras:{
+			command:"show_follower_order"
+		}
+	});
 }
 function show_unpassed_order(){
-	alert("unpassed");
+	mui.openWindow({
+		url:"html/order/manage-order.html",
+		id:"html/order/manage-order.html",
+		extras:{
+			command:"show_unpassed_order"
+		}
+	});
 }
 function show_passed_order(){
-	alert("passed");
+	mui.openWindow({
+		url:"html/order/manage-order.html",
+		id:"html/order/manage-order.html",
+		extras:{
+			command:"show_passed_order"
+		}
+	});
 }
 (function() {
 
@@ -75,14 +98,41 @@ function show_passed_order(){
 						orderPath = "http://39.108.159.175/phpworkplace/mui/order/getAllOrder.php";
 					}
 					//					alert(user[0].com);
-					mui.getJSON(orderPath, {
-						com: user[0].com
-					}, function(rsp) {
+					mui.getJSON(orderPath, {com: user[0].com}, function(rsp) {
+						var newItems = [];
 						mui('#list').pullRefresh().endPulldown();
 						if(rsp && rsp.length > 0) {
 							lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
 							//拼接
-							list.items = list.items.concat(convert(rsp));
+//							list.items = list.items.concat(convert(rsp));
+							//为了最后能够在界面上不被底部遮挡，需要重写适配逻辑
+							for(var i=0;i<rsp.length;i++){
+								newItems.push({
+									orderid: rsp[i].orderid,
+									promulgatorid: rsp[i].promulgatorid,
+									ordertime: rsp[i].ordertime,
+									ordercontent: rsp[i].ordercontent,
+									orderpicsrc: rsp[i].rorderpicsrc,
+									account: rsp[i].account,
+									ordertheme: rsp[i].ordertheme,
+									uiconsrc: rsp[i].uiconsrc,
+									orderstatus: rsp[i].orderstatus,
+									posttime:dateUtils.format(rsp[i].posttime),
+									peoplelimit:rsp[i].peoplelimit,
+									currentpeople:rsp[i].currentpeople,
+									float:"float:left;",
+									bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + rsp[i].rorderpicsrc + "\")",
+								});
+							}
+							if(rsp.length>=4){
+								if((rsp.length%2)==0){
+									//偶数个需要变 因为最后一张可能会贴在左上角
+									newItems[rsp.length-2].float="float:left;margin-right:3%;margin-top:-0.5px"; //倒数第二张就是最后一张的左边 设置
+									newItems[rsp.length-3].float="float:left;margin-bottom:9px;";//最后一张的上边设置
+								}
+								newItems[rsp.length-1].float="float:none;";
+							}
+							list.items = newItems;
 							console.log("refreshing----converting data data-length:" + list.items.length);
 						}
 					});
@@ -105,6 +155,7 @@ function show_passed_order(){
 				ordertheme: item.ordertheme,
 				uiconsrc: item.uiconsrc,
 				orderstatus: item.orderstatus,
+				posttime:item.posttime,
 				bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + item.rorderpicsrc + "\")",
 			});
 		});
@@ -215,13 +266,13 @@ function show_passed_order(){
 				height: '50px'
 			},
 			rectStyles: {
-				color: '#d74b28',
+				color: '#41cea9', //此为背景颜色
 				radius: '50%'
 			}
 		}, {
 			tag: 'font',
 			id: 'icon',
-			text: '\uea0a', //此为字体图标Unicode码'\e600'转换为'\ue600'
+			text: '\ue900', //此为字体图标Unicode码'\e600'转换为'\ue600'
 			position: {
 				top: '0px',
 				left: '5px',
@@ -229,7 +280,7 @@ function show_passed_order(){
 				height: '100%'
 			},
 			textStyles: {
-				fontSrc: '_www/fonts/icomoon.ttf',
+				fontSrc: '_www/fonts/icomoonCircle.ttf',
 				align: 'center',
 				color: '#fff',
 				size: '30px'
@@ -249,16 +300,16 @@ function show_passed_order(){
 			//						mask.show(); 
 			// 重绘字体颜色
 			if(active_color == '#fff') {
-				drawNativeIcon.drawText('\uea0a', {}, {
-					fontSrc: '_www/fonts/icomoon.ttf',
+				drawNativeIcon.drawText('\ue900', {}, {
+					fontSrc: '_www/fonts/icomoonCircle.ttf',
 					align: 'center',
-					color: '#000',
+					color: '#8f76d8',	//字体激活的颜色
 					size: '30px'
 				}, 'icon');
-				active_color = '#000';
+				active_color = '#8f76d8';	//字体激活的颜色
 			} else {
-				drawNativeIcon.drawText('\uea0a', {}, {
-					fontSrc: '_www/fonts/icomoon.ttf',
+				drawNativeIcon.drawText('\ue900', {}, {
+					fontSrc: '_www/fonts/icomoonCircle.ttf',
 					align: 'center',
 					color: '#fff',
 					size: '30px'
@@ -382,6 +433,10 @@ document.getElementById('bussiness-order').addEventListener("click", function() 
 		plus.nativeUI.toast("请先登陆");
 		return;
 	}
+	if(user[0].identity != '商家') {
+		plus.nativeUI.toast("非入驻商家无法发布活动");
+		return;
+	}
 	var postorder = mui.preload({
 		url: order_post_page,
 		id: order_post_page,
@@ -390,7 +445,8 @@ document.getElementById('bussiness-order').addEventListener("click", function() 
 		poster: 'bussiness'
 	});
 	mui.openWindow({
-		id: order_post_page
+		id: order_post_page,
+		creatnew:true
 	});
 	mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));
 });

@@ -191,6 +191,8 @@
 						mui.back = function() {
 							var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
 							wobj.beginPullToRefresh();
+//							alert("am i doing?");
+//							wobj.beginPullToRefresh();
 							//							wobj.reload(true);
 //							
 							old_back()
@@ -317,7 +319,8 @@
 							},
 							waiting: {
 								autoShow: false
-							}
+							},
+							creatnew:true
 						});
 					}, false);
 					forgetButton.addEventListener('tap', function(event) {

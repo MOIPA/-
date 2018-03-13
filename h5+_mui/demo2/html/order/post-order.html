@@ -8,14 +8,17 @@
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="MobileOptimized" content="320" />
 		<title>HTML5 Plus 拍照或者相册选择图片上传 重复图片上传无效</title>
+		<script src="../../js/mui.min.js"></script>
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/feedback-page.css" />
 		<link rel="stylesheet" href="../../css/font-awesome.min.css">
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
 		<script src="../../js/jquery.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/utitls.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
 		<style type="text/css">
 			.del {
 				position: absolute;
@@ -124,16 +127,25 @@
 
 			<form id='login-form' class="mui-input-group" style="margin-top: 20px;">
 				<div class="mui-input-row">
-					<label>订单主题</label>
-					<input id='orderthemebox' type="text" class="mui-input-clear mui-input" placeholder="请输入订单主题">
+					<label id="ordertitle">订单主题</label>
+					<input id='orderthemebox' type="text" class="mui-input-clear mui-input" placeholder="请输入主题">
 				</div>
-				<div class="mui-input-row">
-					<label>截至时间</label>
-					<input id='ordertimebox' type="text" class="mui-input-clear mui-input" placeholder="请输入订单截至时间">
+				<div>
+					<!--<label id="endtimetitle">截至时间</label>-->
+					<button id='ordertimebox' data-options='{}' class="btn mui-btn mui-btn-block">选择截至日期</button>
+					<!--<input id='ordertimebox' type="text" class="mui-input-clear mui-input" placeholder="请输入截至时间">-->
+				</div>
+				<div class="mui-input-row" id="peoplelimittitle" style="display: none;">
+					<label>活动人数</label>
+					<div class="mui-numbox" data-numbox-min='1' data-numbox-max='10000'>
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input id="peoplelimitbox" class="mui-input-numbox" type="number" value="5" />
+						<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+					</div>
 				</div>
 			</form>
 			<!--<form id='login-form' class="mui-input-group">-->
-			<textarea id="maincontentbox" rows="20" placeholder="订单描述" style="height: 130px;margin-top: 10px;"></textarea>
+			<textarea id="maincontentbox" rows="20" placeholder="描述" style="height: 130px;margin-top: 10px;"></textarea>
 			<!--</form>-->
 
 			<p>从相册或拍照上传图片（图片重复无用）</p>
@@ -149,9 +161,14 @@
 			</div>
 		</div>
 
-		<script src="../../js/mui.min.js"></script>
-
 		<script type="text/javascript">
+			var old_back = mui.back();
+			mui.back = function() {
+				mui.currentWebview.close();
+				old_back();
+			}
+
+			var type = "";
 			//			接收消息判断业务类型和是否登陆
 			window.addEventListener("poster", function(data) {
 				//				alert(data.detail.poster);
@@ -160,14 +177,70 @@
 				if(user == null) {
 					alert('尚未登陆');
 				} else {
-					//					console.log(users);
-					//						alert(user[0].aid);
+					if(data.detail.poster == "bussiness") {
+						type = "activity";
+						document.getElementById("ordertitle").innerText = "活动主题";
+						//						document.getElementById("endtimetitle").innerText = "活动截至事件";
+						document.getElementById("peoplelimittitle").style.display = "block";
+						//						alert("activity");
+					}
 				}
 			});
 		</script>
 
 		<!--//上传照片逻辑-->
 		<script>
+			var rst = document.getElementById("ordertimebox");
+			//日期选择器准备
+			(function($) {
+				$.init();
+				document.getElementById("ordertimebox").addEventListener('tap', function() {
+					var _self = this;
+					if(_self.picker) {
+						_self.picker.show(function(rs) {
+							rst.innerText = rs.text;
+							_self.picker.dispose();
+							_self.picker = null;
+						});
+					} else {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						/*
+						 * 首次显示时实例化组件
+						 * 示例为了简洁，将 options 放在了按钮的 dom 上
+						 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						 */
+						_self.picker = new $.DtPicker(options);
+						_self.picker.show(function(rs) {
+							/*
+							 * rs.value 拼合后的 value
+							 * rs.text 拼合后的 text
+							 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							 * rs.m 月，用法同年
+							 * rs.d 日，用法同年
+							 * rs.h 时，用法同年
+							 * rs.i 分（minutes 的第二个字母），用法同年
+							 */
+							rst.innerText = rs.text;
+							/* 
+							 * 返回 false 可以阻止选择框的关闭
+							 * return false;
+							 */
+							/*
+							 * 释放组件资源，释放后将将不能再操作组件
+							 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+							 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+							 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+							 */
+							_self.picker.dispose();
+							_self.picker = null;
+						});
+					}
+
+				}, false);
+			})(mui);
+			//准备完毕  
 			var user = JSON.parse(localStorage.getItem('user'));
 			var userAid = user[0].aid;
 			var userAccount = user[0].account;
@@ -380,7 +453,7 @@
 					itemvalue = itemvalue + "{" + name + "," + path + "," + url + "}";
 				}
 				plus.storage.setItem(itemname, itemvalue);
-//				alert(itemname);
+				//				alert(itemname);
 
 				var src = 'src="' + url + '"';
 				//alert("itemvalue="+itemvalue);  
@@ -426,11 +499,23 @@
 
 			//上传图片，实例中没有添加上传按钮
 			function uploadimge(agree, back) {
+				//测试时间选择器读数
+				//				alert(document.getElementById("ordertimebox").innerText);
+
+//				return;
+
+				var restorePicUrl = "http://39.108.159.175/phpworkplace/mui/order/restore-pic.php";
+				if(type == "activity") {
+					var restoreInfoUrl = "http://39.108.159.175/phpworkplace/mui/order/restore-activityInfo.php";
+				} else {
+					var restoreInfoUrl = "http://39.108.159.175/phpworkplace/mui/order/restore-info.php";
+				}
+				//				alert(identity);return;
 				//				alert(userAid+":"+userCom);
 				//				alert(getNowFormatDate());
 				//****************judge if any box empty
 				var maincontent = document.getElementById("maincontentbox").value;
-				var ordertime = document.getElementById("ordertimebox").value;
+				var ordertime = document.getElementById("ordertimebox").innerText;
 				var ordertheme = document.getElementById("orderthemebox").value;
 				if(ordertheme == null || ordertheme == "") {
 					plus.nativeUI.toast("订单主题不能为空");
@@ -444,6 +529,11 @@
 					plus.nativeUI.toast("订单时间不能为空");
 					return;
 				}
+				if(imgArray.length <= 0) {
+					plus.nativeUI.toast("请输入订单图片");
+					return;
+				}
+
 				//********end
 				//plus.storage.clear();  
 				var wa = plus.nativeUI.showWaiting();
@@ -452,30 +542,36 @@
 				var length = id.toString().length;
 				var idnmae = id.toString();
 				var numKeys = plus.storage.getLength();
-				var task = plus.uploader.createUpload("http://39.108.159.175/phpworkplace/mui/order/restore-pic.php", {
+				var task = plus.uploader.createUpload(restorePicUrl, {
 						method: "POST"
 					},
 					function(t, status) {
 						console.log("start");
-						plus.nativeUI.toast("上传成功!");
+						if(type=="activity"){
+							plus.nativeUI.toast("活动开启成功!");
+						}else{
+							plus.nativeUI.toast("上传订单成功,等待审核中!");
+						}
 						if(status == 200) {
 							//alert('uploaded');
-							console.log("上传成功");
+							console.log("上传成功 等待审批");
 							console.log(task.responseText);
 							var pathjson = JSON.parse(task.responseText);
 
 							//********then upload info
 							$.ajax({
 								type: "post",
-								url: "http://39.108.159.175/phpworkplace/mui/order/restore-info.php",
+								url: restoreInfoUrl,
 								data: {
 									orderpromulgator: userAid,
 									ordercontent: maincontent,
 									ordertime: ordertime,
-									ordertheme:ordertheme,
+									ordertheme: ordertheme,
 									usercom: userCom,
 									posttime: getNowFormatDate(),
-									patharr: pathjson
+									patharr: pathjson,
+									type: type,
+									peoplelimit: document.getElementById("peoplelimitbox").value
 								},
 								async: true,
 								dataType: "text",
@@ -501,7 +597,7 @@
 							});
 
 						} else {
-							alert('upload failed');
+							plus.nativeUI.toast('upload failed');
 							wa.close();
 							console.log("上传失败");
 						}

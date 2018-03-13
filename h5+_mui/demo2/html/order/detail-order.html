@@ -49,7 +49,7 @@
 						<br />
 						<h5 id="theme">theme</h5>
 						<br />
-						<h5>订单描述</h5>
+						<h5 id="order-desc">订单描述</h5>
 						<textarea id="content" style="background: #E8E8E8;" readonly="readonly" style="border: 0px;">content</textarea>
 						<button type="button" id="changeOrderStatus" class="mui-btn-danger">修改状态</button>
 						<br />
@@ -191,13 +191,24 @@
 						var sellerId = event.detail.sellerId;
 						var sellerName = event.detail.sellerName;
 						var sellerIcon = event.detail.sellerIcon;
-
+						//如果是活动可以获取人数限制
+						var peoplelimit = event.detail.peoplelimit;
+						var currentpeople = event.detail.currentpeople;
+						var getFollowerUrl = "";
+						//						并且应该改变界面显示
+						if(status == "活动" || status == "活动已结束") {
+							getFollowerUrl = 'http://39.108.159.175/phpworkplace/mui/order/getActivityFollower.php';
+							document.getElementById("order-desc").innerText = "活动描述-----当前人数：" + currentpeople + " /" + peoplelimit;
+						}else{
+							getFollowerUrl = 'http://39.108.159.175/phpworkplace/mui/order/getFollower.php';
+						}
 						//显示基础数据
 						var time_tab = document.getElementById("end_time");
 						var seller_name = document.getElementById("name");
 						var seller_icon = document.getElementById("icon");
 						var tab_content = document.getElementById("content");
 						var tab_theme = document.getElementById("theme");
+
 						//				alert(seller_icon.src);
 						seller_icon.src = "http://39.108.159.175/phpworkplace/mui/uiconpic/" + sellerIcon;
 						seller_name.firstChild.nodeValue = "商家：" + sellerName;
@@ -230,19 +241,17 @@
 						}, 'json');
 
 						//					2.显示跟踪订单的用户们
-						mui.post('http://39.108.159.175/phpworkplace/mui/order/getFollower.php', {
-							orderid: orderId
-						}, function(data) {
+						mui.post(getFollowerUrl, {orderid: orderId}, function(data) {
 							//					alert(orderId+"   "+data);
 							var items = [];
 							if(data != null) {
 								for(var i = 0; i < data.length; i++) {
 									items.push({
 										name: data[i].account,
-										realName:data[i].name,
-										sex:data[i].sex,
-										phone:data[i].phone,
-										address:data[i].address,
+										realName: data[i].name,
+										sex: data[i].sex,
+										phone: data[i].phone,
+										address: data[i].address,
 										aid: data[i].aid,
 										urstatus: data[i].urstatus,
 										icon: data[i].uiconsrc,
@@ -278,7 +287,7 @@
 						 * 已发货状态——什么也不能做，等待用户全部确认收货
 						 * 个人按钮用于确认收货或者付款 只有那个用户能点击,点击后联网更新返回成功与否信息跟新本地ui
 						 */
-
+						document.getElementById("commit").disabled = false;
 						if(status == "待审核") {
 							//审核按钮
 							btnPassOrder.innerText = "是否通过审核";
@@ -295,7 +304,20 @@
 							//修改订单状态按钮  通过可修改
 							//							btnChangeOrderStatus.disabled = true;
 							//详细判断当前的按钮的状态
-							if(status == '进行中') {
+							if(status == '活动') {
+								btnChangeOrderStatus.innerText = "结束活动";
+								btnChangeOrderStatus.disabled = false;
+
+								document.getElementById("commit").style.display = "block";
+								document.getElementById("commit").innerText = "参与";
+							} else if(status == '活动已结束') {
+								btnChangeOrderStatus.innerText = "活动已结束";
+								btnChangeOrderStatus.disabled = true;
+
+								document.getElementById("commit").style.display = "block";
+								document.getElementById("commit").disabled = true;
+								document.getElementById("commit").innerText = "活动已结束";
+							} else if(status == '进行中') {
 								btnChangeOrderStatus.innerText = "等待买家付款";
 								btnChangeOrderStatus.disabled = true;
 							} else if(status == "等待卖家发货") {
@@ -373,51 +395,136 @@
 								this.innerText = '订单已结束';
 								this.disabled = true;
 								mui.back();
+							} else if(this.innerText == '结束活动') {
+								mui.post('http://39.108.159.175/phpworkplace/mui/order/endActivity.php', {
+									orderid: new Number(orderId)
+								}, function(data) {
+									if(data.trim() == '结束成功') {
+										plus.nativeUI.toast("结束成功");
+										//									mui.back();
+									} else {
+										plus.nativeUI.toast("结束失败");
+									}
+								}, 'text');
+								wobj.beginPullToRefresh();
+								this.innerText = '活动已结束';
+								this.disabled = true;
+								mui.back();
 							}
 						});
 						//										alert(document.getElementById("delete").style.display);
-						
-						function sendFollowerInfo(addrId){
+
+						function sendFollowerInfo(addrId) {
 							//添加留言信息***********************************************************************
-//							alert(addrId);
-									document.getElementById("commit").style.display = "none";
-									//						plus.nativeUI.toast("click");
-									//						return;
-									//						e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
-									var btnArray = ['取消', '确定跟单'];
-									mui.prompt('请输入你对商家的留言：', '留言', '尊敬的用户', btnArray, function(e) {
-										if(e.index == 1) {
-											//跟单操作
-											var user = JSON.parse(localStorage.getItem('user'));
-											//orderId aid e.value
-											//							alert(user[0].aid+"  "+e.value);
-											mui.post('http://39.108.159.175/phpworkplace/mui/order/followOrder.php', {
-												orderid: orderId,
-												aid: new Number(user[0].aid),
-												remark: e.value,
-												addressid:new Number(addrId)
-											}, function(data) {
-												if(data.trim() == "已跟此单") {
-													//										已跟此单后业务
-													plus.nativeUI.toast("已跟此单");
-													document.getElementById("commit").style.display = "block";
-												} else {
-													plus.nativeUI.toast(data.trim());
-													wobj.beginPullToRefresh();
-													mui.back();
-												}
-											}, 'text');
-											//								setTimeout("document.getElementById(\"commit\").style.display=\"block\";",3000);
-											//								document.getElementById("commit").style.display="block";
+							//							alert(addrId);
+							document.getElementById("commit").style.display = "none";
+							//						plus.nativeUI.toast("click");
+							//						return;
+							//						e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+							var btnArray = ['取消', '确定跟单'];
+							mui.prompt('请输入你对商家的留言：', '留言', '尊敬的用户', btnArray, function(e) {
+								if(e.index == 1) {
+									//跟单操作
+									var user = JSON.parse(localStorage.getItem('user'));
+									//orderId aid e.value
+									//							alert(user[0].aid+"  "+e.value);
+									mui.post('http://39.108.159.175/phpworkplace/mui/order/followOrder.php', {
+										orderid: orderId,
+										aid: new Number(user[0].aid),
+										remark: e.value,
+										addressid: new Number(addrId)
+									}, function(data) {
+										if(data.trim() == "已跟此单") {
+											//										已跟此单后业务
+											plus.nativeUI.toast("已跟此单");
+											document.getElementById("commit").style.display = "block";
 										} else {
-											//							plus.nativeUI.toast('你点了取消按钮');
+											plus.nativeUI.toast(data.trim());
+											wobj.beginPullToRefresh();
+											mui.back();
 										}
-									});
+									}, 'text');
+									//								setTimeout("document.getElementById(\"commit\").style.display=\"block\";",3000);
+									//								document.getElementById("commit").style.display="block";
+								} else {
+									//							plus.nativeUI.toast('你点了取消按钮');
+								}
+							});
 						}
-						
+
 						$("#commit").unbind();
 						$("#commit").bind("tap", function() {
+							//活动结束 
+							if(status == '活动已结束') {
+								plus.nativeUI.toast("该活动已结束");
+								mui.back();
+								return;
+							}
+							if(document.getElementById("commit").innerText == "参与") {
+								//判断参与活动的人是否已满 满了无法参与  先本地判断一次 再服务器里再判断一次是否人满并且是否参加过
+								var cp = new Number(currentpeople);
+								var pl = new Number(peoplelimit);
+								if(cp >= pl) {
+									plus.nativeUI.toast("该活动名额已满");
+								}
+								//参加订单活动
+								activityCommit();
+							} else {
+								//非活动的订单
+								orderCommit();
+							}
 
+						});
+						$("#delete").unbind();
+						$("#delete").bind("tap", function() {
+							//删除订单
+
+						});
+						//审核订单操作
+						$('#passOrder').unbind();
+						$('#passOrder').bind('tap', function() {
+
+							//							return;
+							//网络操作
+							mui.post('http://39.108.159.175/phpworkplace/mui/order/pass.php', {
+								orderid: new Number(orderId)
+							}, function(data) {
+								if(data.trim() == '批准成功') {
+									plus.nativeUI.toast("批准成功");
+									document.getElementById("passOrder").innerText = "审核通过";
+									document.getElementById("passOrder").disabled = true;
+									//									mui.back();
+								} else {
+									plus.nativeUI.toast("失败");
+								}
+							}, 'text');
+
+						});
+
+						//开始为用户个人状态更新  需要延时绑定 因为需要等v-for 完成
+						$(".urstatus-class").unbind();
+
+						function activityCommit() {
+							mui.post('http://39.108.159.175/phpworkplace/mui/order/followActivity.php', {
+								aid: new Number(JSON.parse(localStorage.getItem('user'))[0].aid),
+								orderid: orderId
+							}, function(data) {
+								plus.nativeUI.toast(data.trim());
+							}, 'text');
+							//然后刷新本页面
+							//							mui.currentWebview.close();
+							var wobj = plus.webview.getWebviewById("Hbuilder");
+							wobj.beginPullToRefresh();
+							mui.back();
+						}
+
+						function orderCommit() {
+							//订单结束
+							if(status == '已结束' || status == '已发货') {
+								plus.nativeUI.toast("该订单已结束");
+								mui.back();
+								return;
+							}
 							//确认跟单后选择跟单的地址
 							//获取数据显示和选择社区
 							mui.post('http://39.108.159.175/phpworkplace/mui/order/maddress/getUserAddress.php', {
@@ -452,7 +559,7 @@
 									}
 									userPicker.setData(tmpData);
 									userPicker.show(function(items) {
-//										showUserPickerButton.innerText = items[0].text;
+										//										showUserPickerButton.innerText = items[0].text;
 										pickedAddrId = new Number(items[0].value);
 										//************************
 										sendFollowerInfo(pickedAddrId);
@@ -474,39 +581,10 @@
 									//								}, false);
 
 									//										if(iden=="管理员")alert("管理员");
-									
+
 								}
 							}, 'json');
-
-						});
-						$("#delete").unbind();
-						$("#delete").bind("tap", function() {
-							//删除订单
-
-						});
-						//审核订单操作
-						$('#passOrder').unbind();
-						$('#passOrder').bind('tap', function() {
-
-							//							return;
-							//网络操作
-							mui.post('http://39.108.159.175/phpworkplace/mui/order/pass.php', {
-								orderid: new Number(orderId)
-							}, function(data) {
-								if(data.trim() == '批准成功') {
-									plus.nativeUI.toast("批准成功");
-									document.getElementById("passOrder").innerText = "审核通过";
-									document.getElementById("passOrder").disabled = true;
-									//									mui.back();
-								} else {
-									plus.nativeUI.toast("失败");
-								}
-							}, 'text');
-
-						});
-
-						//开始为用户个人状态更新  需要延时绑定 因为需要等v-for 完成
-						$(".urstatus-class").unbind();
+						}
 
 						function bindUrStatus() {
 							//							if(laid == currentAid)
@@ -523,7 +601,7 @@
 									//如果是未付款状态
 									if(this.innerText == "未付款") {
 										//如果订单状态为已发货 则所有未付款的用户不可以付款了
-										if(status == '已发货') {
+										if(status == '已发货' || status == '已结束') {
 											this.disabled = true;
 											plus.nativeUI.toast("订单已发货，付款通道已关闭，请下次即使付款");
 											return;

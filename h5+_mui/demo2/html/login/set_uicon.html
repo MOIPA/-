@@ -140,7 +140,15 @@
 		
 		<!--//上传照片逻辑-->
 		<script>
-			
+			mui.init();
+			mui.plusReady(function(){
+				plus.webview.currentWebview().opener().hide();
+				var o_back = mui.back;
+				mui.back=function(){
+					plus.webview.currentWebview().opener().close();
+					o_back();
+				};
+			});
 			
 			
 			var user = JSON.parse(localStorage.getItem('user'));

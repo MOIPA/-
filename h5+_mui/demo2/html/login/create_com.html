@@ -104,52 +104,68 @@
 			//}
 			(function($, doc) {
 
-					$.init();
-					$.plusReady(function() {
-							//获取注册信息
-							var settings = app.getSettings();
-							var regButton = doc.getElementById('reg');
-							var accountBox = doc.getElementById('account');
-							var passwordBox = doc.getElementById('password');
-							var passwordConfirmBox = doc.getElementById('password_confirm');
-							var emailBox = doc.getElementById('email');
-							var communityBox = doc.getElementById('community');
-							regButton.addEventListener('tap', function(event) {
+				$.init();
+				$.plusReady(function() {
 
-									//开始插入注册信息
-									var regInfo = {
-										account: accountBox.value,
-										password: passwordBox.value,
-										email: emailBox.value,
-										identity: "管理员",
-										cname: communityBox.value
-									};
-									var passwordConfirm = passwordConfirmBox.value;
-									if(passwordConfirm != regInfo.password) {
-										plus.nativeUI.toast('密码两次输入不一致');
-										return;
-									}
-									app.regCom(regInfo, function(err) {
-										if(typeof(err) != "object") {
-											plus.nativeUI.toast(err);
-											return;
-										}
-										plus.nativeUI.toast('注册成功');
-										mui.openWindow({
-											url: "/html/login/set_uicon.html",
-											id: "/html/login/set_uicon.html",
-											extras: {
-												aid: err
-											}
-										});
-										mui.back();
-									});
+					//重写回退信息避免下次使用缓存
+					//										var old_back = mui.back;
+					//										mui.back= function() {
+					//											var cwv = plus.webview.currentWebview();
+					//											old_back();
+					//											cwv.close();
+					//										};
+//					var old_back = mui.back;
+//					mui.back = function() {
+////						plus.webview.parent().evalJS('mui.back();');
+//						old_back();
+//					};
+plus.webview.currentWebview().opener().hide();
+					plus.webview.currentWebview().opener().close();
 
-								});
-//							});
+					//获取注册信息
+					var settings = app.getSettings();
+					var regButton = doc.getElementById('reg');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					var emailBox = doc.getElementById('email');
+					var communityBox = doc.getElementById('community');
+					regButton.addEventListener('tap', function(event) {
 
-//					});
-			});
+						//开始插入注册信息
+						var regInfo = {
+							account: accountBox.value,
+							password: passwordBox.value,
+							email: emailBox.value,
+							identity: "管理员",
+							cname: communityBox.value
+						};
+						var passwordConfirm = passwordConfirmBox.value;
+						if(passwordConfirm != regInfo.password) {
+							plus.nativeUI.toast('密码两次输入不一致');
+							return;
+						}
+						app.regCom(regInfo, function(err) {
+							if(typeof(err) != "object") {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							plus.nativeUI.toast('注册成功');
+							mui.openWindow({
+								url: "/html/login/set_uicon.html",
+								id: "/html/login/set_uicon.html",
+								extras: {
+									aid: err
+								}
+							});
+//							plus.webview.currentWebview().close();
+						});
+
+					});
+					//							});
+
+					//					});
+				});
 
 			}(mui, document));
 		</script>

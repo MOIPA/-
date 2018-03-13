@@ -1,80 +1,136 @@
-<!DOCTYPE >
+<!DOCTYPE html>
 <html>
-		<head>
+
+	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>我的社区</title>
 		<script src="../js/mui.min.js"></script>
 		<link href="../css/mui.min.css" rel="stylesheet" />
 	</head>
+
 	<body>
+		<style>
+			* {
+				touch-action: none;
+			}
+			
+			.mui-control-content {
+				background-color: white;
+				min-height: 800px;
+			}
+			
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
 		<header class="mui-bar mui-bar-nav mui-bar-transparent">
-		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">社区</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">社区新鲜事</h1>
 		</header>
 		<div class="mui-content">
-		    <div class="mui-slider">
-		        <div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-		            <a class="mui-control-item" href="#item1">推荐</a>
-		            <a class="mui-control-item" href="#item2">吐槽</a>
-		        </div>
-		        <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
-		        <div class="mui-slider-group">
-		            <div id="item1" class="mui-slider-item mui-control-content mui-active">
-		                <ul class="mui-table-view">
-		                    <li class="mui-table-view-cell">
-		                    	<ul class="mui-table-view">
-		                    	    <li class="mui-table-view-cell mui-media">
-		                    	        <a href="javascript:;">
-		                    	            <img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
-		                    	            <div class="mui-media-body">
-		                    	                订单月排行
-		                    	                <p class="mui-ellipsis">评选每月订单数量最多的商家和货物</p>
-		                    	            </div>
-		                    	        </a>
-		                    	    </li>
-		                    	    <li class="mui-table-view-cell mui-media">
-		                    	        <a href="javascript:;">
-		                    	            <img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
-		                    	            <div class="mui-media-body">
-		                    	                用户A的体验
-		                    	                <p class="mui-ellipsis">推荐某家店</p>
-		                    	            </div>
-		                    	        </a>
-		                    	    </li>
-		                    	    
-		                    	</ul>
-		                    </li>
-		                </ul>
-		            </div>
-		            <div id="item2" class="mui-slider-item mui-control-content">
-		                <ul class="mui-table-view">
-		                    <li class="mui-table-view-cell">
-		                    	<ul class="mui-table-view">
-		                    	    <li class="mui-table-view-cell mui-media">
-		                    	        <a href="javascript:;">
-		                    	            <img class="mui-media-object mui-pull-right" src="http://placehold.it/40x30">
-		                    	            <div class="mui-media-body">
-		                    	                吐槽小区的某件事
-		                    	                <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-		                    	            </div>
-		                    	        </a>
-		                    	    </li>
-		                    	    <li class="mui-table-view-cell mui-media">
-		                    	        <a href="javascript:;">
-		                    	            <img class="mui-media-object mui-pull-right" src="http://placehold.it/40x30">
-		                    	            <div class="mui-media-body">
-		                    	                讨论小区的又件事
-		                    	                <p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-		                    	            </div>
-		                    	        </a>
-		                    	    </li>
-		                    	</ul>
-		                    </li>
-		                </ul>
-		            </div>
-		        </div>
-		    </div>
+			<div class="mui-slider">
+				<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1">推荐</a>
+					<a class="mui-control-item" href="#item2">吐槽</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group">
+					<div id="item1" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								<p>test</p>
+								
+							</div>
+						</div>
+					</div>
+					<div id="item2" class="mui-slider-item mui-control-content">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+													<div class="mui-media-body">
+														订单月排行
+														<p class="mui-ellipsis">评选每月订单数量最多的商家和货物</p>
+													</div>
+												</a>
+											</li>
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+													<div class="mui-media-body">
+														用户A的体验
+														<p class="mui-ellipsis">推荐某家店</p>
+													</div>
+												</a>
+											</li>
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+													<div class="mui-media-body">
+														用户A的体验
+														<p class="mui-ellipsis">推荐某家店</p>
+													</div>
+												</a>
+											</li>
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+													<div class="mui-media-body">
+														用户A的体验
+														<p class="mui-ellipsis">推荐某家店</p>
+													</div>
+												</a>
+											</li>
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+													<div class="mui-media-body">
+														用户A的体验
+														<p class="mui-ellipsis">推荐某家店</p>
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui);
+		</script>
 	</body>
+
 </html>

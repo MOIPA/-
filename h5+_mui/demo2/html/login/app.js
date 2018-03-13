@@ -45,6 +45,7 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 					loginInfo.sex = userinfo.sex;
 					loginInfo.com=userinfo.com;
 					loginInfo.identity = userinfo.identity;
+//					loginInfo.notifyNum = 0;
 //					alert(loginInfo.identity);
 					users.push(loginInfo);
 					localStorage.setItem('user', JSON.stringify(users));

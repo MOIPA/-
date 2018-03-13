@@ -115,6 +115,15 @@
 
 				$.init();
 				$.plusReady(function() {
+
+					//重写回退信息避免下次使用缓存
+//										var old_back = mui.back;
+//										mui.back= function() {
+//											var cwv = plus.webview.currentWebview();
+//											old_back();
+//											cwv.close();
+//										};
+					//					plus.webview.currentWebview().opener().close();
 					//从服务器获取小区数据
 					var pickedComId = -1;
 					mui.post('http://39.108.159.175/phpworkplace/mui/login/getCom.php', {}, function(data) {
@@ -144,7 +153,7 @@
 						showUserPickerButton.addEventListener('tap', function(event) {
 							userPicker.show(function(items) {
 								showUserPickerButton.innerText = items[0].text;
-								pickedComId =new Number(items[0].value);
+								pickedComId = new Number(items[0].value);
 								//返回 false 可以阻止选择框的关闭
 								//return false;
 							});
@@ -182,18 +191,18 @@
 								//								alert(identity);
 								//								return;
 								//检查是否注册小区
-								if(pickedComId==-1){
+								if(pickedComId == -1) {
 									plus.nativeUI.toast("请选择小区");
 									return;
 								}
-								
+
 								//开始插入注册信息
 								var regInfo = {
 									account: accountBox.value,
 									password: passwordBox.value,
 									email: emailBox.value,
 									identity: identity,
-									cid:pickedComId
+									cid: pickedComId
 								};
 								var passwordConfirm = passwordConfirmBox.value;
 								if(passwordConfirm != regInfo.password) {
@@ -221,7 +230,7 @@
 											aid: err
 										}
 									});
-									mui.back();
+//									mui.back();
 								});
 
 							} else {
@@ -236,12 +245,12 @@
 			}(mui, document));
 		</script>
 		<script type="text/javascript">
-			document.getElementById("createCom").addEventListener('tap',function(){
-				mui.back();
+			document.getElementById("createCom").addEventListener('tap', function() {
 				mui.openWindow({
-					url:"/html/login/create_com.html",
-					id:"/html/login/create_com.html"
+					url: "/html/login/create_com.html",
+					id: "/html/login/create_com.html"
 				});
+//				mui.back();
 			});
 		</script>
 	</body>
