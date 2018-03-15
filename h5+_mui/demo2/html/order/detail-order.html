@@ -199,7 +199,7 @@
 						if(status == "活动" || status == "活动已结束") {
 							getFollowerUrl = 'http://39.108.159.175/phpworkplace/mui/order/getActivityFollower.php';
 							document.getElementById("order-desc").innerText = "活动描述-----当前人数：" + currentpeople + " /" + peoplelimit;
-						}else{
+						} else {
 							getFollowerUrl = 'http://39.108.159.175/phpworkplace/mui/order/getFollower.php';
 						}
 						//显示基础数据
@@ -241,7 +241,9 @@
 						}, 'json');
 
 						//					2.显示跟踪订单的用户们
-						mui.post(getFollowerUrl, {orderid: orderId}, function(data) {
+						mui.post(getFollowerUrl, {
+							orderid: orderId
+						}, function(data) {
 							//					alert(orderId+"   "+data);
 							var items = [];
 							if(data != null) {
@@ -478,6 +480,9 @@
 						$("#delete").unbind();
 						$("#delete").bind("tap", function() {
 							//删除订单
+							deleteOrder();
+							wobj.beginPullToRefresh();
+							mui.back();
 
 						});
 						//审核订单操作
@@ -516,6 +521,16 @@
 							var wobj = plus.webview.getWebviewById("Hbuilder");
 							wobj.beginPullToRefresh();
 							mui.back();
+						}
+
+						function deleteOrder() {
+							mui.post('http://39.108.159.175/phpworkplace/mui/order/delorder.php', {
+								orderid: orderId
+							}, function(data) {
+								if(data.trim() == 'succeed') {
+									plus.nativeUI.toast('订单已删除');
+								}
+							}, 'text');
 						}
 
 						function orderCommit() {

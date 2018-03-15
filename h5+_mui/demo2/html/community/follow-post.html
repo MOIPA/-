@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="follow_post.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../../js/vue.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/utitls.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="title">主题</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view " id="mycontentlist">
+				<li class="mui-table-view-cell mui-media" v-for="item in items">
+					<a href="javascript:;">
+						<img v-bind:class="item.posi" v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.picname" style="height: 50px;width: 50px;" />
+						<div class="mui-media-body">
+							<h5 style="color: #000000;float: left;">{{item.account}}</h5>&nbsp;&nbsp;&nbsp;
+							<h5 style="float: none;">{{item.speaktime}}</h5>
+							<p class="mui-ellipsis">{{item.speakcontent}}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer>
+			<div class="footer-left">
+				<i id='msg-image' class="mui-icon mui-icon-camera" style="font-size: 28px;"></i>
+			</div>
+			<div class="footer-center">
+				<textarea id='msg-text' type="text" class='input-text'></textarea>
+				<button id='msg-sound' type="button" class='input-sound' style="display: none;">按住说话</button>
+			</div>
+			<label for="" class="footer-right">
+				<img src="../../images/send.png" style="height: 30px;width: 30px;" id="send"/>
+			</label>
+		</footer>
+		<script>
+			var laid = JSON.parse(localStorage.getItem('user'))[0].aid;
+			var dataBox = document.getElementById("msg-text");
+			var data = "";
+			var time = "";
+
+			var contentlist = new Vue({
+				el: "#mycontentlist",
+				data: {
+					items: []
+				}
+			});
+
+			function getNowFormatDate() {
+				var now = new Date();
+
+				var year = now.getFullYear(); //年  
+				var month = now.getMonth() + 1; //月  
+				var day = now.getDate(); //日  
+
+				var hh = now.getHours(); //时  
+				var mm = now.getMinutes(); //分  
+				var ss = now.getSeconds(); //秒  
+
+				var clock = year + "-";
+
+				if(month < 10)
+					clock += "0";
+
+				clock += month + "-";
+
+				if(day < 10)
+					clock += "0";
+
+				clock += day + " ";
+
+				if(hh < 10)
+					clock += "0";
+
+				clock += hh + ":";
+				if(mm < 10) clock += '0';
+				clock += mm + ":";
+
+				if(ss < 10) clock += '0';
+				clock += ss;
+				return(clock);
+			}
+
+			function getUserAndComment(id) {
+				mui.post('http://39.108.159.175/phpworkplace/mui/posts/getAllUserAndComments.php', {
+					postid: id
+				}, function(data) {
+					var list = new Array();
+					var posi = "mui-media-object mui-pull-left";
+
+					for(var i = 0; i < data.length; i++) {
+						if(laid == data[i].aid) posi = "mui-media-object mui-pull-right";
+						else posi = "mui-media-object mui-pull-left";
+						list.push({
+							speaktime: dateUtils.format(data[i].speaktime),
+							picname: data[i].uiconsrc,
+							speakcontent: data[i].speakcontent,
+							account: data[i].account,
+							posi: posi
+						});
+					}
+					//					alert(list[0].picname);
+					contentlist.items = list;
+
+				}, 'json');
+				//				plus.nativeUI.toast("doing");
+			}
+
+			function refreshData() {
+				setInterval(getUserAndComment(plus.webview.currentWebview().postid), 3000);
+			}
+
+			function sendData(id) {
+//				alert(id);
+				data = dataBox.value;
+				time = getNowFormatDate();
+				mui.post('http://39.108.159.175/phpworkplace/mui/posts/setComment.php',{
+					postid:id,
+					speakeraid:new Number(laid),
+					speaktime:time,
+					speakcontent:data
+				},function(data){
+					plus.nativeUI.toast(data);
+					dataBox.value = "";
+					getUserAndComment(id);
+				},'text');
+				
+			}
+			//get varible
+			mui.plusReady(function() {
+
+				var theme = plus.webview.currentWebview().theme;
+				var id = plus.webview.currentWebview().postid;
+				var time = plus.webview.currentWebview().time;
+
+				//bind listener
+				document.getElementById("send").addEventListener('tap', function() {
+					sendData(id);
+				});
+				//change title
+				document.getElementById("title").innerText = theme; //change my title
+				getUserAndComment(id);
+				//				alert(id+" "+typeof id+" "+time);	
+				var tsr = setInterval(refreshData, 3000);
+				//				rewrite back function
+				var old_back = mui.back;
+				mui.back = function() {
+					clearInterval(tsr);
+					old_back();
+				};
+			});
+		</script>
+	</body>
+
+</html>

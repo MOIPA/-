@@ -17,11 +17,11 @@
 			body {
 				background-color: #efeff4;
 			}
-			
 			/** {
 				touch-action: none;
 			}
 			*/
+			
 			.mui-control-content {
 				background-color: white;
 				min-height: 215px;
@@ -89,7 +89,7 @@
 					<a href="#">
 						<!--<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/qihoo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>-->
 						<!--<table style="background-position:center; background-repeat:no-repeat;" background="images/qq.png" style="background-size: contain;">-->
-						<span class="mui-icon mui-icon-home" style="color: #4CD964;"></span>
+						<div style="height: 50px;width: 50px;margin: 0px auto; background: url(images/home.png);background-size: contain;background-repeat: no-repeat;"></div>
 						<div class="mui-media-body">社区</div>
 					</a>
 				</li>
@@ -97,19 +97,54 @@
 					<a href="#">
 						<!--<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/qq.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>-->
 						<!--<span class="mui-icon mui-icon-plus">-->
-						<span class="mui-icon mui-icon-compose" style="color: #4CD964;"></span>
+						<div style="height: 50px;width: 50px;margin: 0px auto; background: url(images/follow.png);background-size: contain;background-repeat: no-repeat;"></div>
 						<div id="my-posted-order-div" class="mui-media-body">我的发布</div>
 					</a>
 				</li>
 				<li id="my-followed-order-a" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="padding: 0px 0px;border: 0px;">
 					<a href="#">
 						<!--<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/sinaweibo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>-->
-						<span class="mui-icon mui-icon-star" style="color: #4CD964;"></span>
+						
+						<div style="height: 50px;width: 50px;margin: 0px auto; background: url(images/posted_order.png);background-size: contain;background-repeat: no-repeat;"></div>
 
 						<div id="my-followed-order-div" class="mui-media-body">我的参与</div>
 					</a>
 				</li>
 			</ul>
+
+			<!--hot list-->
+			<div id="hotlist">
+				<div class="mui-card click-order" style="border-radius: 4px;" v-for="item in items">
+					<div class="mui-card-content" style="margin: auto auto;">
+						<center>
+							<!--<div style="margin:0px auto; width: 100%;height:120px;border-radius: 3px;background-position:center; background: no-repeat center center;background-size: contain;background-repeat: no-repeat;" v-bind:style="{background:item.bk}">
+							</div>-->
+							<!--<img src="http://39.108.159.175/phpworkplace/mui/pic/test2-d0489cbb4df9e225db2920e769732d94.jpg" style="width: 100%;"/>-->
+							<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/castpic/'+item.picname" />-->
+							<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.bk" style="width: 100%;"/>
+						</center>
+						<p style="margin-left: 10%;margin-bottom: 3px;font-size: 12px; color:#3fc4a1;">{{item.orderstatus}}</p>
+						<h4 style="margin-left: 10%;margin-bottom: 3px;">主题：{{item.ordertheme}}</h4>
+						<h5 style="margin-left: 10%;margin-bottom: 3px;width: 80%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.ordercontent}}</h5>
+						<p style="color: #c3ae53;margin-left: 10%;margin-bottom: 3px;font-size: 11px;">
+							<img src="images/time.png" height="11px" width="11px" />&nbsp;&nbsp;{{item.posttime}}发布&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/peoples.png" height="11px" width="11px" />&nbsp;&nbsp;{{item.followers}}用户
+						</p>
+					</div>
+					<a class="mui-card-link" style="position: absolute;right: 14px;bottom: 3px;display: none;">{{item.orderstatus}}</a>
+					<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
+					<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
+					<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
+					<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
+					<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
+					<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
+					<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
+					<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
+					<p id="hidden_sellername" style="display: none;">{{item.peoplelimit}}</p>
+					<p id="hidden_sellericon" style="display: none;">{{item.currentpeople}}</p>
+				</div>
+			</div>
+
+<!--end-->
 
 			<div id="list">
 
@@ -123,34 +158,43 @@
 						<div id="item1" class="mui-slider-item mui-control-content mui-active">
 							<div id="scroll1" class="mui-scroll-wrapper">
 								<div class="mui-scroll">-->
-									
-									<div class="mui-card click-order" style="margin: 3px;margin-left: 2%; border-radius: 4px; width: 46%;" v-bind:style="item.float" v-for="item in items">
-										<div class="mui-card-header mui-card-media">
-											<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.uiconsrc" style="float: left;width: 40px;" />
-											<div class="mui-media-body" style="float: none;">
-												{{item.account}}<br>发布于{{item.posttime}}
-												<p style="color: #DD524D;size: 10px;bottom: 3px;">{{item.orderstatus}}</p>
-											</div>
-										</div>
-										<div class="mui-card-content" style="margin: auto auto;">
-											<center>
-												<div style="margin:4px auto; width: 80%;height:70px;border-radius: 3px;background-position:center; background: no-repeat center center;background-size: contain;background-repeat: no-repeat;" v-bind:style="{background:item.bk}"></div>
-											</center>
-											<p style="color: #777777;margin-left: 10%;margin-bottom: 27px;">主题：{{item.ordertheme}}<br/>时效截至：{{item.ordertime}}</p>
-										</div>
-										<a class="mui-card-link" style="position: absolute;right: 14px;bottom: 3px;">收藏订单</a>
-										<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
-										<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
-										<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
-										<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
-										<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
-										<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
-										<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
-										<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
-										<p id="hidden_sellername" style="display: none;">{{item.peoplelimit}}</p>
-										<p id="hidden_sellericon" style="display: none;">{{item.currentpeople}}</p>
-									</div>
-								<!--</div>
+
+				<div class="mui-card click-order" style="margin: 3px;margin-left: 2%; border-radius: 4px; width: 46%;" v-bind:style="item.float" v-for="item in items">
+					<!--<div class="mui-card-header mui-card-media">
+						<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.uiconsrc" style="float: left;width: 40px;border-radius: 5px;" />
+						<div style="background: #3fc4a1;border-radius: 30px; size: 30px 30px;position: absolute;right: 3px;top: 3px;"><img align="center" src="images/add.png" style="width: 30px;" /></div>
+						<div class="mui-media-body" style="float: none;">
+							{{item.account}}<br>发布于{{item.posttime}}
+						</div>
+					</div>-->
+					<div class="mui-card-content" style="margin: auto auto;">
+						<div style="background: #3fc4a1;border-radius: 30px; size: 30px 30px;position: absolute;right: 6px;top: 6px;"><img align="center" src="images/add.png" style="width: 30px;" /></div>
+						<center>
+							<div style="margin:0px auto; width: 100%;height:120px;border-radius: 3px;background-position:center; background: no-repeat center center;background-size: contain;background-repeat: no-repeat;" v-bind:style="{background:item.bk}"></div>
+						</center>
+						<p style="margin-left: 10%;margin-bottom: 3px;font-size: 12px; color:#3fc4a1;">{{item.orderstatus}}</p>
+						<h4 style="margin-left: 10%;margin-bottom: 3px;">主题：{{item.ordertheme}}</h4>
+						<h5 style="margin-left: 10%;margin-bottom: 3px;width: 80%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.ordercontent}}</h5>
+						<p style="color: #c3ae53;margin-left: 10%;margin-bottom: 3px;font-size: 11px;">
+							<img src="images/time.png" height="11px" width="11px" />&nbsp;&nbsp;{{item.posttime}}发布&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/peoples.png" height="11px" width="11px" />&nbsp;&nbsp;{{item.followers}}用户
+						</p>
+						<!--<p style="color: #c3ae53;margin-left: 10%;margin-bottom: 27px;font-size: 11px;"><img src="images/time.png" height="11px"width="11px" />&nbsp;&nbsp;{{item.followers}}用户</p>-->
+
+						<!--<p style="color: #DD524D;size: 10px;bottom: 3px;">{{item.orderstatus}}</p>-->
+					</div>
+					<a class="mui-card-link" style="position: absolute;right: 14px;bottom: 3px;display: none;">{{item.orderstatus}}</a>
+					<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
+					<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
+					<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
+					<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
+					<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
+					<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
+					<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
+					<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
+					<p id="hidden_sellername" style="display: none;">{{item.peoplelimit}}</p>
+					<p id="hidden_sellericon" style="display: none;">{{item.currentpeople}}</p>
+				</div>
+				<!--</div>
 							</div>
 						</div>
 						<div id="item2" class="mui-slider-item mui-control-content">
@@ -167,7 +211,6 @@
 				</div>-->
 
 			</div>
-
 			<!--end card-->
 
 			<!--锚点用于popover显示-->
@@ -211,6 +254,7 @@
 
 		<script type="text/javascript" src="js/pro_js/main_draw_listen.js"></script>
 		<script type="text/javascript">
+//			localStorage.clear();
 			mui.init({
 				swipeBack: false
 			});
@@ -384,7 +428,7 @@
 				var currentNode = this;
 				var list = currentNode.childNodes;
 				//				alert(list[6].innerHTML);
-				currentNode = list[4];
+				currentNode = list[2];
 				currentNode = currentNode.nextSibling.nextSibling;
 				var orderId = currentNode.lastChild.nodeValue;
 				currentNode = currentNode.nextSibling.nextSibling;

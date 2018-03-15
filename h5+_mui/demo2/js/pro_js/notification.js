@@ -22,6 +22,8 @@ function getSellerNoti() {
 				tmp +="用户" + data[i].account + "选择了" + data[i].ordertheme+"\n";
 			}
 			plus.nativeUI.toast(tmp.trim());
+			var wobj = plus.webview.getWebviewById("Hbuilder");
+			wobj.beginPullToRefresh();
 		}
 		//			sellerNotiNum++;
 		//		}

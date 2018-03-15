@@ -1,39 +1,43 @@
 var lastId = '';
 var order_detail_page = 'html/order/detail-order.html';
 var order_post_page = 'html/order/post-order.html';
-function show_posted_order(){
+
+function show_posted_order() {
 	mui.openWindow({
-		url:"html/order/manage-order.html",
-		id:"html/order/manage-order.html",
-		extras:{
-			command:"show_posted_order"
+		url: "html/order/manage-order.html",
+		id: "html/order/manage-order.html",
+		extras: {
+			command: "show_posted_order"
 		}
 	});
 }
-function show_follower_order(){
+
+function show_follower_order() {
 	mui.openWindow({
-		url:"html/order/manage-order.html",
-		id:"html/order/manage-order.html",
-		extras:{
-			command:"show_follower_order"
+		url: "html/order/manage-order.html",
+		id: "html/order/manage-order.html",
+		extras: {
+			command: "show_follower_order"
 		}
 	});
 }
-function show_unpassed_order(){
+
+function show_unpassed_order() {
 	mui.openWindow({
-		url:"html/order/manage-order.html",
-		id:"html/order/manage-order.html",
-		extras:{
-			command:"show_unpassed_order"
+		url: "html/order/manage-order.html",
+		id: "html/order/manage-order.html",
+		extras: {
+			command: "show_unpassed_order"
 		}
 	});
 }
-function show_passed_order(){
+
+function show_passed_order() {
 	mui.openWindow({
-		url:"html/order/manage-order.html",
-		id:"html/order/manage-order.html",
-		extras:{
-			command:"show_passed_order"
+		url: "html/order/manage-order.html",
+		id: "html/order/manage-order.html",
+		extras: {
+			command: "show_passed_order"
 		}
 	});
 }
@@ -55,23 +59,23 @@ function show_passed_order(){
 				callback: function() {
 					//管理员登陆模块改变ui
 					var user = JSON.parse(localStorage.getItem('user'));
-					document.getElementById("my-posted-order-a").removeEventListener('tap',show_unpassed_order);
-					document.getElementById("my-posted-order-a").removeEventListener('tap',show_passed_order);
-					document.getElementById("my-posted-order-a").removeEventListener('tap',show_posted_order);
-					document.getElementById("my-posted-order-a").removeEventListener('tap',show_follower_order);
-					document.getElementById("my-followed-order-a").removeEventListener('tap',show_unpassed_order);
-					document.getElementById("my-followed-order-a").removeEventListener('tap',show_passed_order);
-					document.getElementById("my-followed-order-a").removeEventListener('tap',show_posted_order);
-					document.getElementById("my-followed-order-a").removeEventListener('tap',show_follower_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap', show_unpassed_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap', show_passed_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap', show_posted_order);
+					document.getElementById("my-posted-order-a").removeEventListener('tap', show_follower_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap', show_unpassed_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap', show_passed_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap', show_posted_order);
+					document.getElementById("my-followed-order-a").removeEventListener('tap', show_follower_order);
 					if(user[0].identity == '管理员') {
-						document.getElementById("my-posted-order-a").addEventListener('tap',show_unpassed_order);
+						document.getElementById("my-posted-order-a").addEventListener('tap', show_unpassed_order);
 						document.getElementById("my-posted-order-div").innerText = "待审核的订单";
-						document.getElementById("my-followed-order-a").addEventListener('tap',show_passed_order);
+						document.getElementById("my-followed-order-a").addEventListener('tap', show_passed_order);
 						document.getElementById("my-followed-order-div").innerText = "通过审核的订单";
 					} else {
-						document.getElementById("my-posted-order-a").addEventListener('tap',show_posted_order);
+						document.getElementById("my-posted-order-a").addEventListener('tap', show_posted_order);
 						document.getElementById("my-posted-order-div").innerText = "我发布的单";
-						document.getElementById("my-followed-order-a").addEventListener('tap',show_follower_order);
+						document.getElementById("my-followed-order-a").addEventListener('tap', show_follower_order);
 						document.getElementById("my-followed-order-div").innerText = "我跟的单";
 					}
 					//清空数据
@@ -93,54 +97,99 @@ function show_passed_order(){
 					//请求订单列表信息流
 					//					测试是否获取到用户的身份 以及确定用户是否为已知用户
 					var user = JSON.parse(localStorage.getItem('user'));
+					var hotOrderPath = "http://39.108.159.175/phpworkplace/mui/order/getHotOrder.php";
 					var orderPath = "http://39.108.159.175/phpworkplace/mui/order/getorder.php";
 					if(user[0].identity == '管理员') {
 						orderPath = "http://39.108.159.175/phpworkplace/mui/order/getAllOrder.php";
 					}
 					//					alert(user[0].com);
-					mui.getJSON(orderPath, {com: user[0].com}, function(rsp) {
-						var newItems = [];
-						mui('#list').pullRefresh().endPulldown();
-						if(rsp && rsp.length > 0) {
-							lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
-							//拼接
-//							list.items = list.items.concat(convert(rsp));
-							//为了最后能够在界面上不被底部遮挡，需要重写适配逻辑
-							for(var i=0;i<rsp.length;i++){
-								newItems.push({
-									orderid: rsp[i].orderid,
-									promulgatorid: rsp[i].promulgatorid,
-									ordertime: rsp[i].ordertime,
-									ordercontent: rsp[i].ordercontent,
-									orderpicsrc: rsp[i].rorderpicsrc,
-									account: rsp[i].account,
-									ordertheme: rsp[i].ordertheme,
-									uiconsrc: rsp[i].uiconsrc,
-									orderstatus: rsp[i].orderstatus,
-									posttime:dateUtils.format(rsp[i].posttime),
-									peoplelimit:rsp[i].peoplelimit,
-									currentpeople:rsp[i].currentpeople,
-									float:"float:left;",
-									bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + rsp[i].rorderpicsrc + "\")",
-								});
-							}
-							if(rsp.length>=4){
-								if((rsp.length%2)==0){
-									//偶数个需要变 因为最后一张可能会贴在左上角
-									newItems[rsp.length-2].float="float:left;margin-right:3%;margin-top:-0.5px"; //倒数第二张就是最后一张的左边 设置
-									newItems[rsp.length-3].float="float:left;margin-bottom:9px;";//最后一张的上边设置
-								}
-								newItems[rsp.length-1].float="float:none;";
-							}
-							list.items = newItems;
-							console.log("refreshing----converting data data-length:" + list.items.length);
-						}
+					getCommonList(orderPath, {
+						com: user[0].com
 					});
-
+					getHotList(hotOrderPath, {
+						com: user[0].com
+					});
 				}
 			}
 		}
 	});
+
+	function getCommonList(orderPath, data) {
+		mui.getJSON(orderPath, data, function(rsp) {
+			var newItems = [];
+			mui('#list').pullRefresh().endPulldown();
+			if(rsp && rsp.length > 0) {
+				lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
+				//拼接
+				//							list.items = list.items.concat(convert(rsp));
+				//为了最后能够在界面上不被底部遮挡，需要重写适配逻辑
+				for(var i = 0; i < rsp.length; i++) {
+					newItems.push({
+						orderid: rsp[i].orderid,
+						promulgatorid: rsp[i].promulgatorid,
+						ordertime: rsp[i].ordertime,
+						ordercontent: rsp[i].ordercontent,
+						orderpicsrc: rsp[i].rorderpicsrc,
+						account: rsp[i].account,
+						ordertheme: rsp[i].ordertheme,
+						uiconsrc: rsp[i].uiconsrc,
+						orderstatus: rsp[i].orderstatus,
+						posttime: dateUtils.format(rsp[i].posttime),
+						peoplelimit: rsp[i].peoplelimit,
+						currentpeople: rsp[i].currentpeople,
+						followers: rsp[i].followers,
+						float: "float:left;",
+						bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + rsp[i].rorderpicsrc + "\")",
+					});
+				}
+				//							alert(rsp[0].orderid+rsp[0].orderstatus);
+				if(rsp.length >= 4) {
+					if((rsp.length % 2) == 0) {
+						//偶数个需要变 因为最后一张可能会贴在左上角
+						newItems[rsp.length - 2].float = "float:left;margin-right:3%;margin-top:-0.5px"; //倒数第二张就是最后一张的左边 设置
+						newItems[rsp.length - 3].float = "float:left;margin-bottom:9px;"; //最后一张的上边设置
+					}
+					newItems[rsp.length - 1].float = "float:none;";
+				}
+				list.items = newItems;
+				console.log("refreshing----converting data data-length:" + list.items.length);
+			}
+		});
+
+	}
+
+	function getHotList(orderPath, data) {
+		mui.getJSON(orderPath, data, function(rsp) {
+			var newItems = [];
+			mui('#list').pullRefresh().endPulldown();
+			if(rsp && rsp.length > 0) {
+				lastId = rsp[0].orderid; //保存最新消息的id，方便下拉刷新时使用
+				//拼接
+				//							list.items = list.items.concat(convert(rsp));
+				for(var i = 0; i < rsp.length; i++) {
+					newItems.push({
+						orderid: rsp[i].orderid,
+						promulgatorid: rsp[i].promulgatorid,
+						ordertime: rsp[i].ordertime,
+						ordercontent: rsp[i].ordercontent,
+						orderpicsrc: rsp[i].rorderpicsrc,
+						account: rsp[i].account,
+						ordertheme: rsp[i].ordertheme,
+						uiconsrc: rsp[i].uiconsrc,
+						orderstatus: rsp[i].orderstatus,
+						posttime: dateUtils.format(rsp[i].posttime),
+						peoplelimit: rsp[i].peoplelimit,
+						currentpeople: rsp[i].currentpeople,
+						followers: rsp[i].followers,
+						bk:rsp[i].rorderpicsrc
+					});
+				}
+				console.log(newItems[0].bk);
+				hotlist.items = newItems;
+			}
+		});
+
+	}
 
 	function convert(items) {
 		var newItems = [];
@@ -155,7 +204,7 @@ function show_passed_order(){
 				ordertheme: item.ordertheme,
 				uiconsrc: item.uiconsrc,
 				orderstatus: item.orderstatus,
-				posttime:item.posttime,
+				posttime: item.posttime,
 				bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + item.rorderpicsrc + "\")",
 			});
 		});
@@ -303,10 +352,10 @@ function show_passed_order(){
 				drawNativeIcon.drawText('\ue900', {}, {
 					fontSrc: '_www/fonts/icomoonCircle.ttf',
 					align: 'center',
-					color: '#8f76d8',	//字体激活的颜色
+					color: '#8f76d8', //字体激活的颜色
 					size: '30px'
 				}, 'icon');
-				active_color = '#8f76d8';	//字体激活的颜色
+				active_color = '#8f76d8'; //字体激活的颜色
 			} else {
 				drawNativeIcon.drawText('\ue900', {}, {
 					fontSrc: '_www/fonts/icomoonCircle.ttf',
@@ -397,6 +446,12 @@ var list = new Vue({
 		items: []
 	}
 });
+var hotlist = new Vue({
+	el: '#hotlist',
+	data: {
+		items: []
+	}
+});
 //var castlist = new Vue({
 //	el: '#castlist',
 //	data: {
@@ -446,7 +501,7 @@ document.getElementById('bussiness-order').addEventListener("click", function() 
 	});
 	mui.openWindow({
 		id: order_post_page,
-		creatnew:true
+		creatnew: true
 	});
 	mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));
 });
