@@ -513,7 +513,10 @@
 					"html/order/detail-order.html",
 					"html/order/post-order.html",
 					"html/tab-webview-subpage-community.html",
-					"html/tab-webview-subpage-me.html"
+					"html/tab-webview-subpage-me.html",
+					"html/order/manage-order.html",
+					"yindao.html",
+					"html/login/login_choose_frame.html"
 				],
 				"priority": 0
 			},
@@ -592,7 +595,9 @@
 					"images/iconfont-tianjia.png",
 					"fonts/fontawesome-webfont.ttf"
 				],
-				"refer": [],
+				"refer": [
+					"html/order/post-order.html"
+				],
 				"priority": 0
 			},
 			"html/commnuity/post.html": {
@@ -601,6 +606,23 @@
 					"css/mui.css"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"yindao.html": {
+				"resources": [
+					"js/mui.js"
+				],
+				"refer": [
+					"html/login/login_choose_frame.html"
+				],
+				"priority": 0
+			},
+			"html/login/login_choose_frame.html": {
+				"resources": [],
+				"refer": [
+					"html/login/login.html",
+					"html/login/reg.html"
+				],
 				"priority": 0
 			}
 		},

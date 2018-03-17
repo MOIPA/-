@@ -114,6 +114,10 @@
 			function getPostList(){
 				mui.post('http://39.108.159.175/phpworkplace/mui/posts/getAllPost.php',{},function(data){
 					var list = new Array();
+					if(data==null){
+						post_list.items=[];
+						return;
+					}
 					for(var i=0;i<data.length;i++){
 						list.push({
 							postid:data[i].postid,

@@ -133,7 +133,7 @@
 					speaktime:time,
 					speakcontent:data
 				},function(data){
-					plus.nativeUI.toast(data);
+					plus.nativeUI.toast(data.trim());
 					dataBox.value = "";
 					getUserAndComment(id);
 				},'text');

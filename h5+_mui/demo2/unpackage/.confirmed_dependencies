@@ -125,7 +125,9 @@
 			"html/tab-webview-subpage-community.html",
 			"html/tab-webview-subpage-me.html",
 			"html/tab-webview-subpage-chat.html",
-			"html/order/manage-order.html"
+			"html/order/manage-order.html",
+			"yindao.html",
+			"html/login/login_choose_frame.html"
 		],
 		"resources": [
 			"html/tab-webview-subpage-chat.html",
@@ -241,5 +243,19 @@
 			"css/mui.css"
 		],
 		"refer": []
+	},
+	"yindao.html": {
+		"resources": [
+			"js/mui.js"
+		],
+		"refer": [
+			"html/login/login_choose_frame.html"
+		]
+	},
+	"html/login/login_choose_frame.html": {
+		"refer": [
+			"html/login/login.html",
+			"html/login/reg.html"
+		]
 	}
 }

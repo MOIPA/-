@@ -161,6 +161,15 @@
 					statusBarBackground: '#f7f7f7'
 				});
 				mui.plusReady(function() {
+					
+					var isfirst = plus.webview.currentWebview().first;
+					if(isfirst==null){
+						
+					}else if(isfirst=="yes"){
+						plus.webview.currentWebview().opener().close('none');
+					}
+					
+					
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
 					var state = app.getState();

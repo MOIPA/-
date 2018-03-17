@@ -6,11 +6,21 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>we chat buy</title>
 		<script src="js/mui.min.js"></script>
+		<script>
+//			if(JSON.parse(localStorage.getItem('user')) == null) {
+				mui.plusReady(function() {
+					mui.openWindow({
+						url: "yindao.html",
+						id: "yindao.html"
+					});
+				});
+//			}
+		</script>
+		<link href="css/mui.min.css" rel="stylesheet" />
 		<script src="js/vue.min.js"></script>
 		<script src="js/util.js"></script>
 		<script src="html/login/app.js"></script>
 		<script src="js/utitls.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/iconfont.css" />
 		<style>
 			html,
@@ -104,7 +114,7 @@
 				<li id="my-followed-order-a" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="padding: 0px 0px;border: 0px;">
 					<a href="#">
 						<!--<div style="margin: auto auto; background-position:center; height: 40px;width: 40px;background: url(images/sinaweibo.png);background:no-repeat auto center center;background-repeat: no-repeat; background-size: contain;"></div>-->
-						
+
 						<div style="height: 50px;width: 50px;margin: 0px auto; background: url(images/posted_order.png);background-size: contain;background-repeat: no-repeat;"></div>
 
 						<div id="my-followed-order-div" class="mui-media-body">我的参与</div>
@@ -121,7 +131,7 @@
 							</div>-->
 							<!--<img src="http://39.108.159.175/phpworkplace/mui/pic/test2-d0489cbb4df9e225db2920e769732d94.jpg" style="width: 100%;"/>-->
 							<!--<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/castpic/'+item.picname" />-->
-							<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.bk" style="width: 100%;"/>
+							<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/pic/'+item.bk" style="width: 100%;" />
 						</center>
 						<p style="margin-left: 10%;margin-bottom: 3px;font-size: 12px; color:#3fc4a1;">{{item.orderstatus}}</p>
 						<h4 style="margin-left: 10%;margin-bottom: 3px;">主题：{{item.ordertheme}}</h4>
@@ -144,7 +154,7 @@
 				</div>
 			</div>
 
-<!--end-->
+			<!--end-->
 
 			<div id="list">
 
@@ -254,15 +264,17 @@
 
 		<script type="text/javascript" src="js/pro_js/main_draw_listen.js"></script>
 		<script type="text/javascript">
-//			localStorage.clear();
+			//			localStorage.clear();
 			mui.init({
 				swipeBack: false
 			});
 			(function($) {
+
 				$('.mui-scroll-wrapper').scroll({
 					indicators: true //是否显示滚动条
 				});
 			})(mui);
+
 			//			return;
 			//			alert(dateUtils.format("2017-3-3 12:42:32"));
 
@@ -368,6 +380,13 @@
 			//					<div class="mui-indicator mui-active"></div>
 			//					<div class="mui-indicator" v-for="item in items"></div>
 			//				</div>
+
+//			如果未登录进入登陆模块
+//			if(JSON.parse(localStorage.getItem('user'))[0].loginstatus=="offline"){
+//				mui.openWindow({
+//					url:"html/"
+//				});
+//			}
 
 			//自动登陆模块
 			var settings = app.getSettings();

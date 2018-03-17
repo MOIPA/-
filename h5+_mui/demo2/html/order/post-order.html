@@ -162,7 +162,7 @@
 		</div>
 
 		<script type="text/javascript">
-			var old_back = mui.back();
+			var old_back = mui.back;
 			mui.back = function() {
 				mui.currentWebview.close();
 				old_back();
@@ -556,8 +556,10 @@
 							//alert('uploaded');
 							console.log("上传成功 等待审批");
 							console.log(task.responseText);
+//							alert(task.responseText+"JSON");
+//							return;
 							var pathjson = JSON.parse(task.responseText);
-
+							
 							//********then upload info
 							$.ajax({
 								type: "post",
@@ -595,6 +597,7 @@
 									myAlert("网络错误，提交审批失败，请稍候再试");
 								}
 							});
+						
 
 						} else {
 							plus.nativeUI.toast('upload failed');

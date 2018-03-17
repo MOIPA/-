@@ -115,6 +115,12 @@
 
 				$.init();
 				$.plusReady(function() {
+					var isfirst = plus.webview.currentWebview().first;
+					if(isfirst==null){
+						
+					}else if(isfirst=="yes"){
+						plus.webview.currentWebview().opener().close('none');
+					}
 
 					//重写回退信息避免下次使用缓存
 //										var old_back = mui.back;

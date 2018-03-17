@@ -42,6 +42,7 @@ function show_passed_order() {
 	});
 }
 (function() {
+	
 
 	mui.init({
 		//为了效率初始化加载 预加载
@@ -57,6 +58,7 @@ function show_passed_order() {
 				offset: '0px',
 				auto: true,
 				callback: function() {
+					
 					//管理员登陆模块改变ui
 					var user = JSON.parse(localStorage.getItem('user'));
 					document.getElementById("my-posted-order-a").removeEventListener('tap', show_unpassed_order);
@@ -142,7 +144,7 @@ function show_passed_order() {
 						bk: "url(\"http://39.108.159.175/phpworkplace/mui/pic/" + rsp[i].rorderpicsrc + "\")",
 					});
 				}
-				//							alert(rsp[0].orderid+rsp[0].orderstatus);
+				//											alert(rsp[0].orderid+rsp[0].orderstatus);
 				if(rsp.length >= 4) {
 					if((rsp.length % 2) == 0) {
 						//偶数个需要变 因为最后一张可能会贴在左上角
@@ -181,7 +183,7 @@ function show_passed_order() {
 						peoplelimit: rsp[i].peoplelimit,
 						currentpeople: rsp[i].currentpeople,
 						followers: rsp[i].followers,
-						bk:rsp[i].rorderpicsrc
+						bk: rsp[i].rorderpicsrc
 					});
 				}
 				console.log(newItems[0].bk);
@@ -216,6 +218,7 @@ function show_passed_order() {
 	mui('body').on('shown', '.mui-popover', function(e) {
 		//console.log('shown', e.detail.id);//detail为当前popover元素
 	});
+
 	mui('body').on('hidden', '.mui-popover', function(e) {
 		//console.log('hidden', e.detail.id);//detail为当前popover元素
 	});
@@ -315,7 +318,7 @@ function show_passed_order() {
 				height: '50px'
 			},
 			rectStyles: {
-				color: '#41cea9', //此为背景颜色
+				color: '#f14569', //此为背景颜色
 				radius: '50%'
 			}
 		}, {
