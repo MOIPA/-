@@ -140,6 +140,7 @@
 		<script>
 			mui.init();
 			mui.plusReady(function() {
+				//关闭父页面
 				plus.webview.currentWebview().opener().close('none');
 			});
 
@@ -157,17 +158,17 @@
 			var imgArray = new Array();
 			var procinstid = 0;
 			//初始化页面执行操作  
-			function plusReady() {
-				//Android返回键监听事件  
-				//				plus.key.addEventListener('backbutton', function() {
-				////					myclose();
-				//				}, false);
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener('plusready', plusReady, false);
-			}
+//			function plusReady() {
+//				//Android返回键监听事件  
+//				//				plus.key.addEventListener('backbutton', function() {
+//				////					myclose();
+//				//				}, false);
+//			}
+//			if(window.plus) {
+//				plusReady();
+//			} else {
+//				document.addEventListener('plusready', plusReady, false);
+//			}
 			//加载页面初始化需要加载的图片信息  
 			//或者相册IMG_20160704_112620.jpg  
 			//imgId:图片名称：1467602809090或者IMG_20160704_112620  
@@ -437,41 +438,40 @@
 				var length = id.toString().length;
 				var idnmae = id.toString();
 				var numKeys = plus.storage.getLength();
-				var task = plus.uploader.createUpload("http://39.108.159.175/phpworkplace/mui/login/setuicon.php", {
+				var task = plus.uploader.createUpload("http://39.108.159.175/phpworkplace/mui/order/uploadOrder/uploadBarCode.php", {
 						method: "POST"
 					},
 					function(t, status) {
 						console.log("start");
-						plus.nativeUI.toast("上传成功!");
 						if(status == 200) {
 							//alert('uploaded');
-							console.log("上传成功");
+							plus.nativeUI.toast("上传二维码成功!");
+							console.log("上传二维码成功");
 							console.log(task.responseText);
 							var iconpath = JSON.parse(task.responseText);
+							var orderid = new Number(plus.webview.currentWebview().orderid);
 							//							alert(iconpath);
 							//							wa.close();
 							//							********then upload info
 							$.ajax({
 								type: "post",
-								url: "http://39.108.159.175/phpworkplace/mui/login/setuicon2account.php",
+								url: "http://39.108.159.175/phpworkplace/mui/order/uploadOrder/setOrderBarCode.php",
 								data: {
-									aid: aid,
+									orderid:orderid,
 									iconpath: iconpath
 								},
 								async: true,
 								dataType: "text",
 								success: function(data) {
 									wa.close();
-									//									alert(data);
-									//orderid which is uploaded at this time
-									var this_orderid = data;
-									//refresh and back
 									var old_back = mui.back;
 									mui.back = function() {
 										var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
 										wobj.beginPullToRefresh();
 										old_back();
 									}
+//									alert(data+" orderid "+orderid+" iconpath "+typeof iconpath);
+									mui.back();
 
 								},
 								error: function() {

@@ -135,6 +135,12 @@
 				//			}
 
 				mui.plusReady(function() {
+					
+//					var old_back = mui.back;
+//					mui.back=function(){
+//						plus.webview.currentWebview().close('none');
+//						old_back();
+//					};
 
 					//顶部滑动选项卡设置
 					(function($) {
@@ -624,15 +630,29 @@
 										//点击跳转到付款  并且修改状态为已付款
 										//										alert(orderId+laid);
 										//修改状态为已付款
-										this.innerText = "已付款";
-										mui.post('http://39.108.159.175/phpworkplace/mui/order/pay.php', {
-											orderid: new Number(orderId),
-											aid: new Number(laid)
-										}, function(data) {
-											if(data.trim() == '付款成功') {
-												plus.nativeUI.toast("付款成功");
-											}
-										}, 'text');
+										
+//										mui.post('http://39.108.159.175/phpworkplace/mui/order/pay.php', {
+//											orderid: new Number(orderId),
+//											aid: new Number(laid)
+//										}, function(data) {
+//											if(data.trim() == '付款成功') {
+//												plus.nativeUI.toast("付款成功");
+//											}
+//										}, 'text');
+										mui.openWindow({
+											url:"scan_barcode/pay.html",
+											id:"scan_barcode/pay.html",
+											extras:{
+												orderId:orderId,
+												laid:laid
+											},
+											creatNew:true
+										});
+										var paybtn = this;
+										setTimeout(function(){
+											paybtn.innerText = "已付款";
+										},1000);
+										
 
 									} else if(this.innerText == "已付款") {
 										//等待商家发货，商家发货就是修改订单状态为发货，并且修改所有follower的urstatus为等待收货

@@ -1,6 +1,6 @@
 var util = {
 	options: {
-		ACTIVE_COLOR: "#007aff",
+		ACTIVE_COLOR: "#e5c234",
 		NORMAL_COLOR: "#000",
 		subpages: ["html/tab-webview-subpage-chat.html", "html/tab-webview-subpage-community.html","html/tab-webview-subpage-me.html"]
 	},

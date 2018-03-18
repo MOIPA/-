@@ -8,6 +8,79 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link href="follow_post.css" rel="stylesheet" />
 	</head>
+	<style>
+		.chat-history-date {
+			display: block;
+			padding-top: 5px;
+			text-align: center;
+			font-size: 12px;
+		}
+		
+		.chat-receiver,
+		.chat-sender {
+			margin: 5px;
+			clear: both;
+		}
+		
+		.chat-avatar img {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+		}
+		
+		.chat-receiver .chat-avatar {
+			float: left;
+		}
+		
+		.chat-sender .chat-avatar {
+			float: right;
+		}
+		
+		.chat-content {
+			position: relative;
+			max-width: 60%;
+			min-height: 20px;
+			margin: 0 10px 10px 10px;
+			padding: 10px;
+			font-size: 15px;
+			border-radius: 7px;
+		}
+		
+		.chat-content img {
+			width: 100%;
+		}
+		
+		.chat-receiver .chat-content {
+			float: left;
+			color: #383838;
+			background-color: #ffffff;
+		}
+		
+		.chat-sender .chat-content {
+			float: right;
+			color: #ffffff;
+			background-color: #15b5e9;
+		}
+		
+		.chat-triangle {
+			position: absolute;
+			top: 6px;
+			width: 0px;
+			height: 0px;
+			border-width: 8px;
+			border-style: solid;
+		}
+		
+		.chat-receiver .chat-triangle {
+			left: -16px;
+			border-color: transparent #f5f5f5 transparent transparent;
+		}
+		
+		.chat-sender .chat-triangle {
+			right: -16px;
+			border-color: transparent transparent transparent #15b5e9;
+		}
+	</style>
 
 	<body>
 		<script src="../../js/vue.min.js"></script>
@@ -20,19 +93,41 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title" id="title">主题</h1>
 		</header>
-		<div class="mui-content">
-			<ul class="mui-table-view " id="mycontentlist">
-				<li class="mui-table-view-cell mui-media" v-for="item in items">
-					<a href="javascript:;">
-						<img v-bind:class="item.posi" v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.picname" style="height: 50px;width: 50px;" />
-						<div class="mui-media-body">
-							<h5 style="color: #000000;float: left;">{{item.account}}</h5>&nbsp;&nbsp;&nbsp;
-							<h5 style="float: none;">{{item.speaktime}}</h5>
-							<p class="mui-ellipsis">{{item.speakcontent}}</p>
+		<div class="mui-content" style="margin-bottom: 40px;background: #efeff4;margin-top: 10px;">
+			<div id="mycontentlist" style="background: #efeff4;">
+				<div v-for="item in items" v-bind:style="item.fl">
+					<!--消息最后历史时间-->
+					<!--<p class="chat-history-date">{{item.speaktime}}</p>-->
+					<!--接收文本消息-->
+					<!--<div class="chat-receiver">
+						<div class="chat-avatar">
+							<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.picname">
 						</div>
-					</a>
-				</li>
-			</ul>
+						<div class="chat-content">
+							<div class="chat-triangle"></div>
+							<span>1111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
+						</div>
+					</div>-->
+					<!--消息最后历史时间-->
+					<!--<p style="width: 100%;height:20px;float: none;background: #008000;">{{item.speaktime}}</p>-->
+					<!--接收文本消息-->
+					<div v-bind:class="item.posi">
+						<div class="chat-avatar" style="margin-top: 10px;">
+							<img v-bind:src="'http://39.108.159.175/phpworkplace/mui/uiconpic/'+item.picname">
+						</div>
+
+						<div style="margin-top: -10px;width: 100%;" >
+							<p style="margin-bottom: -20px;">{{item.account}}</p>
+							<p style="text-align: center;margin-top: 0px;">{{item.speaktime}}</p>
+						</div>
+						<div class="chat-content" style="margin-top: -10px;">
+							<div class="chat-triangle"></div>
+							<span><div style="word-wrap: break-word;word-break: break-all;">{{item.speakcontent}}</div></span>
+						</div>
+					</div>
+
+				</div>
+			</div>
 		</div>
 		<footer>
 			<div class="footer-left">
@@ -102,14 +197,20 @@
 					var posi = "mui-media-object mui-pull-left";
 
 					for(var i = 0; i < data.length; i++) {
-						if(laid == data[i].aid) posi = "mui-media-object mui-pull-right";
-						else posi = "mui-media-object mui-pull-left";
+						if(laid == data[i].aid) {
+							posi = "chat-sender";
+							fl = "text-align: right;"
+						} else {
+							posi = "chat-receiver";
+							fl = "text-align: left;";
+						}
 						list.push({
 							speaktime: dateUtils.format(data[i].speaktime),
 							picname: data[i].uiconsrc,
 							speakcontent: data[i].speakcontent,
 							account: data[i].account,
-							posi: posi
+							posi: posi,
+							fl:fl
 						});
 					}
 					//					alert(list[0].picname);
@@ -124,20 +225,20 @@
 			}
 
 			function sendData(id) {
-//				alert(id);
+				//				alert(id);
 				data = dataBox.value;
 				time = getNowFormatDate();
-				mui.post('http://39.108.159.175/phpworkplace/mui/posts/setComment.php',{
-					postid:id,
-					speakeraid:new Number(laid),
-					speaktime:time,
-					speakcontent:data
-				},function(data){
+				mui.post('http://39.108.159.175/phpworkplace/mui/posts/setComment.php', {
+					postid: id,
+					speakeraid: new Number(laid),
+					speaktime: time,
+					speakcontent: data
+				}, function(data) {
 					plus.nativeUI.toast(data.trim());
 					dataBox.value = "";
 					getUserAndComment(id);
-				},'text');
-				
+				}, 'text');
+
 			}
 			//get varible
 			mui.plusReady(function() {

@@ -498,11 +498,19 @@
 			}
 
 			//上传图片，实例中没有添加上传按钮
+			/**
+			 * 
+			 * @param {Object} agree none
+			 * @param {Object} back	 none
+			 * 根据restorePicUrl上传图片到服务器并且获得返回的图片地址，
+			 * 再根据restoreInfoUrl上传图片地址和其他信息
+			 * 上传完毕后需要跳转到上传二维码界面，再要求用户上传二维码图片并且把图片路径和订单id放在orderBarcode表中
+			 */
 			function uploadimge(agree, back) {
 				//测试时间选择器读数
 				//				alert(document.getElementById("ordertimebox").innerText);
 
-//				return;
+				//				return;
 
 				var restorePicUrl = "http://39.108.159.175/phpworkplace/mui/order/restore-pic.php";
 				if(type == "activity") {
@@ -547,19 +555,19 @@
 					},
 					function(t, status) {
 						console.log("start");
-						if(type=="activity"){
+						if(type == "activity") {
 							plus.nativeUI.toast("活动开启成功!");
-						}else{
+						} else {
 							plus.nativeUI.toast("上传订单成功,等待审核中!");
 						}
 						if(status == 200) {
 							//alert('uploaded');
 							console.log("上传成功 等待审批");
 							console.log(task.responseText);
-//							alert(task.responseText+"JSON");
-//							return;
+							//							alert(task.responseText+"JSON");
+							//							return;
 							var pathjson = JSON.parse(task.responseText);
-							
+
 							//********then upload info
 							$.ajax({
 								type: "post",
@@ -583,13 +591,26 @@
 									//orderid which is uploaded at this time
 									var this_orderid = data;
 									//refresh and back
-									var old_back = mui.back;
-									mui.back = function() {
-										var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
-										wobj.beginPullToRefresh();
-										old_back();
+									//									var old_back = mui.back;
+									//									mui.back = function() {
+									var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
+									wobj.beginPullToRefresh();
+									//										old_back();
+									//									}
+									//									mui.back();
+									//上传所有图片和信息成功，进入上传二维码页面
+									if(type != "activity") {
+										mui.openWindow({
+											url: "uploadOrderBarcode.html",
+											id: "uploadOrderBarcode.html",
+											extras: {
+												orderid: this_orderid
+											},
+											creatNew: false
+										});
+									}else{
+										mui.back();
 									}
-									mui.back();
 
 								},
 								error: function() {
@@ -597,7 +618,6 @@
 									myAlert("网络错误，提交审批失败，请稍候再试");
 								}
 							});
-						
 
 						} else {
 							plus.nativeUI.toast('upload failed');

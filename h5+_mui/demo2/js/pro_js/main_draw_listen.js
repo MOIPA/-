@@ -71,14 +71,14 @@ function show_passed_order() {
 					document.getElementById("my-followed-order-a").removeEventListener('tap', show_follower_order);
 					if(user[0].identity == '管理员') {
 						document.getElementById("my-posted-order-a").addEventListener('tap', show_unpassed_order);
-						document.getElementById("my-posted-order-div").innerText = "待审核的订单";
+						document.getElementById("my-posted-order-div").innerText = "待审核";
 						document.getElementById("my-followed-order-a").addEventListener('tap', show_passed_order);
-						document.getElementById("my-followed-order-div").innerText = "通过审核的订单";
+						document.getElementById("my-followed-order-div").innerText = "过审订单";
 					} else {
 						document.getElementById("my-posted-order-a").addEventListener('tap', show_posted_order);
-						document.getElementById("my-posted-order-div").innerText = "我发布的单";
+						document.getElementById("my-posted-order-div").innerText = "我的发布";
 						document.getElementById("my-followed-order-a").addEventListener('tap', show_follower_order);
-						document.getElementById("my-followed-order-div").innerText = "我跟的单";
+						document.getElementById("my-followed-order-div").innerText = "我的参与";
 					}
 					//清空数据
 					list.items = [];
@@ -151,8 +151,8 @@ function show_passed_order() {
 						newItems[rsp.length - 2].float = "float:left;margin-right:3%;margin-top:-0.5px"; //倒数第二张就是最后一张的左边 设置
 						newItems[rsp.length - 3].float = "float:left;margin-bottom:9px;"; //最后一张的上边设置
 					}
-					newItems[rsp.length - 1].float = "float:none;";
 				}
+				newItems[rsp.length - 1].float = "float:none;";
 				list.items = newItems;
 				console.log("refreshing----converting data data-length:" + list.items.length);
 			}
