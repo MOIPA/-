@@ -96,7 +96,10 @@
       "images/user_icon_bg2.png",
       "js/mui.min.js",
       "fonts/mui.ttf",
-      "css/mui.min.css"
+      "css/mui.min.css",
+      "css/me.css",
+      "css/me-back-icon.css",
+      "js/jquery-2.1.0.js"
     ]
   },
   "html/my_buy/manage_receive_addr.html": {
@@ -151,7 +154,12 @@
       "images/add.png",
       "images/home.png",
       "images/follow.png",
-      "images/posted_order.png"
+      "images/posted_order.png",
+      "images/main/icecream.png",
+      "images/bar.png",
+      "images/main/bag.png",
+      "images/main/house.png",
+      "images/fire.png"
     ]
   },
   "html/login/login.html": {
@@ -159,13 +167,19 @@
       "main.html",
       "html/login/reg.html",
       "html/login/forget_password.html",
-      "html/login/unlock.html"
+      "html/login/unlock.html",
+      "html/login/login.html"
     ],
     "resources": [
       "js/mui.enterfocus.js",
       "css/mui.min.css",
       "js/mui.min.js",
-      "html/login/app.js"
+      "html/login/app.js",
+      "images/weixin.png",
+      "css/loginStyle/login_white.css",
+      "html/login/animate.js",
+      "images/loginpic/food_bk.jpg",
+      "html/login/login.html"
     ]
   },
   "test/a.html": {
@@ -224,7 +238,8 @@
       "css/mui.css",
       "js/mui.min.js",
       "css/mui.min.css",
-      "js/vue.min.js"
+      "js/vue.min.js",
+      "images/group.png"
     ],
     "refer": [
       "html/community/post.html",
@@ -254,7 +269,9 @@
       "css/mui.poppicker.css",
       "css/mui.picker.css",
       "js/mui.poppicker.js",
-      "js/mui.picker.js"
+      "js/mui.picker.js",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js"
     ],
     "refer": [
       "html/order/scan_barcode/pay.html"
@@ -479,7 +496,9 @@
       "js/vue.min.js",
       "js/mui.min.js"
     ],
-    "refer": [],
+    "refer": [
+      "html/order/detail-order.html"
+    ],
     "priority": 0
   },
   "html/order/scan_barcode/barcode_scan.html": {

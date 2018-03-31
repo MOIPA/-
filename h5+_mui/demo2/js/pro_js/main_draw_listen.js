@@ -46,10 +46,10 @@ function show_passed_order() {
 
 	mui.init({
 		//为了效率初始化加载 预加载
-		preloadPages: [{
-			id: order_detail_page,
-			url: order_detail_page
-		}],
+//		preloadPages: [{
+//			id: order_detail_page,
+//			url: order_detail_page
+//		}],
 		swipeBack: true, //启用右滑关闭功能
 		pullRefresh: {
 			container: '#list',
@@ -82,6 +82,7 @@ function show_passed_order() {
 					}
 					//清空数据
 					list.items = [];
+					hotlist.items=[];
 					if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 						plus.nativeUI.toast('似乎已断开与互联网的连接', {
 							verticalAlign: 'top'
@@ -318,7 +319,7 @@ function show_passed_order() {
 				height: '50px'
 			},
 			rectStyles: {
-				color: '#f14569', //此为背景颜色
+				color: '#fe5e55', //此为背景颜色
 				radius: '50%'
 			}
 		}, {
@@ -348,17 +349,17 @@ function show_passed_order() {
 			backToIndex();
 			mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));
 			//						alert("funn");
-			//						var mask = mui.createMask();
+	var mask = mui.createMask();
 			//						mask.show(); 
 			// 重绘字体颜色
 			if(active_color == '#fff') {
 				drawNativeIcon.drawText('\ue900', {}, {
 					fontSrc: '_www/fonts/icomoonCircle.ttf',
 					align: 'center',
-					color: '#8f76d8', //字体激活的颜色
+					color: '#e63462', //字体激活的颜色
 					size: '30px'
 				}, 'icon');
-				active_color = '#8f76d8'; //字体激活的颜色
+				active_color = '#e63462'; //字体激活的颜色
 			} else {
 				drawNativeIcon.drawText('\ue900', {}, {
 					fontSrc: '_www/fonts/icomoonCircle.ttf',
@@ -473,15 +474,20 @@ document.getElementById("person-order").addEventListener("click", function() {
 		plus.nativeUI.toast("请先登陆");
 		return;
 	}
-	var postorder = mui.preload({
-		url: order_post_page,
-		id: "html/order/post-order.html",
-	});
-	mui.fire(postorder, 'poster', {
-		poster: 'person'
-	});
+//	var postorder = mui.preload({
+//		url: order_post_page,
+//		id: "html/order/post-order.html",
+//	});
+//	mui.fire(postorder, 'poster', {
+//		poster: 'person'
+//	});
 	mui.openWindow({
-		id: order_post_page
+		url:order_post_page,
+		id: order_post_page,
+		extras:{
+			poster:'person'
+		},
+		creatnew: true
 	});
 	mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));
 });
@@ -495,15 +501,19 @@ document.getElementById('bussiness-order').addEventListener("click", function() 
 		plus.nativeUI.toast("非入驻商家无法发布活动");
 		return;
 	}
-	var postorder = mui.preload({
-		url: order_post_page,
-		id: order_post_page,
-	});
-	mui.fire(postorder, 'poster', {
-		poster: 'bussiness'
-	});
+//	var postorder = mui.preload({
+//		url: order_post_page,
+//		id: order_post_page,
+//	});
+//	mui.fire(postorder, 'poster', {
+//		poster: 'bussiness'
+//	});
 	mui.openWindow({
+		url:order_post_page,
 		id: order_post_page,
+		extras:{
+			poster:'bussiness'
+		},
 		creatnew: true
 	});
 	mui('#bottomPopover').popover('toggle', document.getElementById("openBottomPopover"));

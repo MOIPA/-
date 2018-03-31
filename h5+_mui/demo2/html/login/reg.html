@@ -9,7 +9,23 @@
 		<link href="../../css/style.css" rel="stylesheet" />
 		<link href="../../css/mui.picker.css" rel="stylesheet" />
 		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
-
+		<link href="../../css/loginStyle/reg_white.css" rel="stylesheet" />
+		<script src="../../js/jquery-2.1.0.js"></script>
+		<script src="reg_animate.js"></script>
+		<style>
+			.mui-bar {
+				/*background: #fe5e55;*/
+				background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+			}
+			
+			.mui-action-back {
+				color: #FFFFFF;
+			}
+			
+			.mui-title {
+				color: #FFFFFF;
+			}
+		</style>
 		<!--<script src="../../js/jquery-2.1.0.js"></script>-->
 		<style>
 			.area {
@@ -50,8 +66,35 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">注册</h1>
 		</header>
-		<div class="mui-content">
-			<div class="mui-card">
+		<div class="mui-content" style="margin-top: 5%;">
+
+			<!--asd-->
+
+			<div class="login-wrap">
+				<h2>welcome</h2>
+
+				<div class="form">
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱" style="margin-left: 10%; width: 80%;">
+					<button id='showUserPicker' style="margin-top: -1px;" class="mui-btn mui-btn-block" type='button'>选择社区</button>
+					<div class="mui-input-row mui-radio myrad">
+						<h5 style="margin-left: 20%;margin-top: 12px;">普通用户</h5>
+						<input name="radio" type="radio" checked>
+					</div>
+					<div class="mui-input-row mui-radio myrad" style="margin-bottom: 12px;">
+						<h5 style="margin-left: 20%;margin-top: 12px;">商家</h5>
+						<input name="radio" type="radio">
+					</div>
+					<!--<button id='createCom' style="margin-top: -1px;" class="mui-btn mui-btn-block" type='button'>创建社区</button>-->
+					<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+					<a style="margin-left: 10px;" id='createCom'>创建社区？</a>
+				</div>
+			</div>
+
+			<!--as-->
+			<!--<div class="mui-card">
 				<form class="mui-input-group">
 					<div class="mui-input-row">
 						<label>账号</label>
@@ -79,16 +122,16 @@
 					</div>
 					<button id='showUserPicker' style="margin-top: -1px;" class="mui-btn mui-btn-block" type='button'>选择社区</button>
 					<!--<button id='createCom' style="margin-top: -1px;" class="mui-btn mui-btn-block" type='button'>创建社区</button>-->
-					<a style="margin-left: 10px;" id='createCom'>创建社区？</a>
-				</form>
+			<!--<a style="margin-left: 10px;" id='createCom'>创建社区？</a>-->
+			<!--</form>-->
 
-			</div>
+			<!--</div>
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
-			</div>
-			<div class="mui-content-padded">
-				<!--<p>后期需要加入设置头像功能</p>-->
-			</div>
+			</div>-->
+			<!--<div class="mui-content-padded">-->
+			<!--<p>后期需要加入设置头像功能</p>-->
+			<!--</div>-->
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="app.js"></script>
@@ -111,24 +154,37 @@
 			//  }
 			//  return checkVal;
 			//}
+			function closeFather() {
+				//			alert("test");
+				plus.webview.currentWebview().opener().close('none');
+			}
 			(function($, doc) {
 
 				$.init();
 				$.plusReady(function() {
+					
+					window.addEventListener('close', function(event) {
+						plus.webview.currentWebview().close('none');
+					});
+					
 					var isfirst = plus.webview.currentWebview().first;
-					if(isfirst==null){
-						
-					}else if(isfirst=="yes"){
-						plus.webview.currentWebview().opener().close('none');
+					if(isfirst == null) {
+
+					} else if(isfirst == "yes") {
+						//						setTimeout("closeFather()", 1000);
+						var wbobj = plus.webview.currentWebview().opener();
+						mui.fire(wbobj, 'close', {
+							t: 't'
+						});
 					}
 
 					//重写回退信息避免下次使用缓存
-//										var old_back = mui.back;
-//										mui.back= function() {
-//											var cwv = plus.webview.currentWebview();
-//											old_back();
-//											cwv.close();
-//										};
+					//										var old_back = mui.back;
+					//										mui.back= function() {
+					//											var cwv = plus.webview.currentWebview();
+					//											old_back();
+					//											cwv.close();
+					//										};
 					//					plus.webview.currentWebview().opener().close();
 					//从服务器获取小区数据
 					var pickedComId = -1;
@@ -236,7 +292,7 @@
 											aid: err
 										}
 									});
-//									mui.back();
+									//									mui.back();
 								});
 
 							} else {
@@ -256,7 +312,7 @@
 					url: "/html/login/create_com.html",
 					id: "/html/login/create_com.html"
 				});
-//				mui.back();
+				//				mui.back();
 			});
 		</script>
 	</body>

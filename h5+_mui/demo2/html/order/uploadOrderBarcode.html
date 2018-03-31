@@ -115,33 +115,62 @@
 			}
 		</style>
 	</head>
+	<style>
+		.mui-bar {
+			/*background: #fe5e55;*/
+			background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+		}
+		
+		.mui-action-back {
+			color: #FFFFFF;
+		}
+		
+		.mui-title {
+			color: #FFFFFF;
+		}
+		.myimage-item {
+	width: 120px;
+	height: 120px;
+	background-image: url(../../images/iconfont-tianjia.png);
+	background-size: 100% 100%;
+	display: inline-block;
+	position: relative;
+	border-radius: 5px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	background-color: #fe5e55;
+}
+	</style>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">设置头像</h1>
+			<h1 class="mui-title">设置收款二维码</h1>
 		</header>
-		<div class="mui-content">
-
-			<p>从相册或拍照上传图片（图片重复无用）</p>
+		<div class="mui-content" style="text-align: center;margin-top: 30%;">
 			<input type="hidden" id="ckjl.id" name="ckjl.id" value="429">
 			<div class="collapse-content">
 				<form>
 					<label class="row-label"></label>
 					<div id='user-accounts' class="row image-list">
-						<div class="image-item " id="user-account" onclick="showActionSheet(this);"></div>
+						<div class="myimage-item " id="user-account" onclick="showActionSheet(this);"></div>
 					</div>
 				</form>
-				<input type="submit" onclick="uploadimge()" value="upload" />
+				<p>从相册或拍照选择二维码上传</p>
+				<input type="submit" onclick="uploadimge()" value="上传" style="width: 60%;height: 50px;margin-top: 20px;border: 0px;background: #fe5e55;" />
 			</div>
 		</div>
 
 		<!--//上传照片逻辑-->
 		<script>
 			mui.init();
+			function closeFather(){
+				plus.webview.currentWebview().opener().close('none');
+//				alert("closed");
+			}
 			mui.plusReady(function() {
 				//关闭父页面
-				plus.webview.currentWebview().opener().close('none');
+				setTimeout("closeFather()",1000);
 			});
 
 			var user = JSON.parse(localStorage.getItem('user'));
@@ -158,17 +187,17 @@
 			var imgArray = new Array();
 			var procinstid = 0;
 			//初始化页面执行操作  
-//			function plusReady() {
-//				//Android返回键监听事件  
-//				//				plus.key.addEventListener('backbutton', function() {
-//				////					myclose();
-//				//				}, false);
-//			}
-//			if(window.plus) {
-//				plusReady();
-//			} else {
-//				document.addEventListener('plusready', plusReady, false);
-//			}
+			//			function plusReady() {
+			//				//Android返回键监听事件  
+			//				//				plus.key.addEventListener('backbutton', function() {
+			//				////					myclose();
+			//				//				}, false);
+			//			}
+			//			if(window.plus) {
+			//				plusReady();
+			//			} else {
+			//				document.addEventListener('plusready', plusReady, false);
+			//			}
 			//加载页面初始化需要加载的图片信息  
 			//或者相册IMG_20160704_112620.jpg  
 			//imgId:图片名称：1467602809090或者IMG_20160704_112620  
@@ -428,7 +457,7 @@
 				//			return;
 
 				if(imgArray.length <= 0) {
-					plus.nativeUI.toast("请上传头像");
+					plus.nativeUI.toast("请选择二维码");
 					return;
 				}
 
@@ -457,7 +486,7 @@
 								type: "post",
 								url: "http://39.108.159.175/phpworkplace/mui/order/uploadOrder/setOrderBarCode.php",
 								data: {
-									orderid:orderid,
+									orderid: orderid,
 									iconpath: iconpath
 								},
 								async: true,
@@ -470,7 +499,7 @@
 										wobj.beginPullToRefresh();
 										old_back();
 									}
-//									alert(data+" orderid "+orderid+" iconpath "+typeof iconpath);
+									//									alert(data+" orderid "+orderid+" iconpath "+typeof iconpath);
 									mui.back();
 
 								},

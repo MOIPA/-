@@ -104,6 +104,7 @@
 			
 			.image-item {
 				position: relative;
+				background: url(../../images/userphoto.png);
 			}
 			
 			.image-item .info {
@@ -114,16 +115,27 @@
 				font-size: 12px;
 			}
 		</style>
+		<style>
+		.mui-bar{
+			/*background: #fe5e55;*/
+			background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+		}
+		.mui-action-back {
+			color:#FFFFFF ;
+		}
+		.mui-title {
+			color:#FFFFFF ;
+		}
+	</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-back mui-icon "></a>
 			<h1 class="mui-title">设置头像</h1>
 		</header>
-		<div class="mui-content">
+		<div class="mui-content" style="text-align: center;margin-top: 30%;">
 
-			<p>从相册或拍照上传图片（图片重复无用）</p>
 			<input type="hidden" id="ckjl.id" name="ckjl.id" value="429">
 			<div class="collapse-content">
 				<form>
@@ -132,15 +144,19 @@
 						<div class="image-item " id="user-account" onclick="showActionSheet(this);"></div>
 					</div>
 				</form>
-				<input type="submit" onclick="uploadimge()" value="upload" />
+			<p>从相册或拍照选择头像上传</p>
+				<input type="submit" onclick="uploadimge()" value="上传" style="width: 60%;height: 50px;margin-top: 20px;border: 0px;background: #fe5e55;" />
 			</div>
 		</div>
 
 		<!--//上传照片逻辑-->
 		<script>
+			function closeFather(){
+				plus.webview.currentWebview().opener().close('none');
+			}
 			mui.init();
 			mui.plusReady(function() {
-				plus.webview.currentWebview().opener().close('none');
+				setTimeout("closeFather()",1000);
 			});
 
 			var user = JSON.parse(localStorage.getItem('user'));
@@ -158,6 +174,9 @@
 			var procinstid = 0;
 			//初始化页面执行操作  
 			function plusReady() {
+				mui.back=function(){
+					
+				};
 				//Android返回键监听事件  
 				//				plus.key.addEventListener('backbutton', function() {
 				////					myclose();
@@ -466,12 +485,12 @@
 									//orderid which is uploaded at this time
 									var this_orderid = data;
 									//refresh and back
-									var old_back = mui.back;
-									mui.back = function() {
+//									var old_back = mui.back;
+//									mui.back = function() {
 										var wobj = plus.webview.getWebviewById("HBuilder"); //注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder， 
 										wobj.beginPullToRefresh();
-										old_back();
-									}
+										plus.webview.currentWebview().close();
+//									}
 
 								},
 								error: function() {

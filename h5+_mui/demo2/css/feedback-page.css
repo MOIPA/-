@@ -12,7 +12,7 @@
 }
 .feedback .row {
 	width: 100%;
-	background-color: #fff;
+	/*background-color: #000000;*/
 }
 .feedback p {
 	padding: 8px 15px 0;
@@ -34,9 +34,9 @@
 }
 
 .feedback .image-item {
-	width: 65px;
-	height: 65px;
-	background-image: url(../images/iconfont-tianjia.png);
+	width: 120px;
+	height: 120px;
+	/*background-image: url(../images/user-photo.png);*/
 	background-size: 100% 100%;
 	display: inline-block;
 	position: relative;
@@ -46,8 +46,8 @@
 	
 }
 .feedback .image-item  img {
-	width: 65px;
-	height: 65px;
+	width: 120px;
+	height: 120px;
 	border-radius: 5px;
 	margin-right: 10px;
 	margin-bottom: 10px;

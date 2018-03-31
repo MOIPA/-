@@ -7,7 +7,18 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 	</head>
-
+		<style>
+		.mui-bar{
+			/*background: #fe5e55;*/
+			background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+		}
+		.mui-action-back {
+			color:#FFFFFF ;
+		}
+		.mui-title {
+			color:#FFFFFF ;
+		}
+	</style>
 	<body>
 		<script src="../../js/vue.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
@@ -70,23 +81,23 @@
 				</ul>
 			</div>-->
 			<ul class="mui-table-view" id="horderlist">
-									<li class="mui-table-view-cell click-order" v-for="item in items">
-										<a class="mui-navigate-right">
-											<div>
-												<p>
-													<p style="color: #CF2D28;">{{item.orderstatus}}</p>&nbsp;&nbsp;{{item.ordertheme}} &nbsp;&nbsp;{{item.com}}&nbsp;&nbsp;{{item.posttime}}</p>
-											</div>
-										</a>
-										<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
-										<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
-										<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
-										<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
-										<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
-										<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
-										<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
-										<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
-									</li>
-								</ul>
+				<li class="mui-table-view-cell click-order" v-for="item in items">
+					<a class="mui-navigate-right">
+						<div>
+							<p>
+								<p style="color: #CF2D28;">{{item.orderstatus}}</p>&nbsp;&nbsp;{{item.ordertheme}} &nbsp;&nbsp;{{item.com}}&nbsp;&nbsp;{{item.posttime}}</p>
+						</div>
+					</a>
+					<p id="hidden_orderid" style="display: none;">{{item.orderid}}</p>
+					<p id="hidden_ordercontent" style="display: none;">{{item.ordercontent}}</p>
+					<p id="hidden_ordertheme" style="display: none;">{{item.ordertheme}}</p>
+					<p id="hidden_orderstatus" style="display: none;">{{item.orderstatus}}</p>
+					<p id="hidden_endtime" style="display: none;">{{item.ordertime}}</p>
+					<p id="hidden_sellerid" style="display: none;">{{item.promulgatorid}}</p>
+					<p id="hidden_sellername" style="display: none;">{{item.account}}</p>
+					<p id="hidden_sellericon" style="display: none;">{{item.uiconsrc}}</p>
+				</li>
+			</ul>
 
 		</div>
 		<script type="text/javascript">
@@ -230,7 +241,7 @@
 			});
 
 			function itemListener() {
-				var detailPage = null;
+//				var detailPage = null;
 				mui(".mui-content").on("tap", '.click-order', function() {
 					var user = JSON.parse(localStorage.getItem('user'));
 					if(user[0].loginstatus == 'offline') {
@@ -259,29 +270,44 @@
 					var orderSellername = currentNode.lastChild.nodeValue;
 					currentNode = currentNode.nextSibling.nextSibling;
 					var orderSellericon = currentNode.lastChild.nodeValue;
-					//				alert(orderId+"  "+orderContent+"/n"+orderTheme+"/n"+orderStatus+"/n"+orderEndtime+"/n"+orderSellerid+"/n"+orderSellername+"/n"+orderSellericon);return;
+//					alert(orderId+"  "+orderContent+"/n"+orderTheme+"/n"+orderStatus+"/n"+orderEndtime+"/n"+orderSellerid+"/n"+orderSellername+"/n"+orderSellericon);return;
 
 					//			alert(orderId+";");
 					//获取详细界面 首先传输值 再打开
-					if(!detailPage) {
-						detailPage = plus.webview.getWebviewById("html/order/detail-order.html");
-					}
+//					if(!detailPage) {
+//						detailPage = plus.webview.getWebviewById("html/order/detail-order.html");
+//					}
 					//				alert(detailPage);
 					//传输值
-					mui.fire(detailPage, "order-detail", {
-						id: orderId,
-						content: orderContent,
-						theme: orderTheme,
-						status: orderStatus,
-						endTime: orderEndtime,
-						sellerId: orderSellerid,
-						sellerName: orderSellername,
-						sellerIcon: orderSellericon
-					});
+					//					mui.fire(detailPage, "order-detail", {
+					//						id: orderId,
+					//						content: orderContent,
+					//						theme: orderTheme,
+					//						status: orderStatus,
+					//						endTime: orderEndtime,
+					//						sellerId: orderSellerid,
+					//						sellerName: orderSellername,
+					//						sellerIcon: orderSellericon
+					//					});
 
+					//					mui.openWindow({
+					//						url: "html/order/detail-order.html",
+					//						id: "html/order/detail-order.html"
+					//					});
 					mui.openWindow({
-						url: "html/order/detail-order.html",
-						id: "html/order/detail-order.html"
+						url: "detail-order.html",
+						id: "detail-order.html",
+						extras: {
+							orderid: orderId,
+							content: orderContent,
+							theme: orderTheme,
+							status: orderStatus,
+							endTime: orderEndtime,
+							sellerId: orderSellerid,
+							sellerName: orderSellername,
+							sellerIcon: orderSellericon
+						},
+						creatNew: true
 					});
 
 				});

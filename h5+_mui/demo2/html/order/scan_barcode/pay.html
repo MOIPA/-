@@ -113,20 +113,34 @@
 				white-space: nowrap;
 			}
 		</style>
+		<style>
+			.mui-bar {
+				/*background: #fe5e55;*/
+				background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+			}
+			
+			.mui-action-back {
+				color: #FFFFFF;
+			}
+			
+			.mui-title {
+				color: #FFFFFF;
+			}
+		</style>
 	</head>
 
 	<body onload="img=document.getElementById('bimg')">
-		<header id="header" style="background: #FFFFFF;">
+		<header id="header" style="background: #fe5e55;">
 			<div class="nvbt iback" onclick="back()"></div>
-			<div class="nvtt" style="color: #000000;">付款</div>
+			<div class="nvtt" style="color: #ffffffs;">付款</div>
 			<!--<div class="nvbt idoc" onclick="openDoc('Barcode Document','/doc/barcode.html')"></div>-->
 		</header>
-		<div id="dcontent" class="dcontent">
+		<div id="dcontent" class="dcontent" style="margin-top: 20%;">
 			<br/>
 			<img style="width:40%" id="bimg" src="../../../images/barcode.png" />
 			<br/>
-			<div class="button" onclick="update('barcode_scan2.html',true,true)">扫码付款</div>
-			<div class="button" onclick="clicked('barcode_scan.html',true,true)">扫一扫</div>
+			<div class="button" onclick="update('barcode_scan2.html',true,true)" style="background: #fe5e55;">扫码付款</div>
+			<div class="button" onclick="clicked('barcode_scan.html',true,true)" style="background: #fe5e55;">扫一扫</div>
 		</div>
 		<!--<div id="output">
 			Barcode提供二维码扫描识别功能，支持调用摄像头即时扫描二维码，也可直接输入图片进行扫描识别。
@@ -134,14 +148,18 @@
 	</body>
 	<script type="text/javascript" src="../../../js/immersed.js"></script>
 	<script type="text/javascript">
+		function closeFather() {
+			plus.webview.currentWebview().opener().close();
+		}
 		mui.plusReady(function() {
+			setTimeout("closeFather()",1000);
 			var barposi = document.getElementById("bimg");
 			mui.post('http://39.108.159.175/phpworkplace/mui/order/uploadOrder/getOrderBarCode.php', {
 				orderid: new Number(plus.webview.currentWebview().orderId)
 			}, function(data) {
-				barposi.src="http://39.108.159.175/phpworkplace/mui/barcode/"+data.trim(); 
-				alert(data+':'+new Number(plus.webview.currentWebview().orderId));
-				alert(barposi.src);
+				barposi.src = "http://39.108.159.175/phpworkplace/mui/barcode/" + data.trim();
+				//				alert(data+':'+new Number(plus.webview.currentWebview().orderId));
+				//				alert(barposi.src);
 			}, 'text');
 		});
 	</script>

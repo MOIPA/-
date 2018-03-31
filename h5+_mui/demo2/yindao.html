@@ -248,19 +248,20 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script>
+			mui.init();
 			mui.back = function() {};
 			mui.plusReady(function() {
-				if(mui.os.ios) {
-					plus.navigator.setFullscreen(true);
-				}
-				plus.navigator.closeSplashscreen();
-				mui.init({
-					preloadPages: [{
-						url: "/html/login/login_choose_frame.html",
-						id: "/html/login/login_choose_frame.html"
-					}]
-				});
-				mui.currentWebview.AnimationTypeClose = "slide-out-top";
+//				if(mui.os.ios) {
+//					plus.navigator.setFullscreen(true);
+//				}
+//				plus.navigator.closeSplashscreen();
+//				mui.init({
+//					preloadPages: [{
+//						url: "html/login/login_choose_frame.html",
+//						id: "html/login/login_choose_frame.html"
+//					}]
+//				});
+//				mui.currentWebview.AnimationTypeClose = "slide-out-top";
 			});
 			//立即体验按钮点击事件
 			document.getElementById("close").addEventListener('tap', function(event) {
@@ -281,6 +282,7 @@
 					}
 				}
 			});
+//			alert("last yin dao");
 		</script>
 	</body>
 

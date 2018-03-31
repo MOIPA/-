@@ -15,6 +15,7 @@ function getOsType() {
 
 /**
  * 弹出原生提示对话框
+ * 
  */
 function myAlert(tip) {
 	plus.nativeUI.alert(tip, null, "提示信息");

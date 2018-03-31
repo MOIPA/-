@@ -35,6 +35,7 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 					return callback('用户名或密码错误');
 				}
 				else {
+//					alert("seting");
 					var userinfo = JSON.parse(data.uinfo);
 //					alert(userinfo.aid);
 					loginInfo.aid = userinfo.aid;
@@ -49,15 +50,17 @@ var urllogin = 'http://39.108.159.175/phpworkplace/mui/login/login.php';
 //					alert(loginInfo.identity);
 					users.push(loginInfo);
 					localStorage.setItem('user', JSON.stringify(users));
-					users = localStorage.getItem('user');
-//					alert(users);
+//					users = localStorage.getItem('user');
+//					var au = JSON.parse(localStorage.getItem('user'));
+//					alert(au.length+" : "+users);
 
 
 					return owner.createState(loginInfo.account, callback);
 				}
 			},
 			error: function(xhr, type, errThrown) {
-				alert('check your internet');
+//				alert('请检查网络连接');
+				return owner.createState(loginInfo.account, callback);
 			}
 		});
 		
