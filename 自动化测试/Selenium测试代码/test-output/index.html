@@ -23,7 +23,7 @@
     <div class="top-banner-root">
       <span class="top-banner-title-font">Test results</span>
       <br/>
-      <span class="top-banner-font-1">1 suite</span>
+      <span class="top-banner-font-1">1 suite, 1 failed test</span>
     </div> <!-- top-banner-root -->
     <div class="navigator-root">
       <div class="navigator-suite-header">
@@ -37,7 +37,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" class="navigator-link" panel-name="suite-My_test_suite">
-              <span class="suite-name border-passed">My test suite</span>
+              <span class="suite-name border-failed">My test suite</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -90,21 +90,21 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">1 method, 1 failed,   </span>
                   </li>
                   <li>
-                    <span class="method-list-title passed">Passed methods</span>
-                    <span class="show-or-hide-methods passed">
-                      <a href="#" panel-name="suite-My_test_suite" class="hide-methods passed suite-My_test_suite"> (hide)</a> <!-- hide-methods passed suite-My_test_suite -->
-                      <a href="#" panel-name="suite-My_test_suite" class="show-methods passed suite-My_test_suite"> (show)</a> <!-- show-methods passed suite-My_test_suite -->
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-My_test_suite" class="hide-methods failed suite-My_test_suite"> (hide)</a> <!-- hide-methods failed suite-My_test_suite -->
+                      <a href="#" panel-name="suite-My_test_suite" class="show-methods failed suite-My_test_suite"> (show)</a> <!-- show-methods failed suite-My_test_suite -->
                     </span>
-                    <div class="method-list-content passed suite-My_test_suite">
+                    <div class="method-list-content failed suite-My_test_suite">
                       <span>
-                        <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-My_test_suite" title="com.tzq.auto.WebTour" hash-for-method="testServices(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours)">testServices(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours)</a> <!-- method navigator-link -->
+                        <img width="3%" src="failed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-My_test_suite" title="com.tr.testng.WebTour" hash-for-method="testServices(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours)">testServices(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours)</a> <!-- method navigator-link -->
                       </span>
                       <br/>
-                    </div> <!-- method-list-content passed suite-My_test_suite -->
+                    </div> <!-- method-list-content failed suite-My_test_suite -->
                   </li>
                 </ul>
               </div> <!-- suite-section-content -->
@@ -116,22 +116,47 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-My_test_suite" class="panel My_test_suite">
-          <div class="suite-My_test_suite-class-passed">
+          <div class="suite-My_test_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
-              <img src="passed.png"/>
-              <span class="class-name">com.tzq.auto.WebTour</span>
+              <img src="failed.png"/>
+              <span class="class-name">com.tr.testng.WebTour</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="testServices(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours)">
-                  </a> <!-- testServices(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours) -->
+                  <a name="testServices(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours)">
+                  </a> <!-- testServices(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours) -->
                   <span class="method-name">testServices</span>
-                  <span class="parameters">(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours)</span>
+                  <span class="parameters">(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours)</span>
+                  <div class="stack-trace">org.openqa.selenium.WebDriverException: chrome not reachable
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.38.552522 (437e6fbedfa8762dec75e2c5b3ddb86763dc9dcb),platform=Windows NT 6.1.7601 SP1 x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 0 milliseconds
+Build info: version: &apos;3.11.0&apos;, revision: &apos;e59cfb3&apos;, time: &apos;2018-03-11T20:33:08.638Z&apos;
+System info: host: &apos;TZQ-PC&apos;, ip: &apos;192.168.85.1&apos;, os.name: &apos;Windows 7&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;6.1&apos;, java.version: &apos;1.8.0_101&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, acceptSslCerts: false, applicationCacheEnabled: false, browserConnectionEnabled: false, browserName: chrome, chrome: {chromedriverVersion: 2.38.552522 (437e6fbedfa876..., userDataDir: C:\Users\tzq\AppData\Local\...}, cssSelectorsEnabled: true, databaseEnabled: false, handlesAlerts: true, hasTouchScreen: false, javascriptEnabled: true, locationContextEnabled: true, mobileEmulationEnabled: false, nativeEvents: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: XP, platformName: XP, rotatable: false, setWindowRect: true, takesHeapSnapshot: true, takesScreenshot: true, unexpectedAlertBehaviour: , unhandledPromptBehavior: , version: 66.0.3359.139, webStorageEnabled: true}
+Session ID: b1de1794ba88a9103db1cbb4bf1d64da
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
+	at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
+	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
+	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:545)
+	at org.openqa.selenium.remote.RemoteWebDriver$RemoteTargetLocator.defaultContent(RemoteWebDriver.java:921)
+	at com.tr.testng.WebTour$3.apply(WebTour.java:108)
+	at com.tr.testng.WebTour$3.apply(WebTour.java:1)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:248)
+	at com.tr.testng.WebTour.doBookBehaviour(WebTour.java:106)
+	at com.tr.testng.WebTour.testServices(WebTour.java:48)
+... Removed 28 stack frames
+</div> <!-- stack-trace -->
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
-          </div> <!-- suite-My_test_suite-class-passed -->
+          </div> <!-- suite-My_test_suite-class-failed -->
         </div> <!-- panel My_test_suite -->
         <div panel-name="test-xml-My_test_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
@@ -142,24 +167,24 @@
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
 &lt;suite name=&quot;My test suite&quot;&gt;
-  &lt;parameter name=&quot;STORAGEURL&quot; value=&quot;E:/invoice.jpg&quot;/&gt;
+  &lt;parameter name=&quot;STORAGEURL&quot; value=&quot;F:/invoice.jpg&quot;/&gt;
   &lt;parameter name=&quot;LASTNAME&quot; value=&quot;rui&quot;/&gt;
   &lt;parameter name=&quot;TITLE&quot; value=&quot;Web Tours&quot;/&gt;
   &lt;parameter name=&quot;FIRSTNAME&quot; value=&quot;tang&quot;/&gt;
-  &lt;parameter name=&quot;PROPERTY_VALUE&quot; value=&quot;E:\\chromedriver.exe&quot;/&gt;
-  &lt;parameter name=&quot;PWD&quot; value=&quot;0800&quot;/&gt;
-  &lt;parameter name=&quot;CREADIT&quot; value=&quot;2015020800115&quot;/&gt;
+  &lt;parameter name=&quot;PROPERTY_VALUE&quot; value=&quot;f:\\geckodriver.exe&quot;/&gt;
+  &lt;parameter name=&quot;PWD&quot; value=&quot;123123&quot;/&gt;
+  &lt;parameter name=&quot;CREADIT&quot; value=&quot;2015020800117&quot;/&gt;
   &lt;parameter name=&quot;URL&quot; value=&quot;http://127.0.0.1:1080/WebTours/&quot;/&gt;
-  &lt;parameter name=&quot;PROPERTY_KEY&quot; value=&quot;webdriver.chrome.driver&quot;/&gt;
-  &lt;parameter name=&quot;NAME&quot; value=&quot;tzq&quot;/&gt;
+  &lt;parameter name=&quot;PROPERTY_KEY&quot; value=&quot;webdriver.firefox.marionette&quot;/&gt;
+  &lt;parameter name=&quot;NAME&quot; value=&quot;tr&quot;/&gt;
   &lt;test name=&quot;WebTours&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;com.tzq.auto.WebTour&quot;&gt;
+      &lt;class name=&quot;com.tr.testng.WebTour&quot;&gt;
         &lt;methods&gt;
           &lt;include name=&quot;testTitleAndOutPutLink&quot;/&gt;
           &lt;include name=&quot;testServices&quot;/&gt;
         &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- com.tzq.auto.WebTour --&gt;
+      &lt;/class&gt; &lt;!-- com.tr.testng.WebTour --&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- WebTours --&gt;
 &lt;/suite&gt; &lt;!-- My test suite --&gt;
@@ -202,13 +227,13 @@ data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'testServices')
-data.setCell(0, 2, 'com.tzq.auto.WebTour')
-data.setCell(0, 3, 20546);
+data.setCell(0, 2, 'com.tr.testng.WebTour')
+data.setCell(0, 3, 9252);
 window.suiteTableData['My_test_suite']= { tableData: data, tableDiv: 'times-div-My_test_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 20 seconds</span>
+              <span class="suite-total-time">Total running time: 9 seconds</span>
               <div id="times-div-My_test_suite">
               </div> <!-- times-div-My_test_suite -->
             </div> <!-- times-div -->
@@ -234,27 +259,25 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">com.tzq.auto.WebTour</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">com.tr.testng.WebTour</div> <!-- chronological-class-name -->
               <div class="configuration-test before">
                 <span class="method-name">beforeTest</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-test before -->
               <div class="configuration-class before">
                 <span class="method-name">beforeClass</span>
-                <span class="method-start">15 ms</span>
+                <span class="method-start">19 ms</span>
               </div> <!-- configuration-class before -->
               <div class="configuration-method before">
-                <span class="method-name">setUp(http://127.0.0.1:1080/WebTours/, webdriver.chrome.driver, E:\\chromedriver.exe)</span>
-                <span class="method-start">18 ms</span>
+                <span class="method-name">setUp(http://127.0.0.1:1080/WebTours/, webdriver.firefox.marionette, f:\\geckodriver.exe)</span>
+                <span class="method-start">22 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
-                <span class="method-name">testServices(tzq, 0800, rui, 2015020800115, E:/invoice.jpg, tang, Web Tours)</span>
-                <span class="method-start">4961 ms</span>
+                <img src="failed.png">
+                </img>
+                <span class="method-name">testServices(tr, 123123, rui, 2015020800117, F:/invoice.jpg, tang, Web Tours)</span>
+                <span class="method-start">4785 ms</span>
               </div> <!-- test-method -->
-              <div class="configuration-test after">
-                <span class="method-name">tearDown</span>
-                <span class="method-start">25510 ms</span>
-              </div> <!-- configuration-test after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->

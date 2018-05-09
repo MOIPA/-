@@ -5,9 +5,7 @@
     <classes>
       <class name="com.tr.testng.WebTour">
         <methods>
-          <include name="afterClass"/>
           <include name="testServices"/>
-          <include name="testTitleAndOutPutLink"/>
           <include name="beforeTest"/>
           <include name="beforeClass"/>
         </methods>
