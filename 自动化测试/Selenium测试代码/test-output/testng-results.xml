@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="My test suite" duration-ms="25513" started-at="2018-05-08T08:58:09Z" finished-at="2018-05-08T08:58:34Z">
+    <groups>
+    </groups>
+    <test name="WebTours" duration-ms="25513" started-at="2018-05-08T08:58:09Z" finished-at="2018-05-08T08:58:34Z">
+      <class name="com.tzq.auto.WebTour">
+        <test-method status="PASS" signature="beforeTest()[pri:0, instance:com.tzq.auto.WebTour@2aafb23c]" name="beforeTest" is-config="true" duration-ms="10" started-at="2018-05-08T16:58:09Z" finished-at="2018-05-08T16:58:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeTest -->
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.tzq.auto.WebTour@2aafb23c]" name="beforeClass" is-config="true" duration-ms="0" started-at="2018-05-08T16:58:09Z" finished-at="2018-05-08T16:58:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="setUp(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.tzq.auto.WebTour@2aafb23c]" name="setUp" is-config="true" duration-ms="4943" started-at="2018-05-08T16:58:09Z" finished-at="2018-05-08T16:58:14Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[http://127.0.0.1:1080/WebTours/]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[webdriver.chrome.driver]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[E:\\chromedriver.exe]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="testServices(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.tzq.auto.WebTour@2aafb23c]" name="testServices" duration-ms="20546" started-at="2018-05-08T16:58:14Z" finished-at="2018-05-08T16:58:34Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[tzq]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[0800]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[rui]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[2015020800115]]>
+              </value>
+            </param>
+            <param index="4">
+              <value>
+                <![CDATA[E:/invoice.jpg]]>
+              </value>
+            </param>
+            <param index="5">
+              <value>
+                <![CDATA[tang]]>
+              </value>
+            </param>
+            <param index="6">
+              <value>
+                <![CDATA[Web Tours]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testServices -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.tzq.auto.WebTour@2aafb23c]" name="tearDown" is-config="true" duration-ms="0" started-at="2018-05-08T16:58:34Z" finished-at="2018-05-08T16:58:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.tzq.auto.WebTour -->
+    </test> <!-- WebTours -->
+  </suite> <!-- My test suite -->
+</testng-results>
