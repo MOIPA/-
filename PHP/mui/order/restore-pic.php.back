@@ -1,0 +1,50 @@
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+//打开链接
+$link = mysqli_connect('localhost', 'root', '0800', 'wechatbuy', 3306) or die('数据库里链接错误');
+//设置字符集
+mysqli_set_charset($link,'utf8') or die('faliure') ;
+//搜索返回给指针
+
+foreach($_REQUEST as $key => $value){
+	$res.='key:'.$key.'  *****   value:'.$value;
+}
+#echo $res;
+$cursor = mysqli_query($link,"insert into test(content)values('".$res."')") or die('no order');
+#print_r($_FILES);
+#start restore file to a directory
+
+
+foreach($_FILES as $filename=>$items){
+	foreach($items as $key=>$data){
+#	echo $key;
+	}
+#echo $filename."\n";
+}
+echo $_FILES[$filename]["tmp_name"];
+#store file
+
+$store_path = '/home/tr/upload/'.basename($_FILES[$filename]["name"]);
+
+if(is_writeable($_FILES[$filename]["tmp_name"]))echo "\n can write";
+else echo "can not";
+
+if(move_uploaded_file($_FILES[$filename]["tmp_name"],$store_path)){
+	echo "\nfile stored to ".$store_path;
+}
+else{
+	echo "\n failed";
+}
+
+#echo 'succeed';
+
+?>
+
+
