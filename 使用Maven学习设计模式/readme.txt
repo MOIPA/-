@@ -17,4 +17,9 @@
 		2、启动工程，编译环境
 
 
-错误：如果出现@override说明jdk版本高于1.5 不可写override
+错误：
+	如果出现@override说明jdk版本高于1.5 不可写override
+
+	运行后一闪而过：需要点击左上角的控制台图标切换为debug的输出
+
+	待运行的文件需要再launch.json里面配置
