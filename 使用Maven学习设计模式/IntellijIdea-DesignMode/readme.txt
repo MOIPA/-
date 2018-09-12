@@ -1,1 +1,1 @@
-由于使用vscode过于繁琐，从建造者模式开始改用intellij环境
+锘跨敱浜庝娇鐢╲scode杩囦簬绻佺悙锛屼粠寤洪�犺�呮ā寮忓紑濮嬫敼鐢╥ntellij鐜
