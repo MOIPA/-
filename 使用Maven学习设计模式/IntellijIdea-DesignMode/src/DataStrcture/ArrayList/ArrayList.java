@@ -120,5 +120,9 @@ public class ArrayList implements IArrayList {
         return this.currentPos;
     }
 
+    public int[] getArr(){
+        return arrayList;
+    }
+
 
 }

@@ -1,11 +1,12 @@
 package test.DataStrcture.ArrayList; 
 
 import DataStrcture.ArrayList.ArrayList;
+import DataStrcture.ArrayList.Node;
+import DataStrcture.ArrayList.Atom;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /** 
 * ArrayList Tester. 
@@ -23,7 +24,17 @@ public class ArrayListTest {
 public void before() throws Exception {
     arrayList1.getTheList()[0]=0;arrayList1.getTheList()[1]=1;arrayList1.getTheList()[2]=2;
     arrayList1.getTheList()[3]=3;arrayList1.getTheList()[4]=4;
-} 
+    int[] tmp;
+    arrayList1.getArr()[0] = 0;
+    tmp = null;
+    System.out.println(arrayList1.getArr().length);
+
+    Node node = new Node();
+    Atom att = node.getAtt();
+    att.setName("val");
+    att = new Atom("222");
+    System.out.print("***********"+node.getAtt().getName());
+}
 
 @After
 public void after() throws Exception { 

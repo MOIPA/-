@@ -9,6 +9,10 @@ package DataStrcture.ArrayList;
  */
 public class Node {
 
+    Atom a = new Atom("111");
 
+    public Atom getAtt(){
+        return a;
+    }
 
 }
