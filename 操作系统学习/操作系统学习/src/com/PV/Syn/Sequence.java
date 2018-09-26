@@ -9,7 +9,7 @@ class P1 implements Runnable{
 
     @Override
     public void run() {
-        Global.pvObj.myP(Global.s1);
+        Global.pvObj.myP(Global.semaphore);  //Global的pvObj是一个静态互斥的共享类，并且我的所有等待对象都是这个静态类
         System.out.println("P1 Say Hi!");
     }
 }
@@ -17,8 +17,8 @@ class P2 implements Runnable{
 
     @Override
     public void run() {
-        Global.pvObj.myV(Global.s1);
         System.out.println("P2 Say Hi!");
+        Global.pvObj.myV(Global.semaphore);
     }
 }
 
