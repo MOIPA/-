@@ -1,14 +1,12 @@
 package com.PV.UpgradePV;
 
 
-import com.PV.Syn.Global;
-
 class A implements Runnable{
 
     @Override
     public void run() {
         System.out.println("this is A...");
-        UpgradeGlobal.V.V(UpgradeGlobal.s);
+        UpgradeGlobal.V.V(UpgradeGlobal.zeroSemaphore);
     }
 }
 
@@ -16,7 +14,7 @@ class B implements Runnable{
 
     @Override
     public void run() {
-        UpgradeGlobal.P.P(UpgradeGlobal.s);
+        UpgradeGlobal.P.P(UpgradeGlobal.zeroSemaphore);
         System.out.println("this is B...");
     }
 }
