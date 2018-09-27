@@ -3,6 +3,8 @@ package com.PV.UpgradePV;
 /**
  * 这里的synchronized只是为了保证动作的原子性
  * 我似乎犯了一个很严重的错误：在操作semaphore时就得确保获取了这个共享资源，没有其他人可以获取，包括操作资源数量
+ *
+ * 错误的原因：因为在waiting会释放对象锁但是不会释放方法锁，但是由于大家都在使用这个方法，这个方法被加锁了，所以等待这个方法的其他线程会无法获得方法锁导致block
  */
 public class UpgradeV {
 
