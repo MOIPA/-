@@ -3,25 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="44398f06-d9be-480f-b78b-e0fdd497aa4b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../../使用Maven学习设计模式/IntellijIdea-DesignMode/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../../使用Maven学习设计模式/IntellijIdea-DesignMode/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/OriPV/PVObj.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/OriPV/PVObj.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/OriPV/Semaphore.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/OriPV/Semaphore.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Consumer.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Consumer.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/GloSema.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/GloSema.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Productor.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Productor.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Test.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Test.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/Global.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/Global.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/P1.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/P1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/P2.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/P2.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/Sequence.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/Syn_outDated/Sequence.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/A.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/A.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/B.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/B.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/Sequence2.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/Sequence2.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpSemaphore.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpSemaphore.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeGlobal.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeGlobal.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeP.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeP.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeV.class" afterPath="$PROJECT_DIR$/out/production/操作系统学习/com/PV/UpgradePV/UpgradeV.class" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -143,7 +125,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-12" />
     <option name="y" value="15" />
     <option name="width" value="1461" />
@@ -339,15 +321,16 @@
       <workItem from="1537970938234" duration="9627000" />
       <workItem from="1538011909653" duration="8981000" />
       <workItem from="1538068154440" duration="432000" />
-      <workItem from="1538105520048" duration="253000" />
+      <workItem from="1538105520048" duration="596000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26244000" />
+    <option name="totallyTimeSpent" value="26587000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />

@@ -3,25 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7dd82227-77b2-4fdd-bde5-053a042b54af" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/.idea/misc.xml" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/OriPV/PVObj.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/OriPV/PVObj.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/OriPV/Semaphore.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/OriPV/Semaphore.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Consumer.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Consumer.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/GloSema.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/GloSema.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Productor.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Productor.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Test.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/SynCases/ConsumerProblem/Test.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/Global.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/Global.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/P1.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/P1.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/P2.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/P2.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/Sequence.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/Syn_outDated/Sequence.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/A.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/A.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/B.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/B.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/Sequence2.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/Sequence2.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpSemaphore.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpSemaphore.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeGlobal.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeGlobal.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeP.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeP.class" />
-      <change beforePath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeV.class" afterPath="$PROJECT_DIR$/../../操作系统学习/操作系统学习/out/production/操作系统学习/com/PV/UpgradePV/UpgradeV.class" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,8 +28,8 @@
       <file leaf-file-name="ArrayList.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DataStrcture/ArrayList/ArrayList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="61" column="5" lean-forward="false" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+            <state relative-caret-position="450">
+              <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#799#800#0" expanded="true" />
@@ -207,7 +189,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-12" />
     <option name="y" value="15" />
     <option name="width" value="1461" />
@@ -491,7 +473,7 @@
       <workItem from="1535998700573" duration="1234000" />
       <workItem from="1536749319655" duration="7732000" />
       <workItem from="1537002507542" duration="6991000" />
-      <workItem from="1538105522773" duration="253000" />
+      <workItem from="1538105522773" duration="2187000" />
     </task>
     <servers />
   </component>
@@ -528,10 +510,11 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25081000" />
+    <option name="totallyTimeSpent" value="27015000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -545,7 +528,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18854167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18854167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -977,8 +960,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DataStrcture/ArrayList/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="61" column="5" lean-forward="false" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+        <state relative-caret-position="450">
+          <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#799#800#0" expanded="true" />
