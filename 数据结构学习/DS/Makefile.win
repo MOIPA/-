@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o 01HelloWorld.o
-LINKOBJ  = main.o 01HelloWorld.o
+OBJ      = 01HelloWorld.o 02functions.o 02main.o
+LINKOBJ  = 01HelloWorld.o 02functions.o 02main.o
 LIBS     = -L"D:/IDE--devc/Dev-Cpp/MinGW64/lib" -L"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"D:/IDE--devc/Dev-Cpp/MinGW64/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/IDE--devc/Dev-Cpp/MinGW64/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -24,8 +24,11 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-main.o: main.c
-	$(CC) -c main.c -o main.o $(CFLAGS)
-
 01HelloWorld.o: 01HelloWorld.c
 	$(CC) -c 01HelloWorld.c -o 01HelloWorld.o $(CFLAGS)
+
+02functions.o: 02functions.c
+	$(CC) -c 02functions.c -o 02functions.o $(CFLAGS)
+
+02main.o: 02main.c
+	$(CC) -c 02main.c -o 02main.o $(CFLAGS)
