@@ -8,7 +8,11 @@ int main(void) {
 //	doMul(num);
 //	doMax(num);
 //	IOString();
-	ShowSize();
+//	ShowSize();
+//	SequenceSum();
+//	PrintMultiplicationTable();
+//	NumberGame();
+	ReverseMatrix();
 	return 0;
 }
 
