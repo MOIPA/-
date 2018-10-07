@@ -15,7 +15,8 @@ int main(void) {
 //	ReverseMatrix();
 //	PrimeNumber();
 //	t();
-	ShowWhichDay();
+//	ShowWhichDay();
+	testScanfFormat();
 	return 0;
 }
 

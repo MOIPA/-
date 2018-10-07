@@ -247,6 +247,14 @@ int SplitNumber(int *num,int targetNum) {
 	return i;
 }
 
+void testScanfFormat(){
+	//小测试
+	char str[20];
+	printf("input things with space\n");
+	scanf("%[^\n]%*c",str); //读入带有空格的字符串 
+	//%[^\n] ^:非 表示读入知道\n结束但是不读入\n  %*c读入\n以免后面的读入第一个就是\n 
+	printf("%s",str); 
+}
 
 
 
