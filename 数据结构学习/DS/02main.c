@@ -12,7 +12,9 @@ int main(void) {
 //	SequenceSum();
 //	PrintMultiplicationTable();
 //	NumberGame();
-	ReverseMatrix();
+//	ReverseMatrix();
+//	PrimeNumber();
+	t();
 	return 0;
 }
 

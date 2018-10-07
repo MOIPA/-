@@ -12,4 +12,5 @@ void SequenceSum();//数列和
 void PrintMultiplicationTable();//乘法口诀表 
 void NumberGame();//猜数游戏 
 void ReverseMatrix();//矩阵转置 
-void PrimeNumber();//求前50个质数放二位数组里 
+void PrimeNumber();//利用数组求前50个质数 
+void t();

@@ -62,81 +62,126 @@ void ShowSize() {
 	printf("double:%d\n",sizeof(double));
 	printf("long double:%d\n",sizeof(long double));
 }
-void SequenceSum(){
+void SequenceSum() {
 	//数列求和 输入3 1+2+3
 	int i,n,sum=0,temp=0;
 	printf("input a number > 1\n");
 	scanf("%d",&n);
-	if(n<=1){
+	if(n<=1) {
 		printf("error number");
 		return;
-	} 
-	for(i=1;i<=n;i++){
+	}
+	for(i=1; i<=n; i++) {
 		temp++;
 		sum+=temp;
-	} 
+	}
 	printf("result is : %d \n",sum);
-} 
-void PrintMultiplicationTable(){ 
+}
+void PrintMultiplicationTable() {
 	int i,j;
-	for(i=1;i<=9;i++){
-		for(j=i;j<=9;j++){
+	for(i=1; i<=9; i++) {
+		for(j=i; j<=9; j++) {
 			printf("%d*%d=%-2d ",i,j,i*j);
 		}
 		printf("\n");
 //		sleep(2);
 	}
 }
-void NumberGame(){
+void NumberGame() {
 	int n,gn;
 	printf("guss number game\n please enter a number\n");
 	scanf("%d",&n);
 //	clrscr();  //conio.h TC平台专属
-	system("cls"); 
+	system("cls");
 	srand((int)time(0));
 	gn=rand()%100;
-	while(gn!=n){
+	while(gn!=n) {
 		n>gn?printf("too bigger enter:\n"):printf("too smaller enter:\n");
 		scanf("%d",&n);
 	}
 	printf("yes\n");
-} 
-void ReverseMatrix(){
+}
+void ReverseMatrix() {
 	int ROW=3,COL=3,i,j;
 	printf("enter ROW,COL\n");
 	scanf("%d,%d",&ROW,&COL);
 	printf("enter the element of the matrix(3*3)\n");
 	int matrix[ROW][COL];
-	for(i=0;i<ROW;i++){
-		for(j=0;j<COL;j++){
+	for(i=0; i<ROW; i++) {
+		for(j=0; j<COL; j++) {
 			scanf("%d",&matrix[i][j]);
 		}
-	} 
-	for(i=0;i<ROW;i++){
-		for(j=0;j<COL;j++){
+	}
+	for(i=0; i<ROW; i++) {
+		for(j=0; j<COL; j++) {
 			printf("%d ",matrix[i][j]);
 		}
 		printf("\n");
 	}
 	printf("\n\n");
-	for(i=0;i<ROW;i++){
-		for(j=0;j<=i;j++){ //j<=i 不能等于col不然全部又换回来了 
+	for(i=0; i<ROW; i++) {
+		for(j=0; j<=i; j++) { //j<=i 不能等于col不然全部又换回来了
 			int temp = matrix[i][j];
 			matrix[i][j]=matrix[j][i];
 			matrix[j][i]=temp;
 		}
 	}
-	for(i=0;i<ROW;i++){
-		for(j=0;j<COL;j++){
+	for(i=0; i<ROW; i++) {
+		for(j=0; j<COL; j++) {
 			printf("%d ",matrix[i][j]);
 		}
 		printf("\n");
 	}
-} 
-void PrimeNumber(){
-	//数组里放质数，只要后面的不能整除前面的质数也为质数
-	int primes[50];	 
+}
+void PrimeNumber() {
+	int N=50;
+	//数组里放质数，只要后面的不能整除前面的质数也为质数,除了2以外都是奇数
+	int primes[N]; //质数列表
+	int pc=0;//质数个数
+	int rn = 3; //候选质数
+	int i,j,is=0;//质数判断位
+	for(i=0; i<N; i++) primes[i]=-1;
+	printf(" %d  primes:\n",N);
+	primes[0]=2;
+	pc++;
+	while(pc<N) {
+		for(i=0; i<pc; i++) {
+			if(rn%primes[i]==0) {
+				rn+=2;	//合数 准备下一个数测试
+				is=0; 	//不是质数
+				break;	//合数，不用找了跳出
+			}
+		}
+		if(is==1)primes[pc++]=rn;
+		is=1;
+	}
+	for(i=0; i<N; i++) printf("%d ",primes[i]);
 }
 
-
-
+void t() {
+	int N=50;
+	int primes[N];
+	int pc,m,k;
+	printf("\n The first %d prime numbers are:\n",N);
+	primes[0]=2;/*2是第一个质数*/
+	pc             =1;/*已有第一个质数*/
+	m               =3;/*被测试的数从3开始*/
+	while(pc<N) {
+		/*调整m使它为下一个质数*/
+		k=0;
+		while(primes[k]*primes[k]<=m)
+			if(m%primes[k]==0) {
+				/*m是合数*/
+				m+=2;/*让m取下一个奇数*/
+				k=1;/*不必用primes[0]=2去测试m，所以k从一开始*/
+			} else
+				k++;/*继续用下一个质数去测试*/
+		primes[pc++]=m;
+		m+=2;/*除2外，其余质数均是奇数*/
+	}
+	/*输出primes[0]至primes[pc-1]*/
+	for(k=0; k<pc; k++)
+		printf("%4d",primes[k]);
+	printf("\n\n Press any key to quit...\n ");
+	getch();
+}
