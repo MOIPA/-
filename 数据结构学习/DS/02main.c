@@ -14,7 +14,8 @@ int main(void) {
 //	NumberGame();
 //	ReverseMatrix();
 //	PrimeNumber();
-	t();
+//	t();
+	ShowWhichDay();
 	return 0;
 }
 

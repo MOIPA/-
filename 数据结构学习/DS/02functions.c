@@ -185,3 +185,88 @@ void t() {
 	printf("\n\n Press any key to quit...\n ");
 	getch();
 }
+
+void PermanentCalendar() {
+
+}
+
+void ShowWhichDay() {
+	//w=y+[y/4]+[c/4]-2c+[26(m+1)/10]+d-1
+	//w:星期 c:世纪-1 y:年（两位数） m:月 >=3 <=14 (1,2月份看作去年的13，4月份);
+	int num[10],i;
+	int yearFull,fwYear;
+	int century,month,day;
+//	int targetNum=123456;
+//	int len = SplitNumber(num,targetNum);
+//	for(i=0;i<len;i++)printf("ret:%4d",num[i]);
+	printf("enter the expected year:");
+	scanf("%d",&yearFull);
+	printf("enter the expected month,day:");
+	scanf("%d,%d",&month,&day);
+
+//	if(yuearFull>3000||yuearFull<1000){
+//		printf("error year");
+//	}
+	//得到后面两位年份和世纪
+	i=SplitNumber(num,yearFull);
+	fwYear = num[i-2]*10+num[i-1];
+	century=yearFull/100;
+	if(1==month||2==month)month+=12;
+	int w=0;
+	w=fwYear+fwYear/4+century/4-2*century+26*(month+1)/10+day-1;
+	switch(w%7) {
+		case 1:
+			printf("\nit is the monday\n");break;
+		case 2:
+			printf("\nit is the tuesday\n");break;
+		case 3:
+			printf("\nit is the wednesday\n");break;
+		case 4:
+			printf("\nit is the Thursday\n");break;
+		case 5:
+			printf("\nit is the friday\n");break;
+		case 6:
+			printf("\nit is the saturday\n");break;
+		case 7:
+			printf("\nit is the sunday\n");break;
+	}
+}
+int SplitNumber(int *num,int targetNum) {
+	//分割数字  返回数组大小
+	int i=0,j;
+	while(targetNum>0) {
+		num[i++]=targetNum%10;
+		targetNum /=10;
+	}
+	//倒一下
+	for(j=0; j<i/2; j++) {
+		int temp = num[j];
+		num[j] = num[i-1-j];
+		num[i-1-j]=temp;
+	}
+	return i;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
