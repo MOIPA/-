@@ -16,7 +16,8 @@ int main(void) {
 //	PrimeNumber();
 //	t();
 //	ShowWhichDay();
-	testScanfFormat();
+//	testScanfFormat();
+	PermanentCalendar();
 	return 0;
 }
 

@@ -186,50 +186,107 @@ void t() {
 	getch();
 }
 
-void PermanentCalendar() {
-
+void PermanentCalendar(int year) {
+//	printf("%d",ShowWhichDay(2018,2,1));
+	int m2 = 28;
+	if(1==IsLeap(year)) {
+		m2=29;
+	}
+	PrintOneMonth(2018,9,30);
+}
+void PrintOneMonth(int year,int month,int days) {
+	int wDay,i,j,fDay=2; //fDay 数组里面即将填写的天
+	int cal[6][7];
+	for(i=0; i<6; i++)for(j=0; j<7; j++)cal[i][j]=0;
+	//首先计算这月一日是周几
+	wDay = ShowWhichDay(year,month,1);
+	if(0==wDay)wDay=7;
+	cal[0][wDay-1]=1;
+	//填充剩下的日子到数组
+	for(i=0; i<6; i++) {
+		if(fDay>days)break;//填完了 出去
+		for(j=0; j<7; j++) {
+			if(fDay>days)break;//填完了 出去
+			if(i==0&&fDay==2) { //第一层第一个 前面有不用写的
+				j+=wDay;//假如是2 直接在数组[2]写
+				if(wDay==7)break;//这层不用写
+			}
+			cal[i][j] = fDay++;
+		}
+	}
+	//打印显示
+	for(i=1; i<=7; i++) {
+		switch(i) {
+			case 1:
+				printf("%10s","monday");
+				break;
+			case 2:
+				printf("%10s","tuesday");
+				break;
+			case 3:
+				printf("%10s","wednesday");
+				break;
+			case 4:
+				printf("%10s","Thursday");
+				break;
+			case 5:
+				printf("%10s","friday");
+				break;
+			case 6:
+				printf("%10s","saturday");
+				break;
+			case 7:
+				printf("%10s","sunday");
+				break;
+		}
+	}
+	printf("\n");
+	for(i=0; i<6; i++) {
+		for(j=0; j<7; j++) {
+			if(cal[i][j]==0) {
+				printf("%10s"," ");
+				continue;
+			}
+			printf("%10d",cal[i][j]);
+		}
+		printf("\n");
+	}
 }
 
-void ShowWhichDay() {
+int ShowWhichDay(int year,int month,int day) {
 	//w=y+[y/4]+[c/4]-2c+[26(m+1)/10]+d-1
 	//w:星期 c:世纪-1 y:年（两位数） m:月 >=3 <=14 (1,2月份看作去年的13，4月份);
 	int num[10],i;
-	int yearFull,fwYear;
-	int century,month,day;
-//	int targetNum=123456;
-//	int len = SplitNumber(num,targetNum);
-//	for(i=0;i<len;i++)printf("ret:%4d",num[i]);
-	printf("enter the expected year:");
-	scanf("%d",&yearFull);
-	printf("enter the expected month,day:");
-	scanf("%d,%d",&month,&day);
-
-//	if(yuearFull>3000||yuearFull<1000){
-//		printf("error year");
-//	}
+	int yearFull=year,fwYear;
+	int century;
 	//得到后面两位年份和世纪
 	i=SplitNumber(num,yearFull);
 	fwYear = num[i-2]*10+num[i-1];
 	century=yearFull/100;
-	if(1==month||2==month)month+=12;
+	if(1==month||2==month) {
+		month+=12;
+		fwYear--;
+	}
 	int w=0;
 	w=fwYear+fwYear/4+century/4-2*century+26*(month+1)/10+day-1;
-	switch(w%7) {
-		case 1:
-			printf("\nit is the monday\n");break;
-		case 2:
-			printf("\nit is the tuesday\n");break;
-		case 3:
-			printf("\nit is the wednesday\n");break;
-		case 4:
-			printf("\nit is the Thursday\n");break;
-		case 5:
-			printf("\nit is the friday\n");break;
-		case 6:
-			printf("\nit is the saturday\n");break;
-		case 7:
-			printf("\nit is the sunday\n");break;
-	}
+//	switch(w%7) {
+//		case 1:
+//			printf("\nit is the monday\n");break;
+//		case 2:
+//			printf("\nit is the tuesday\n");break;
+//		case 3:
+//			printf("\nit is the wednesday\n");break;
+//		case 4:
+//			printf("\nit is the Thursday\n");break;
+//		case 5:
+//			printf("\nit is the friday\n");break;
+//		case 6:
+//			printf("\nit is the saturday\n");break;
+//		case 0:
+//			printf("\nit is the sunday\n");break;
+//	}
+	if(w<0)return (w%7+7)%7;
+	return w%7;
 }
 int SplitNumber(int *num,int targetNum) {
 	//分割数字  返回数组大小
@@ -247,13 +304,19 @@ int SplitNumber(int *num,int targetNum) {
 	return i;
 }
 
-void testScanfFormat(){
+void testScanfFormat() {
 	//小测试
 	char str[20];
 	printf("input things with space\n");
-	scanf("%[^\n]%*c",str); //读入带有空格的字符串 
-	//%[^\n] ^:非 表示读入知道\n结束但是不读入\n  %*c读入\n以免后面的读入第一个就是\n 
-	printf("%s",str); 
+	scanf("%[^\n]%*c",str); //读入带有空格的字符串
+	//%[^\n] ^:非 表示读入知道\n结束但是不读入\n  %*c读入\n以免后面的读入第一个就是\n
+	printf("%s",str);
+}
+
+int IsLeap(int year) { //判断是否是闰年 闰年2月29天 平年2月28天
+//能被4整除并且不能被100整除  或者被400整除的就是闰年
+	if(year%4==0&&year%100!=0||year%400==0)return 1;
+	return 0;
 }
 
 

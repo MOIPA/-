@@ -15,5 +15,5 @@ void ReverseMatrix();//矩阵转置
 void PrimeNumber();//利用数组求前50个质数 
 void t();
 void PermanentCalendar(); //打印万年历 使用蔡勒公式
-void ShowWhichDay();//得知某年几月几日为周几 
+int ShowWhichDay(int year,int month,int day);//得知某年几月几日为周几 
 void testScanfFormat();//scanf控制学习 
