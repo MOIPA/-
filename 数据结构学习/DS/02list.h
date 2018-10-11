@@ -17,3 +17,4 @@ void t();
 void PermanentCalendar(); //打印万年历 使用蔡勒公式
 int ShowWhichDay(int year,int month,int day);//得知某年几月几日为周几 
 void testScanfFormat();//scanf控制学习 
+void ArraySort(int *num,int len); //数组排序  双向冒泡排序   

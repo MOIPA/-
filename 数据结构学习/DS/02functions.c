@@ -319,7 +319,31 @@ int IsLeap(int year) { //判断是否是闰年 闰年2月29天 平年2月28天
 	return 0;
 }
 
+void ArraySort(int *num,int len){
+//	双向冒泡排序算法的运作如下：
+//传统冒泡气泡排序的双向进行，先让气泡排序由左向右进行，再来让气泡排序由右往左进行，如此完成一次排序的动作
+//使用left与right两个旗标来记录左右两端已排序的元素位置。
+	int temp;
+	int left=0,right=len-1,i,j;
+	while(left<right){
+		//先是从小到大排序一次选择一个最大的到最后
+		for(i=left;i<right;i++){
+			if(num[i]>num[i+1])Swap(&num[i],&num[i+1]);
+		} 
+		right--;
+		//从小到大排序选择一个最小的到前面
+		for(i=left;i<right;i++){
+			if(num[i]>num[i+1])Swap(&num[i],&num[i+1]);
+		} 	
+		left++;
+	} 
+} 
 
+void Swap(int *a,int *b){
+	int temp=*b;
+	*b=*a;
+	*a=temp;
+}
 
 
 
