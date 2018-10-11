@@ -345,6 +345,27 @@ void Swap(int *a,int *b){
 	*a=temp;
 }
 
+void Transfer(int num,int d){
+	const int M = sizeof(num)*2;
+	int i;
+	if(d<2||d>16)return;
+	//10进制到任意进制2-16进制 
+	//思路：将16进制的16个 数存放到数组，
+	//算法：每个数取余数那个进制在除以进制，多次得到的结果是倒数
+	//可以将buffer看作是一个栈，由于string也是一个数组可以直接使用char数组
+	char buf[M+1];  //确定buf的最大值，存放的是转换后的进制 当翻译为2进制需要的位数更多：sizeof(int)*2+1;+1:\0 
+	char digits[] = "0123456789ABCDEF"; //最高到F 对应数组下标
+//	for(i=0;i<M+1;i++)buf[i] = '\0'; //格式化buf 
+	while(num>0){
+		buf[i++] = digits[num%d];
+		num/=d;
+	} 
+//	for(i=0;i<10;i++)printf("%c",buf[i]);
+	for(i=M;i>=0;i--) 
+		if(buf[i]!='\0')printf("%c",buf[i]);
+	printf("\n");
+}
+
 
 
 

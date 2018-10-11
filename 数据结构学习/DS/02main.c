@@ -18,7 +18,8 @@ int main(void) {
 //	ShowWhichDay();
 //	testScanfFormat();
 //	PermanentCalendar();
-	doArraySort();
+//	doArraySort();
+	Transfer(27,16);
 	return 0;
 }
 
