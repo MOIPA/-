@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<style>
+			.stage {
+				perspective: 1000px;
+				width: 20em;
+				height: 20em;
+				left: 50%;
+				top: 50%;
+				margin-left: -10em;
+				margin-top: -10em;
+				position: absolute;
+			}
+			
+			.cube {
+				animation: 10s spin linear infinite;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				transform-style: preserve-3d;
+			}
+			
+			.cube * {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				border: 2px solid rgba(235, 221, 115, 0.5);
+				box-shadow: 0 0 5em #fff;
+			}
+			
+			.font {
+				transform: translateZ(10em);
+			}
+			
+			.back {
+				transform: rotateX(180deg) translateZ(10em);
+			}
+			
+			.left {
+				transform: rotateY(-90deg) translateZ(10em);
+			}
+			
+			.right {
+				transform: rotateY(90deg) translateZ(10em);
+			}
+			
+			.top {
+				transform: rotateX(90deg) translateZ(10em);
+			}
+			
+			.bottom {
+				transform: rotateX(-90deg) translateZ(10em);
+			}
+			
+			@keyframes spin {
+				from {
+					transform: translateZ(-10em) rotateX(0) rotateY(0deg);
+				}
+				to {
+					transform: translateZ(-10em) rotateX(360deg) rotateY(360deg);
+				}
+			}
+			
+			.cube *:before {
+				display: block;
+				background: radial-gradient(center, ellipse, rgba(0, 0, 0, 0) 30%, rgba(208, 198, 10, 0.2) 100%);
+				background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 30%, rgba(208, 198, 10, 0.2) 100%);
+				content: '';
+				height: 100%;
+				width: 100%;
+				position: absolute;
+			}
+		</style>
+		<div class="stage">
+			<div class="cube">
+				<div class="font"><canvas id="canvas1"></canvas></div>
+				<div class="back"><canvas id="canvas2"></canvas></div>
+				<div class="left"><canvas id="canvas3"></canvas></div>
+				<div class="right"><canvas id="canvas4"></canvas></div>
+				<div class="top"><canvas id="canvas5"></canvas></div>
+				<div class="bottom"><canvas id="canvas6"></canvas></div>
+				<div class="center"><canvas id="canvas0"></canvas></div>
+			</div>
+		</div>
+		<script>
+			var canvas0 = document.getElementById("canvas0");
+			var ctx = canvas0.getContext('2d');
+			ctx.strokeStyle = 'brown';
+			ctx.strokeText(' c s    t r   1 1 7', 170, 90, 200);
+			ctx.beginPath();
+			ctx.fillStyle = 'steelblue'
+			ctx.strokeStyle = 'steelblue';
+			
+//			ctx.fillRect(100,20,70,10);
+			ctx.moveTo(90,15);
+			ctx.lineTo(170,15);
+			ctx.lineTo(170,20);
+			ctx.lineTo(130,20);
+			ctx.lineTo(135,30);
+			ctx.lineTo(125,30);
+			ctx.lineTo(120,20);
+			ctx.lineTo(90,20);
+			ctx.lineTo(90,15);
+
+			var lines = 6;
+			for(var i = 0; i < lines; i++) {
+				for(var j = 0; j < lines - i; j++) {
+					ctx.moveTo(100 + j * 15 + i * 6, 40 + i * 15);
+					ctx.arc(90 + j * 15 + i * 6, 40 + i * 15, 10, 0, 2 * Math.PI, true);
+				}
+			}
+			//				ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		</script>
+		<script>
+			//		西瓜
+			var canvas5 = document.getElementById("canvas5");
+			var ctx = canvas5.getContext('2d');
+			ctx.beginPath();
+			ctx.strokeStyle = "green";
+			ctx.fillStyle = 'green';
+			//外 三角
+			ctx.moveTo(100, 110);
+			ctx.lineTo(200, 110);
+			ctx.lineTo(150, 30); //top point
+			ctx.lineTo(100, 110);
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+			//中间三角
+			ctx.beginPath();
+			ctx.strokeStyle = "white";
+			ctx.fillStyle = 'white';
+			ctx.moveTo(105, 100);
+			ctx.lineTo(195, 100);
+			ctx.lineTo(150, 30); //top point
+			ctx.lineTo(105, 100);
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+			//		里面三角
+			ctx.beginPath();
+			ctx.strokeStyle = "red";
+			ctx.fillStyle = 'red';
+			ctx.moveTo(110, 93);
+			ctx.lineTo(190, 93);
+			ctx.lineTo(150, 30); //top point
+			ctx.lineTo(110, 93);
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+			//点缀
+			ctx.beginPath();
+			ctx.strokeStyle = "black";
+			ctx.fillStyle = 'black';
+			ctx.fillRect(145, 60, 5, 2);
+			ctx.fillRect(155, 70, 5, 2);
+			//			ctx.fillRect(140, 60, 5, 2);
+			ctx.fillRect(140, 80, 5, 2);
+			ctx.stroke();
+			ctx.fill();
+			ctx.fill();
+		</script>
+
+		<script>
+			//		香蕉
+			var canvas6 = document.getElementById("canvas6");
+			var ctx = canvas6.getContext('2d');
+			//画梗和主体的链接部分
+			ctx.fillStyle = 'sienna';
+			ctx.fillRect(150, 10, 60, 10);
+			ctx.fillRect(170, 10, 20, 20);
+
+			ctx.beginPath(); //开始一段新路径
+			ctx.strokeStyle = "yellow";
+			ctx.fillStyle = 'yellow';
+			ctx.beginPath(); //开始一段新路径
+			ctx.moveTo(170, 30);
+			//		左上角圆弧
+			ctx.arc(170, 40, 10, 1.5 * Math.PI, Math.PI, true);
+			//左下角圆弧
+			ctx.arc(80, 30, 80, 0.1 * Math.PI, 0.58 * Math.PI, false);
+			//左下角末端直线
+			ctx.lineTo(53, 115);
+			//右下角弧度
+			ctx.arc(100, 20, 105, 0.6 * Math.PI, 0.06 * Math.PI, true);
+			//		右上角圆弧
+			//		ctx.moveTo(190,30);
+			ctx.arc(190, 40, 13, 0, 1.7 * Math.PI, true);
+			ctx.lineTo(180, 28);
+			ctx.stroke(); //描边
+
+			ctx.fill(); //路径填充
+			ctx.closePath(); //该路径结束
+		</script>
+
+		<script>
+			//梨子
+			var canvas4 = document.getElementById("canvas4");
+			var ctx = canvas4.getContext('2d');
+
+			var pp = {
+				lefttopX: 120,
+				lefttopY: 50,
+				leftmidX: 90,
+				leftmidY: 70,
+				leftbtmX: 120,
+				leftbtmY: 100,
+				righttopX: 180,
+				righttopY: 50,
+				rightmidX: 205,
+				rightmidY: 70,
+				rightbtmX: 180,
+				rightbtmY: 100,
+			}
+
+			var leap = {
+				bottomX: 150,
+				bottomY: 50,
+				topX: 150,
+				topY: 40,
+				rightX: 170,
+				rightY: 40
+			}
+
+			//左下角
+			ctx.beginPath();
+			ctx.fillStyle = "#DFFD60";
+			ctx.strokeStyle = "#DFFD60";
+			ctx.moveTo(pp.lefttopX, pp.lefttopY);
+			ctx.lineTo(pp.leftmidX, pp.leftmidY);
+			ctx.lineTo(pp.leftbtmX, pp.leftbtmY);
+			ctx.lineTo(pp.rightbtmX, pp.rightbtmY);
+			ctx.lineTo(pp.lefttopX, pp.lefttopY);
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+
+			//右上角
+			ctx.beginPath();
+			ctx.moveTo(pp.lefttopX, pp.lefttopY);
+			ctx.fillStyle = "#F3FEC5";
+			ctx.strokeStyle = "#F3FEC5";
+			ctx.lineTo(pp.righttopX, pp.righttopY);
+			ctx.lineTo(pp.rightmidX, pp.rightmidY);
+			ctx.lineTo(pp.rightbtmX, pp.rightbtmY);
+
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+
+			//叶子
+			ctx.beginPath();
+			ctx.moveTo(leap.bottomX, leap.bottomY);
+			ctx.fillStyle = "#008000";
+			ctx.strokeStyle = "#008000";
+			ctx.lineTo(leap.topX, leap.topY);
+			ctx.lineTo(leap.rightX, leap.rightY);
+			ctx.lineTo(leap.bottomX, leap.bottomY);
+
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+		</script>
+
+		<script>
+			//菠萝
+			var pinapple = {
+				lefttopX: 120,
+				lefttopY: 50,
+				leftmidX: 90,
+				leftmidY: 70,
+				leftmidX2: 90,
+				leftmidY2: 110,
+				leftbtmX: 120,
+				leftbtmY: 130,
+				righttopX: 180,
+				righttopY: 50,
+				rightmidX: 205,
+				rightmidY: 70,
+				rightmidX2: 205,
+				rightmidY2: 110,
+				rightbtmX: 180,
+				rightbtmY: 130,
+			}
+
+			var leapTopH = 40;
+			var leapBtmH = 50;
+
+			var leap = {
+				ltX: 110,
+				ltY: leapTopH,
+				lbX: 130,
+				lbY: leapBtmH,
+				rtX: 185,
+				rtY: leapTopH,
+				rbX: 165,
+				rbY: leapBtmH
+			}
+
+			var canvas3 = document.getElementById("canvas3");
+			var ctx = canvas3.getContext('2d');
+
+			//body
+			ctx.beginPath();
+			ctx.strokeStyle = "#F4B80C";
+			ctx.fillStyle = "#FFCC0F";
+			ctx.moveTo(pinapple.lefttopX, pinapple.lefttopY);
+			ctx.lineTo(pinapple.leftmidX, pinapple.leftmidY);
+			ctx.lineTo(pinapple.leftmidX2, pinapple.leftmidY2);
+			ctx.lineTo(pinapple.leftbtmX, pinapple.leftbtmY);
+
+			ctx.lineTo(pinapple.rightbtmX, pinapple.rightbtmY);
+			ctx.lineTo(pinapple.rightmidX2, pinapple.rightmidY2);
+			ctx.lineTo(pinapple.rightmidX, pinapple.rightmidY);
+			ctx.lineTo(pinapple.righttopX, pinapple.righttopY);
+			ctx.lineTo(pinapple.lefttopX, pinapple.lefttopY);
+
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+
+			//点缀
+			ctx.beginPath();
+			ctx.strokeStyle = "#F4B80C";
+			ctx.fillStyle = "#F4B80C";
+
+			ctx.fillRect(100, 110, 10, 5);
+			ctx.fillRect(120, 110, 10, 5);
+			ctx.fillRect(140, 110, 10, 5);
+			ctx.fillRect(160, 110, 10, 5);
+			ctx.fillRect(180, 110, 10, 5);
+
+			ctx.fillRect(100, 70, 10, 5);
+			ctx.fillRect(120, 70, 10, 5);
+			ctx.fillRect(140, 70, 10, 5);
+			ctx.fillRect(160, 70, 10, 5);
+			ctx.fillRect(180, 70, 10, 5);
+
+			ctx.fillRect(130, 125, 10, 5);
+			ctx.fillRect(150, 125, 10, 5);
+
+			ctx.fill();
+			ctx.stroke();
+			//叶子
+			ctx.beginPath();
+			ctx.strokeStyle = "#008000";
+			ctx.fillStyle = "#008000";
+			for(var i = 0; i < 3; i++) {
+				ctx.moveTo(leap.ltX, leap.ltY - i * 10);
+				ctx.lineTo(leap.ltX, leap.ltY - i * 10);
+				ctx.lineTo(leap.lbX, leap.lbY - i * 10);
+				ctx.lineTo(leap.rbX, leap.rbY - i * 10);
+				ctx.lineTo(leap.rtX, leap.rtY - i * 10);
+			}
+			ctx.fill();
+			ctx.stroke();
+		</script>
+		<script>
+		</script>
+	</body>
+
+</html>
