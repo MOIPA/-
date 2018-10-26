@@ -1,0 +1,21 @@
+
+oo模式：
+    1：line是一个list lineStorage是一个list里面是line，多重组合
+    2：input就是用来把输入的每行转成每个单词给linestorage 通过tokenizer非常便捷、
+    3：input解析完毕后交给circularshifter，shifter内置了一个linestorage，并且接受刚刚解析好的linestorage，
+        shifter的每行存放的是乱序好的
+        public void setup(LineStorage lines){// initialize the shifts instance variable
+            shifts_ = new LineStorage();// iterate through all lines from the original set
+            for(int i = 0; i < lines.getLineCount(); i++){// current line
+              String[] line = lines.getLine(i);// iterate through all words of the current line   like:{"test","the","func"}
+              for(int j = 0; j < line.length; j++){// add a new empty line for the current shift
+                shifts_.addEmptyLine();// add all words of the current shift
+     !          for(int k = j; k < (line.length + j); k++)// add current word to the last line // index is the remainder of dividing k and line.length
+     !           shifts_.addWord(line[k % line.length], shifts_.getLineCount() - 1);
+              }
+            }
+        }
+       4:AlphBetizer其实很简单 只是用的算法麻烦了点 本质和我的冒泡排序无差别，都是建立一个顺序数组记录打印时候的数据。内部封装打印每行的语句
+        output简单打印
+
+        纵观整个oo其实都很简单，只是没人教自己看会慢很多
