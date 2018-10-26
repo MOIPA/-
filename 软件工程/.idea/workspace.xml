@@ -16,21 +16,66 @@
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="76">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="kwic_ms.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="kwic_ms.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ms/kwic_ms.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="89" lean-forward="true" selection-start-line="14" selection-start-column="89" selection-end-line="14" selection-end-column="89" />
+            <state relative-caret-position="304">
+              <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#doInput#0;class#kwic_ms#0" />
                 <element signature="method#getWordsList#0;class#kwic_ms#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KwicMain.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/oo/KwicMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InputModule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/oo/InputModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineStorageModule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/oo/LineStorageModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="258">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#354#355#0" expanded="true" />
+                <element signature="e#401#402#0" expanded="true" />
+                <element signature="e#441#442#0" expanded="true" />
+                <element signature="e#472#473#0" expanded="true" />
+                <element signature="e#512#513#0" expanded="true" />
+                <element signature="e#551#552#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineStorageModuleTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/oo/LineStorageModuleTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="394">
+              <caret line="69" column="27" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -58,6 +103,10 @@
       <list>
         <option value="$PROJECT_DIR$/assests/test.txt" />
         <option value="$PROJECT_DIR$/src/ms/kwic_ms.java" />
+        <option value="$PROJECT_DIR$/src/oo/KwicMain.java" />
+        <option value="$PROJECT_DIR$/src/oo/InputModule.java" />
+        <option value="$PROJECT_DIR$/src/oo/LineStorageModule.java" />
+        <option value="$PROJECT_DIR$/src/test/oo/LineStorageModuleTest.java" />
       </list>
     </option>
   </component>
@@ -70,7 +119,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-12" />
     <option name="y" value="15" />
     <option name="width" value="1461" />
@@ -81,8 +130,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -105,20 +152,26 @@
               <item name="软件工程" type="b2602c69:ProjectViewProjectNode" />
               <item name="软件工程" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="ms" type="462c0819:PsiDirectoryNode" />
+              <item name="oo" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -132,14 +185,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.kwic_ms">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="软件工程" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-    </configuration>
+  <component name="RunManager" selected="JUnit.LineStorageModuleTest">
     <configuration name="kwic_ms" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ms.kwic_ms" />
       <module name="软件工程" />
@@ -150,14 +196,112 @@
         </pattern>
       </extension>
     </configuration>
+    <configuration name="LineStorageModuleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="软件工程" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.oo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="test.oo" />
+      <option name="MAIN_CLASS_NAME" value="test.oo.LineStorageModuleTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="LineStorageModuleTest.testDelCharAtAnyLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="软件工程" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.oo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="test.oo" />
+      <option name="MAIN_CLASS_NAME" value="test.oo.LineStorageModuleTest" />
+      <option name="METHOD_NAME" value="testDelCharAtAnyLine" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="LineStorageModuleTest.testGetLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="软件工程" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.oo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="test.oo" />
+      <option name="MAIN_CLASS_NAME" value="test.oo.LineStorageModuleTest" />
+      <option name="METHOD_NAME" value="testGetLine" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="软件工程" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.oo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="test.oo" />
+      <option name="MAIN_CLASS_NAME" value="test.oo.LineStorageModuleTest" />
+      <option name="METHOD_NAME" value="testSetCharAtAnyLine" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
     <list>
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.kwic_ms" />
+      <item itemvalue="JUnit.LineStorageModuleTest" />
+      <item itemvalue="JUnit.LineStorageModuleTest.testGetLine" />
+      <item itemvalue="JUnit.LineStorageModuleTest.testSetCharAtAnyLine" />
+      <item itemvalue="JUnit.LineStorageModuleTest.testDelCharAtAnyLine" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.LineStorageModuleTest" />
+        <item itemvalue="JUnit.LineStorageModuleTest.testDelCharAtAnyLine" />
+        <item itemvalue="JUnit.LineStorageModuleTest.testSetCharAtAnyLine" />
+        <item itemvalue="JUnit.LineStorageModuleTest.testGetLine" />
         <item itemvalue="Application.kwic_ms" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -171,46 +315,79 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1540492916468</updated>
-      <workItem from="1540492924063" duration="5652000" />
+      <workItem from="1540492924063" duration="9786000" />
+      <workItem from="1540563120151" duration="1889000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 34m 21s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 36m 22s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 36m 54s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 38m 06s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 39m 39s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 40m 24s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 41m 19s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testSetCharAtAnyLine - 2018.10.26 at 22h 41m 59s.xml">
+      <configuration name="LineStorageModuleTest.testSetCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testDelCharAtAnyLine - 2018.10.26 at 22h 43m 04s.xml">
+      <configuration name="LineStorageModuleTest.testDelCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineStorageModuleTest_testDelCharAtAnyLine - 2018.10.26 at 22h 43m 26s.xml">
+      <configuration name="LineStorageModuleTest.testDelCharAtAnyLine" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5652000" />
+    <option name="totallyTimeSpent" value="11675000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1455" height="975" extended-state="7" />
+    <frame x="-7" y="-7" width="1455" height="935" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32949308" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32971016" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34541062" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32971016" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2498265" />
-      <window_info anchor="right" id="Database" />
-      <window_info id="Learn" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Learn" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info id="Favorites" side_tool="true" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,11 +396,42 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ms/kwic_ms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="38" lean-forward="true" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#doInput#0;class#kwic_ms#0" />
+            <element signature="method#getWordsList#0;class#kwic_ms#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/KwicMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/InputModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
@@ -234,15 +442,100 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/LineStorageModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#441#442#0" expanded="true" />
+            <element signature="e#472#473#0" expanded="true" />
+            <element signature="e#512#513#0" expanded="true" />
+            <element signature="e#551#552#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assests/test.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/KwicMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ms/kwic_ms.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="89" lean-forward="true" selection-start-line="14" selection-start-column="89" selection-end-line="14" selection-end-column="89" />
+        <state relative-caret-position="304">
+          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#doInput#0;class#kwic_ms#0" />
             <element signature="method#getWordsList#0;class#kwic_ms#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/oo.LineStorageModule">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>oo.LineStorageModule</OriginalElement>
+          <nodes>
+            <node x="" y="">oo.LineStorageModule</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="80.0" y="16.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/InputModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oo/LineStorageModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#441#442#0" expanded="true" />
+            <element signature="e#472#473#0" expanded="true" />
+            <element signature="e#512#513#0" expanded="true" />
+            <element signature="e#551#552#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/oo/LineStorageModuleTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="69" column="27" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -263,7 +556,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
