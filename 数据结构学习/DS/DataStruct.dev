@@ -24,12 +24,19 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
+<<<<<<< HEAD
 Folders=01,02
+=======
+Folders=
+>>>>>>> OS_Learning
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
+<<<<<<< HEAD
 UnitCount=4
+=======
+>>>>>>> OS_Learning
 
 [VersionInfo]
 Major=1
@@ -50,6 +57,7 @@ ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
 
+<<<<<<< HEAD
 [Unit2]
 FileName=02list.h
 CompileCpp=0
@@ -90,3 +98,5 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+=======
+>>>>>>> OS_Learning
