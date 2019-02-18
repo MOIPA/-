@@ -1,0 +1,34 @@
+# Project: DataStruct
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = 01HelloWorld.o 02functions.o 02main.o
+LINKOBJ  = 01HelloWorld.o 02functions.o 02main.o
+LIBS     = -L"D:/IDE--devc/Dev-Cpp/MinGW64/lib" -L"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"D:/IDE--devc/Dev-Cpp/MinGW64/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"D:/IDE--devc/Dev-Cpp/MinGW64/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/IDE--devc/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = DataStruct.exe
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+01HelloWorld.o: 01HelloWorld.c
+	$(CC) -c 01HelloWorld.c -o 01HelloWorld.o $(CFLAGS)
+
+02functions.o: 02functions.c
+	$(CC) -c 02functions.c -o 02functions.o $(CFLAGS)
+
+02main.o: 02main.c
+	$(CC) -c 02main.c -o 02main.o $(CFLAGS)
