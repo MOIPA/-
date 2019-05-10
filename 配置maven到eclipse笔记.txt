@@ -1,4 +1,0 @@
-导入工程pom报错：找不到lifecycle其实是由于插件版本的问题 删除了maven 下的plugins
-然后报错NO compiler   在pom的<build>标签后添加<defaultGoal>compile</defaultGoal>
-
-git test分支修改
