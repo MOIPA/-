@@ -1,1 +1,0 @@
-需要在/etc/mysql/mysql.conf.d/mysqld.cnf 注释127.0.0.1防止绑定本机

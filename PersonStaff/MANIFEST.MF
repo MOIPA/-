@@ -1,1 +1,0 @@
-Main-Class: StudyRecordV1_0

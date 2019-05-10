@@ -67,5 +67,3 @@ put:上传文件到服务器，那服务器接收commamd 和 content（里面应该是filename）然后se
 并且返回一个值1表示是root用户 0表示普通用户 -1表示不存在这个用户访客状态访问
 
 3：pthred_create没啥好说的
-
-4：

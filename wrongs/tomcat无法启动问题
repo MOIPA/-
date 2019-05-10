@@ -1,6 +1,0 @@
-tomcat 无法启动的问题
-
-查看日志文档
-
-Mylog1：今天无法启动，由于非法关闭tomcat而不是使用shutdown 导致端口被占用。
-        解决办法：cmd下，使用 netstat -ano 查看被占用端口，找到PID，在任务管理器里通过PID杀死相应进程。

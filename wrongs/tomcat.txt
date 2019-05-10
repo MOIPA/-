@@ -1,5 +1,0 @@
-在 /var/lib/tomcat/logs/catalina.out  用tail -f catalina.out查看
-
-在 /var/lib/tomcat/webapps/里部署文件
-
- 
