@@ -1,19 +1,17 @@
 
-	´óÑ§Ç°2ÄêËùÑ§ËùÏë
+	å¤§å­¦å‰2å¹´æ‰€å­¦æ‰€æƒ³
 
-	»ù±¾¹¦£º
-		±à³ÌÓïÑÔ C¡¢C++¡¢Java
-		Ëã·¨
-		Éè¼ÆÄ£Ê½
-		Êý¾Ý½á¹¹
-		²Ù×÷ÏµÍ³
+	åŸºæœ¬åŠŸï¼š
+		ç¼–ç¨‹è¯­è¨€ Cã€C++ã€Java
+		ç®—æ³•
+		è®¾è®¡æ¨¡å¼
+		æ•°æ®ç»“æž„
+		æ“ä½œç³»ç»Ÿ
 
-	ÒÆ¶¯¿ª·¢£º
-		android£¨Java)
-		»ìºÏapp£¨H5£©
+	ç§»åŠ¨å¼€å‘ï¼š
+		androidï¼ˆJava)
+		æ··åˆappï¼ˆH5ï¼‰
 	web:	
 		ASP(C#)
-		javaEE£¨SpringDataJPA¡¢SpringBoot¡¢EL£©
+		javaEEï¼ˆSpringDataJPAã€SpringBootã€ELï¼‰
 		HTML+CSS+JS+JQ+Vue
-
-	ÒÔÉÏ¶¼²»ÖØÒª£¬ÖØÒªµÄÊÇÎÒÕÒµ½Å®Æ±ÁË£¡
